@@ -1,0 +1,273 @@
+<Diary>
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'YourDiary'
+            md_bg_color: 1, 0.5, 0.5, 1
+            left_action_items:
+                [['menu', lambda x: nav_drawer.set_state("open")]]
+            elevation: 0
+
+        MDBottomNavigation:
+            #panel_color: "#eeeaea"
+            selected_color_background: "orange"
+            text_color_active: "lightgrey"
+            elevation: 100
+
+            MDBottomNavigationItem:
+                name: 'screen 1'
+                text: 'Global'
+                icon: 'web'
+                badge_icon: "numeric-10"
+
+                MDLabel:
+                    text: 'Mail'
+                    halign: 'center'
+
+            MDBottomNavigationItem:
+                name: 'screen 2'
+                text: 'Pessoal'
+                icon: 'bag-personal'
+                badge_icon: "numeric-5"
+
+                
+
+
+                ScrollView:
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height+1000
+                        spacing: "30dp"
+                        padding: "10dp"
+                 
+
+                        MDCardDiary:
+
+                        MDCardDiary:
+
+                        MDCardDiary:
+
+
+            MDBottomNavigationItem:
+                name: 'screen 3'
+                text: 'Nova Anotação'
+                icon: 'note'
+
+                MDBoxLayout:
+                    orientation: "vertical"
+                    spacing: "30dp"
+
+                    ScrollView:
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            padding: "20dp"
+                            spacing: "30dp"
+                            size_hint_y: None
+                            height: self.minimum_height+100
+
+                            
+
+                            MDTextField:
+                                id: id_note_name
+                                hint_text: "Título"
+                                max_text_length: 150
+                                line_color_normal: 1, 0, 1, 1
+                                text_color_focus: 0, 0, 0, 1
+                                
+
+                            MDTextFieldRect:
+                                id: id_note_text
+                                hint_text: "Texto"
+                                line_color_normal: 1, 0, 1, 1
+                                text_color_focus: 0, 0, 0, 1
+                                multiline: True
+                                mode: "round"
+                                fill_color: 1, 0, 0, 1
+                                size_hint_y:None
+                                height:"200dp"
+
+
+                            MDBoxLayout:
+                                orientation: "horizontal"
+
+                                MDLabel:
+                                    text: "Público"
+
+
+                                MDSwitch:
+                                    width: dp(34)
+                                    pos_hint: {"center_y": .5}
+                                    icon_active_color: "white"
+                                    thumb_color_inactive: "grey"
+                                    track_color_inactive: "grey"
+
+                            MDLabel:
+                                text: "Categoria"
+
+
+                            ScrollView:
+                                size_hint_y: None
+                                height: "150dp"
+
+                                MDList:
+                                    id: scroll_id
+
+
+
+
+                            MDRoundFlatIconButton:
+                                text: "Imagem"
+                                icon: "folder"
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                on_release: root.file_manager_open()
+
+
+                            MDFlatButton:
+                                id: id_noticia_enviar
+                                text: "Entrar"
+                                theme_text_color: "Custom"
+                                md_bg_color: 0.2, 1, 0.2, 1
+                                text_color: 1, 1, 1, 1
+                                on_release: root.send_news()
+                                on_press: root.on_press_spinner()
+
+                            MDSpinner:
+                                id: load_spinner_noticia
+                                size_hint: None, None
+                                size: dp(20), dp(20)
+                                pos_hint: {'center_x': .5, 'center_y': .5}
+                                #active: True if root.load_if == True else False
+                                active: False
+                                determinate_time: 0
+
+            
+
+
+    MDNavigationDrawer:
+        id: nav_drawer
+
+        MDBoxLayout:
+            orientation: "vertical"
+
+            MDNavigationDrawerMenu:
+
+                MDNavigationDrawerHeader:
+                    title: "Menu"
+                    title_color: "#4a4939"
+                    # text: "Header text"
+                    spacing: "4dp"
+                    padding: "12dp", 0, 0, "56dp"
+
+                # MDNavigationDrawerLabel:
+                #     text: "Opções"
+
+                MDNavigationDrawerItem:
+                    text: "Configurar"
+                    icon: "cog-outline"
+
+                MDNavigationDrawerItem:
+                    text: "Logout"
+                    icon: "logout"
+
+
+
+                MDNavigationDrawerDivider:
+
+
+
+                MDNavigationDrawerLabel:
+                    text: "Sobre"
+
+                DrawerLabelItem:
+                    icon: "information-outline"
+                    text: "Sobre o app"
+
+                DrawerLabelItem:
+                    icon: "handshake-outline"
+                    text: "Ajude o app"
+
+
+#custons classes
+
+<CheckListCategory>:
+    orientation: "horizontal"
+    size_hint_y: None
+    height: self.minimum_height
+
+    MDLabel:
+        text: root.text
+
+    MDCheckbox:
+        size_hint: None,None
+        size: "48dp", "48dp"
+        pos_hint: {"center_y": 0.5}
+        on_active: root.on_checkbox_active(*args)
+
+
+<MDCardDiary>:
+    elevation: 1
+    orientation: "vertical"
+
+
+    FitImage:
+        size_hint_y: 5
+        source: "assets/imagens/yourdiary-logo.png"
+
+    MDLabel:
+        pos_hint: {"center_x": 0.5}
+        size_hint_y: 2
+        text: "A flat button with (by default) rounded corners, a primary color border, primary color text and a primary color icon on the left."
+
+    MDBoxLayout:
+        orientation: "horizontal"
+        size_hint_y: 1
+
+        MDLabel:
+            pos_hint: {"center_x": 0.3, "center_y": 0.5}
+            text: "27/11/22"
+
+        MDRoundFlatIconButton:
+            pos_hint: {"center_x":  0.7, "center_y": 0.5}
+            text: "Observar"
+
+
+# components
+
+
+
+
+
+<CustomNavDraw@MDScreen>
+    MDNavigationLayout:
+
+        MDScreenManager:
+
+            MDScreen:
+
+                MDTopAppBar:
+                    title: "Navigation Drawer"
+                    elevation: 4
+                    pos_hint: {"top": 1}
+                    md_bg_color: "#e7e4c0"
+                    specific_text_color: "#4a4939"
+                    left_action_items:
+                        [['menu', lambda x: nav_drawer.set_state("open")]]
+
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+
+
+<DrawerLabelItem@MDNavigationDrawerItem>
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    focus_behavior: False
+    selected_color: "#4a4939"
+    _no_ripple_effect: True
+

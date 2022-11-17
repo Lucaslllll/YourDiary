@@ -1,6 +1,6 @@
 from kivy.uix.screenmanager import ScreenManager
 
-sn = ScreenManager()
+sm = ScreenManager()
 
 class MainScreenManager(ScreenManager):
 	pass

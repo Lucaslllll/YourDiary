@@ -1,5 +1,18 @@
-from kivymd.uix.screen import MDScreen
+from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.properties import ListProperty, NumericProperty, StringProperty
+
+from kivymd.uix.snackbar import BaseSnackbar
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.button import MDFlatButton
+from kivymd.uix.dialog import MDDialog
+
+from kaki.app import App
+
+Window.softinput_mode = 'below_target'
+from kivy.config import Config
+Config.set('kivy', 'keyboard_mode', 'systemandmulti')
+
 
 
 
@@ -11,7 +24,7 @@ class AlertErrorSnackbar(BaseSnackbar):
 
 
 class Login(MDScreen):
-	path = ""
+    path = ""
     dialog = None
     texto_alert = ""
 
@@ -32,7 +45,7 @@ class Login(MDScreen):
         snackbar.open()
 
 
-	def do_login(self, *args):
+    def do_login(self, *args):
         username = self.ids.id_text_username.text
         senha = self.ids.id_text_password.text
 
@@ -67,10 +80,15 @@ class Login(MDScreen):
         
         # obs: mudar para outra tela
         App.get_running_app().root.current = "login_name"
+        
+    # segunda forma de passar para outra tela
+    # def pass_to_register(self, *args):
+    #     self.manager.current = "register_name"
+
 
 
     def timeout_spinner(self, *args):
-	    self.ids.load_spinner.active = False
+        self.ids.load_spinner.active = False
       
     def on_press_spinner(self, *args):
         self.ids.load_spinner.active = True

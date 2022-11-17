@@ -12,15 +12,21 @@ class YourDiaryApp(App, MDApp):
     KV_FILES = {
         os.path.join(os.getcwd(), "screens/screenmanager.kv"),
         os.path.join(os.getcwd(), "screens/login_screen/login.kv"),
+        os.path.join(os.getcwd(), "screens/register_screen/register.kv"),
+        os.path.join(os.getcwd(), "screens/diary_screen/diary.kv"),
     }
 
 
     CLASSES = {
         "MainScreenManager": "screens.screenmanager",
         "Login": "screens.login_screen.login",
-        
+        "Register": "screens.register_screen.register",
+        "Diary": "screens.diary_screen.diary",     
+
 
     }
+
+
     AUTORELOADER_PATHS = [
         (".", {"recursive": True}),
     ]
