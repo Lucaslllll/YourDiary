@@ -1,0 +1,104 @@
+<Login>
+	
+	MDBoxLayout:
+		orientation: "vertical"
+		spacing: "-30dp"
+
+		Image:
+	        source: "assets/imagens/yourdiary-logo.png"
+	        size_hint_y: None
+	        height: 100
+	        #size_hint_y: 2
+	        #allow_stretch: True
+	
+
+		MDBoxLayout:
+			orientation: 'vertical'
+			size_hint_y: None
+			height: self.minimum_height
+			spacing: "50dp"
+			pos_hint: {'center_x':  0.5, 'center_y': 0.8}
+			padding: root.width*0.15, root.height*0.20
+		
+			# MDLabel:
+			# 	text: "Diary"
+			# 	font_style: "H6"
+			# 	bold: True
+			# 	halign: "center"
+	
+			MDTextField:
+	            id: id_text_username
+	            hint_text: "Username"
+	            line_color_normal: 1, 0, 1, 1
+	            text_color_focus: 0, 0, 0, 1
+	            required: True
+	            # validator: "username"
+	
+	
+			MDBoxLayout:
+	            orientation: "horizontal"
+	            size_hint_y: None
+	            height: id_text_password.height
+	
+	            MDTextField:
+	                id: id_text_password
+	                color: 0, 0, 0, 1
+	                hint_text: "Senha"
+	                line_color_normal: 1, 0, 1, 1
+	                text_color_focus: 0, 0, 0, 1
+	                required: True
+	                password: True
+	                icon_left: "key-variant"
+	
+	            MDIconButton:
+	                icon: "eye-off"
+	                pos_hint: {"center_y": .5}
+	                pos: id_text_password.width - self.width + dp(8), 0
+	                theme_text_color: "Hint"
+	                text_color: 1, 0, 1, 1
+	
+	                on_release:
+	                    self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+	                    id_text_password.password = False if id_text_password.password is True else True
+	
+	
+	        MDBoxLayout:
+	            id: box_entrar_cadastrar
+	            orientation: "horizontal"
+	            padding: 0, 0
+	            spacing: "30dp"
+	
+	            MDFlatButton:
+	                id: id_button_login
+	                text: "Entrar"
+	                theme_text_color: "Custom"
+	                md_bg_color: 0.9, 0.5, 0.2, 1
+	                text_color: 1, 1, 1, 1
+	                # on_release: root.do_login()
+	                on_press: root.on_press_spinner()
+
+	            MDFlatButton:
+	                id: id_button_register
+	                text: "Registre-se"
+	                theme_text_color: "Custom"
+	                md_bg_color: 0.9, 0.7, 0.2, 1
+	                text_color: 1, 1, 1, 1
+	                # on_release: root.pass_to_register() segunda forma
+	                on_release: root.manager.current = 'register_name'
+	                on_press: root.on_press_spinner()
+			
+
+	        MDBoxLayout:
+	            id: load_spinner_container
+	            orientation: "vertical"
+	            padding: 0, 0
+	            spacing: "30dp"
+	
+	            MDSpinner:
+	                id: load_spinner
+	                size_hint: None, None
+	                size: dp(20), dp(20)
+	                pos_hint: {'center_x': .5, 'center_y': .5}
+	                #active: True if root.load_if == True else False
+	                active: False
+	                determinate_time: 0

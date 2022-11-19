@@ -1,6 +1,6 @@
 <Diary>
 
-    BoxLayout:
+    MDBoxLayout:
         orientation: 'vertical'
 
         MDTopAppBar:
@@ -22,9 +22,52 @@
                 icon: 'web'
                 badge_icon: "numeric-10"
 
-                MDLabel:
-                    text: 'Mail'
-                    halign: 'center'
+
+                
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+
+
+                    MDNavigationRail:
+                        md_bg_color: 1, 0, 0.3, 1
+
+                        MDNavigationRailItem:
+                            text: "Todos"
+                            icon: "search-web"
+
+                        MDNavigationRailItem:
+                            text: "Seguidos"
+                            icon: "book-heart"
+
+
+                        MDNavigationRailItem:
+                            text: "Favoritos"
+                            icon: "star"
+
+                    ScrollView:
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            padding: "20dp"
+                            spacing: "30dp"
+                            size_hint_y: None
+                            height: self.minimum_height+100
+                            
+                            MDCardDiary:
+
+                            MDCardDiary:
+
+
+
+                        
+
+                
+
+                        
+
+
+
 
             MDBottomNavigationItem:
                 name: 'screen 2'
@@ -35,21 +78,20 @@
                 
 
 
-                ScrollView:
+                MDScrollViewRefreshLayout:
+                    id: refresh_layout
+                    refresh_callback: root.refresh_callback
+                    root_layout: root
 
                     MDBoxLayout:
+                        id: box
                         orientation: "vertical"
                         size_hint_y: None
-                        height: self.minimum_height+1000
+                        height: self.minimum_height
                         spacing: "30dp"
                         padding: "10dp"
+
                  
-
-                        MDCardDiary:
-
-                        MDCardDiary:
-
-                        MDCardDiary:
 
 
             MDBottomNavigationItem:
@@ -90,6 +132,7 @@
                                 fill_color: 1, 0, 0, 1
                                 size_hint_y:None
                                 height:"200dp"
+
 
 
                             MDBoxLayout:
@@ -210,22 +253,35 @@
 
 
 <MDCardDiary>:
-    elevation: 1
+    # elevation: 3
     orientation: "vertical"
+    radius: 10
+    size_hint_y: None
+    height: self.minimum_height
+
+    canvas:
+        Color:
+            rgba: (0.8, 0.8, 0.1, 0.2)
+        Rectangle:
+            size: self.size
+            pos: self.pos
 
 
     FitImage:
-        size_hint_y: 5
+        size_hint_y: None
+        height: "300dp"
         source: "assets/imagens/yourdiary-logo.png"
 
     MDLabel:
         pos_hint: {"center_x": 0.5}
-        size_hint_y: 2
+        size_hint_y: None
+        height: "100dp"
         text: "A flat button with (by default) rounded corners, a primary color border, primary color text and a primary color icon on the left."
 
     MDBoxLayout:
         orientation: "horizontal"
-        size_hint_y: 1
+        size_hint_y: None
+        height: "50dp"
 
         MDLabel:
             pos_hint: {"center_x": 0.3, "center_y": 0.5}
