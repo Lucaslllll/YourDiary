@@ -16,6 +16,7 @@ class Annotation(models.Model):
 	category = models.ManyToManyField(Category, blank=True)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
 	public = models.BooleanField(default=False)
+	edit = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name

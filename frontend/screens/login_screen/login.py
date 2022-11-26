@@ -9,9 +9,6 @@ from kivymd.uix.dialog import MDDialog
 
 from kaki.app import App
 
-Window.softinput_mode = 'below_target'
-from kivy.config import Config
-Config.set('kivy', 'keyboard_mode', 'systemandmulti')
 
 
 

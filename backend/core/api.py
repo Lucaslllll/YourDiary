@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .models import User, Category, Annotation, Like
-from .serializers import CategorySerializer
+from .serializers import CategorySerializer, AnnotationSerializer
 
 
 
@@ -14,5 +14,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class AnnotationViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, )
+
+    queryset = Annotation.objects.all()
+    serializer_class = AnnotationSerializer
 
 

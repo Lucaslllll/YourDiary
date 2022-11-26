@@ -206,8 +206,10 @@
                     spacing: "4dp"
                     padding: "12dp", 0, 0, "56dp"
 
-                # MDNavigationDrawerLabel:
-                #     text: "Opções"
+                MDNavigationDrawerItem:
+                    text: "Organizar Notas"
+                    icon: "playlist-edit"
+                    on_release: root.manager.current = "diary_list_name"
 
                 MDNavigationDrawerItem:
                     text: "Configurar"

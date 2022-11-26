@@ -1,0 +1,163 @@
+import requests
+import json
+
+
+class Authenticat(object):
+    def __init__(self):
+        self.token_access = None
+        self.token_refresh = None
+
+    def do_auth(self):
+        valores = {
+            "username":"cliente",
+            "password":"#You*Front$Diary"
+        }
+
+        try:
+            requisicao = requests.post("http://localhost:8000/token", data=valores)
+        except:
+            return None
+
+        dic_content = requisicao.json()
+        if requisicao.status_code == 200:
+            self.token_access = dic_content["access"]
+            self.token_refresh = dic_content["refresh"]
+        elif requisicao.status_code == 401:
+            return False
+
+        return True
+
+
+        # return token acess if auth is true
+
+    def do_refresh(self, refresh):
+        valores = {
+            "refresh":self.token_refresh,
+        }
+        
+
+        try:
+            requisicao = requests.post("http://localhost:8000/token/refresh", data=valores)
+        except:
+            return None
+
+        dic_content = requisicao.json()
+        self.token_access = dic_content["access"]
+
+        return self.token_access
+        # return token if send refresh token
+
+
+    def get_token(self):
+        return self.token_access
+
+
+    def get_token_refresh(self):
+        return self.token_refresh
+
+
+class AccessDB(object):
+
+    # tag é só enfeitar e para fácil visualização
+    def __init__(self, name_url:str, tag:str="None"):
+        self.token_access = None
+        self.token_refresh = None
+        self.name_url = name_url
+
+
+    def get(self, id_noticia=None):
+        auth = Authenticat()
+        resposta = auth.do_auth()
+
+
+        if resposta == True:
+            self.token_access = auth.get_token()
+            self.token_refresh = auth.get_token_refresh()
+            head = {'Authorization': 'Bearer {}'.format(self.token_access)}
+
+            if id_noticia == None:
+                try:
+                    request = requests.get("http://localhost:8000/"+self.name_url, headers=head)
+                except:
+                    return "Error ao Fazer Requisição ao Servidor"
+            else:
+                try:
+                    request = requests.get("http://localhost:8000/"+self.name_url+"/{}".format(id_noticia), headers=head)
+                except:
+                    return "Error ao Fazer Requisição ao Servidor"
+
+
+            if request.status_code == 200:
+                return request.json()
+            elif request.status_code == 401:
+                return "Sem Autorização"
+            else:
+                return "Erro Inesperado"
+        elif resposta == False:
+            return "Credencias Inválidas"
+        else:
+            return "Problemas em contatar o servidor!"
+
+
+    def delete(self, id_noticia=None):
+        auth = Authenticat()
+        resposta = auth.do_auth()
+
+
+        if resposta == True:
+            self.token_access = auth.get_token()
+            self.token_refresh = auth.get_token_refresh()
+            head = {'Authorization': 'Bearer {}'.format(self.token_access)}
+
+            try:
+                request = requests.delete("http://localhost:8000/"+self.name_url+"/{}".format(id_noticia), headers=head)
+            except:
+                return "Error ao Fazer Requisição ao Servidor"
+
+            if request.status_code == 200:
+                return request.json()
+            elif request.status_code == 401:
+                return "Sem Autorização"
+            else:
+                return "Erro Inesperado"
+
+        
+        elif resposta == False:
+            return "Credencias Inválidas"
+
+        else:
+            return "Problemas em contatar o servidor!"
+
+
+    def post(self, data, files=None, *args,**kwargs):
+        auth = Authenticat()
+        resposta = auth.do_auth()
+
+        self.token_access = auth.get_token()
+        self.token_refresh = auth.get_token_refresh()
+
+
+        head = {'Authorization': 'Bearer {}'.format(self.token_access)}
+
+
+        try:
+            requisicao = requests.post("http://localhost:8000/"+self.name_url, data=data, files=files,
+                                        headers=head)
+        except:
+            return None
+
+
+        # codigo 201 é para create
+        if requisicao.status_code == 201:
+            return True
+        elif requisicao.status_code == 200:
+            return request.json()
+        elif requisicao.status_code == 401:
+            return "Sem Autorização"
+        else:
+            return "Erro Inesperado"
+
+
+        # print(requisicao.content)
+        return False
+

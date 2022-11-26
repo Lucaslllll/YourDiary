@@ -4,3 +4,11 @@ from .models import User
 
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+    def validate_password(self, data):
+        value = make_password(password=data, salt=None, hasher='pbkdf2_sha256')
+        return value

@@ -1,0 +1,52 @@
+<DiaryList>
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            elevation: 4
+            title: "Suas Anotações - Edição"
+            md_bg_color: 0.1, 0, 0.1, 1
+
+        MDScrollView:
+            scroll_timeout : 100
+
+            MDList:
+                id: idlist
+                padding: 0
+                
+
+
+<SwipeToDeleteItem>:
+    size_hint_y: None
+    height: content.height
+    on_swipe_complete: root.parent.parent.parent.parent.on_swipe_complete(root)
+    # on_swipe_complete: root.managerer.on_swipe_complete(root) isso não dá certo porque cria uma cópia e não tem acesso ao original, é interessante para obter dados antes de modifica-los
+    
+    MDCardSwipeLayerBox:
+        padding: "8dp"
+
+        # MDIconButton:
+        #     md_bg_color: 1, 1, 0, 1
+        #     icon: "trash-can"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: self.parent.parent.managerer.remove_item_for_icon(root)
+
+    MDCardSwipeFrontBox:
+
+        # Content of card.
+        OneLineListItem:
+            id: content
+            height: "200dp"
+            _no_ripple_effect: True
+
+            MDBoxLayout:
+                orientation: "horizontal"
+
+                MDLabel:
+                    text: root.text
+
+                FitImage:
+                    size_hint_y: None
+                    height: root.height-50
+                    source: root.url_image

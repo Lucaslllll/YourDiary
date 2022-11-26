@@ -18,6 +18,8 @@ from kivy.properties import StringProperty, NumericProperty, ListProperty, Objec
 
 from kaki.app import App
 import os
+from components.connection import Authenticat
+
 
 
 class Diary(MDScreen):
@@ -38,13 +40,10 @@ class Diary(MDScreen):
         
 
     def on_start(self, *args, **kwargs):
-        # icons = list(md_icons.keys())
-        
         for i in range(30):
             self.ids.scroll_id.add_widget(
                 CheckListCategory(text=str(i), id_category=i)
                 
-                # ListItemWithCheckbox(text=f"Item {i}", icon=icons[i])
             )
 
     # to refresh pages
@@ -95,11 +94,19 @@ class Diary(MDScreen):
                 self.file_manager.back()
 
         return True
+    # fim part of form annotation
+
+
+
+class MDCardDiary(MDBoxLayout):
+    pass
+
 
 
 class CheckListCategory(MDBoxLayout):
     text = StringProperty()
     id_category = NumericProperty()
+    managerer = Diary()
 
     def __init__(self, text, id_category, **kwargs):
         super().__init__(**kwargs)
@@ -117,15 +124,17 @@ class CheckListCategory(MDBoxLayout):
     # 1 para adicionar and 2 para remover var type_access
     def access_screen(self, type_access, value, *args, **kwargs):
         if type_access == 1:
-            self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.id_category_select.append(value)
+            self.managerer.id_category_select.append(value)
+            #funfa too self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.id_category_select.append(value)
         elif type_access == 2:
-            self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.id_category_select.pop(value)
-        # debug print(self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.id_category_select)
+            self.managerer.id_category_select.remove(value)
+            #funfa too self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.id_category_select.pop(value)
+        
+        ## debug 
+        # print(self.managerer.id_category_select)
         # try1 print(self.parent) pega o mdlist
         # try2 App.get_running_app().root.id_category_select.append(self.id_category)
         # try3 print(self.root)
         # try4 root.id_category_select.append() 
 
 
-class MDCardDiary(MDBoxLayout):
-    pass
