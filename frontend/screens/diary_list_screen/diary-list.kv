@@ -15,6 +15,38 @@
                 id: idlist
                 padding: 0
                 
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint: None, None
+            width: root.width
+            height: self.minimum_height
+            md_bg_color: "blue"
+            halign: "center"
+
+            MDBoxLayout:
+                orientation: "vertical"
+                md_bg_color: 1, 0.5, 1, 1
+
+
+                MDRoundFlatIconButton:
+                    id: previous_list_id
+                    text: "previous"
+                    theme_text_color: "Custom"
+                    text_color: "orange"
+                    pos_hint: {'center_x': .6}
+                    on_release: root.next_page(root.var_previous_page, voltar=True)
+
+            MDBoxLayout:
+                orientation: "vertical"
+                md_bg_color: 1, 1, 0.5, 1
+
+                MDRoundFlatIconButton:
+                    id: next_list_id
+                    text: "next"
+                    theme_text_color: "Custom"
+                    text_color: "green"
+                    pos_hint: {'center_x': .4}                
+                    on_release: root.next_page(root.var_next_page, voltar=False)
 
 
 <SwipeToDeleteItem>:

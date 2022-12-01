@@ -17,29 +17,58 @@ class DiaryList(MDScreen):
     instance_to_delete = None
     dialog = None
     dialog_2 = None
+    
 
     # criar no construtor é melhor para pegar o id dos widgets quando quero obter por outra classe
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Clock.schedule_once(self.on_start, 1)
+        
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
         Window.bind(on_request_close=self.voltar_android)
-        
+        Clock.schedule_once(self.on_start, 1)
+        self.var_previous_page = 0
+        self.var_next_page = 2
+
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.voltar)
         Window.unbind(on_request_close=self.voltar_android)
+        self.ids.idlist.clear_widgets()
 
     def on_start(self, *args):
         annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
         annotations = annotations.get()
         
-        if type(annotations) is list:
-            for i_annotations in annotations:
+
+        if type(annotations) is dict:
+            for i_annotations in annotations["results"]:
                 self.ids.idlist.add_widget(
                     SwipeToDeleteItem(note_id=i_annotations['id'], text=i_annotations['name'], url_image=i_annotations['thumb'])
                 )
+
+
+
+    def next_page(self, page, voltar=False):
+        self.ids.idlist.clear_widgets()
+
+        annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
+        annotations = annotations.get(page=page)
+
+        if type(annotations) is dict:
+            for i_annotations in annotations["results"]:
+                self.ids.idlist.add_widget(
+                    SwipeToDeleteItem(note_id=i_annotations['id'], text=i_annotations['name'], url_image=i_annotations['thumb'])
+                )
+
+            if voltar == False:
+                self.var_next_page += 1
+                self.var_previous_page += 1                
+            else:
+                self.var_next_page -= 1
+                self.var_previous_page -= 1
+        
+
 
 
     # types of delete
@@ -80,7 +109,7 @@ class DiaryList(MDScreen):
 
     def sure_of_delete(self, instance):
         annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
-        annotations.delete(id_noticia=self.instance_to_delete.note_id)
+        annotations.delete(id_object=self.instance_to_delete.note_id)
         
         self.ids.idlist.remove_widget(self.instance_to_delete)
         self.dialog.dismiss()

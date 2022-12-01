@@ -20,6 +20,9 @@ class Annotation(models.Model):
 
 	def __str__(self):
 		return self.name
+	
+	class Meta:
+		ordering = ['-id']
 
 class Like(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)

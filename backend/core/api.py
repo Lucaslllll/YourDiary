@@ -4,21 +4,20 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import User, Category, Annotation, Like
 from .serializers import CategorySerializer, AnnotationSerializer
-
+from .utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
-
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 class AnnotationViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
-
+    # permission_classes = (IsAuthenticated, )
     queryset = Annotation.objects.all()
     serializer_class = AnnotationSerializer
+    pagination_class = StandardResultsSetPagination
 
 

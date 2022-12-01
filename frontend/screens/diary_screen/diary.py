@@ -18,7 +18,7 @@ from kivy.properties import StringProperty, NumericProperty, ListProperty, Objec
 
 from kaki.app import App
 import os
-from components.connection import Authenticat
+from components.connection import Authenticat, AccessDB
 
 
 
@@ -37,23 +37,42 @@ class Diary(MDScreen):
 
     def on_pre_enter(self):
         Clock.schedule_once(self.on_start, 1)
-        
+    
+    def on_pre_leave(self):
+        self.ids.box.clear_widgets()
+
 
     def on_start(self, *args, **kwargs):
-        for i in range(30):
-            self.ids.scroll_id.add_widget(
-                CheckListCategory(text=str(i), id_category=i)
+        categories = AccessDB(name_url="categories", tag="CATEGORIES")
+        categories = categories.get()
+
+        if type(categories) is list:
+            for cat in categories:
+                self.ids.scroll_id.add_widget(
+                    CheckListCategory(text=str(cat["name"]), id_category=cat["id"])
+                    
+                )
+
+        annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
+        annotations = annotations.get()
+        
+
+        if type(annotations) is dict:
+            for i_annotations in annotations["results"]:
+                self.ids.box.add_widget(
+                    MDCardDiary(id_annotation=i_annotations["id"], image_thumb=i_annotations["thumb"], text=i_annotations["text"])
+                )
                 
-            )
 
     # to refresh pages
     def set_list(self):
         async def set_list():
-            names_icons_list = list(md_icons.keys())[self.x:self.y]
-            for name_icon in names_icons_list:
-                await asynckivy.sleep(0)
+            for i in range(0, 5):
+                await asynckivy.sleep(1)
                 self.ids.box.add_widget(
-                    MDCardDiary())
+                    MDCardDiary()
+                    )
+
         asynckivy.start(set_list())
 
     def refresh_callback(self, *args):
@@ -99,7 +118,9 @@ class Diary(MDScreen):
 
 
 class MDCardDiary(MDBoxLayout):
-    pass
+    id_annotation = NumericProperty()
+    image_thumb = StringProperty()
+    text = StringProperty()
 
 
 

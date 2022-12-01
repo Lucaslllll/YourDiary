@@ -3,9 +3,11 @@ import json
 
 
 class Authenticat(object):
-    def __init__(self):
+    def __init__(self, url_token="http://localhost:8000/token"):
         self.token_access = None
         self.token_refresh = None
+        self.url_token = url_token
+
 
     def do_auth(self):
         valores = {
@@ -14,7 +16,7 @@ class Authenticat(object):
         }
 
         try:
-            requisicao = requests.post("http://localhost:8000/token", data=valores)
+            requisicao = requests.post(self.url_token, data=valores)
         except:
             return None
 
@@ -30,14 +32,14 @@ class Authenticat(object):
 
         # return token acess if auth is true
 
-    def do_refresh(self, refresh):
+    def do_refresh(self, refresh, url_refresh="http://localhost:8000/token/refresh"):
         valores = {
             "refresh":self.token_refresh,
         }
         
 
         try:
-            requisicao = requests.post("http://localhost:8000/token/refresh", data=valores)
+            requisicao = requests.post(url_refresh, data=valores)
         except:
             return None
 
@@ -59,13 +61,13 @@ class Authenticat(object):
 class AccessDB(object):
 
     # tag é só enfeitar e para fácil visualização
-    def __init__(self, name_url:str, tag:str="None"):
+    def __init__(self, name_url:str, url:str="http://localhost:8000/", tag:str="None"):
         self.token_access = None
         self.token_refresh = None
         self.name_url = name_url
+        self.url = url
 
-
-    def get(self, id_noticia=None):
+    def get(self, id_object=None, page=None):
         auth = Authenticat()
         resposta = auth.do_auth()
 
@@ -75,16 +77,26 @@ class AccessDB(object):
             self.token_refresh = auth.get_token_refresh()
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
-            if id_noticia == None:
+            
+            if page != None:
                 try:
-                    request = requests.get("http://localhost:8000/"+self.name_url, headers=head)
+                    request = requests.get(self.url+self.name_url+"/?page={}".format(page), headers=head)
                 except:
-                    return "Error ao Fazer Requisição ao Servidor"
+                    return "Error ao Fazer Requisição ao Servidor"                
+            
             else:
-                try:
-                    request = requests.get("http://localhost:8000/"+self.name_url+"/{}".format(id_noticia), headers=head)
-                except:
-                    return "Error ao Fazer Requisição ao Servidor"
+                if id_object == None:
+                    try:
+                        request = requests.get(self.url+self.name_url, headers=head)
+                    except:
+                        return "Error ao Fazer Requisição ao Servidor"
+                
+                else:
+                    try:
+                        request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head)
+                    except:
+                        return "Error ao Fazer Requisição ao Servidor"
+
 
 
             if request.status_code == 200:
@@ -99,7 +111,7 @@ class AccessDB(object):
             return "Problemas em contatar o servidor!"
 
 
-    def delete(self, id_noticia=None):
+    def delete(self, id_object=None):
         auth = Authenticat()
         resposta = auth.do_auth()
 
@@ -110,7 +122,7 @@ class AccessDB(object):
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             try:
-                request = requests.delete("http://localhost:8000/"+self.name_url+"/{}".format(id_noticia), headers=head)
+                request = requests.delete(self.url+self.name_url+"/{}".format(id_object), headers=head)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
@@ -129,7 +141,7 @@ class AccessDB(object):
             return "Problemas em contatar o servidor!"
 
 
-    def post(self, data, files=None, *args,**kwargs):
+    def post(self, data, files=None, *args, **kwargs):
         auth = Authenticat()
         resposta = auth.do_auth()
 
@@ -141,7 +153,7 @@ class AccessDB(object):
 
 
         try:
-            requisicao = requests.post("http://localhost:8000/"+self.name_url, data=data, files=files,
+            requisicao = requests.post(self.url+self.name_url, data=data, files=files,
                                         headers=head)
         except:
             return None
