@@ -6,6 +6,8 @@ from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.card import MDCard
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.toast import toast
 
@@ -15,10 +17,13 @@ from kivymd.icon_definitions import md_icons
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.properties import StringProperty, NumericProperty, ListProperty, ObjectProperty
+from kivy.storage.jsonstore import JsonStore
 
 from kaki.app import App
+from kivymd.app import MDApp
 import os
 from components.connection import Authenticat, AccessDB
+
 
 
 
@@ -33,13 +38,38 @@ class Diary(MDScreen):
             exit_manager=self.exit_manager, select_path=self.select_path
         )
         self.files = {}
-
+        self.image_thumb_none = "/home/Lucas/Documentos/YourDiary/frontend/assets/imagens/yourdiary-logo.png"
+        # print(App.get_running_app().get_root().root)
+        self.count = "0"
 
     def on_pre_enter(self):
+        Window.bind(on_request_close=self.confirmacao)
         Clock.schedule_once(self.on_start, 1)
-    
+        self.var_previous_page = 0
+        self.var_atual_page = 1
+        self.var_next_page = 2
+        
+
+
     def on_pre_leave(self):
+        Window.unbind(on_request_close=self.confirmacao)
         self.ids.box.clear_widgets()
+        self.ids.scroll_id.clear_widgets()
+        
+
+    def do_logout(self):
+        self.path = App.get_running_app().user_data_dir+"/"
+        store = JsonStore(self.path+'data.json')
+
+        if store.exists('login_auth'):
+            store.put('login_auth', access=False)
+
+        if store.exists('user'):
+            store.put('user', id=None)
+
+
+        self.manager.current = "login_name"
+
 
 
     def on_start(self, *args, **kwargs):
@@ -53,42 +83,131 @@ class Diary(MDScreen):
                     
                 )
 
-        annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
-        annotations = annotations.get()
+        annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+        annotations = annotations.filter_by_id(id_object=self.manager.user_id)
+        
+        async def on_start():
+            self.count = str(self.var_atual_page)
+            self.ids.box.add_widget(
+                    SelectPage(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box.add_widget(
+                        MDCardDiary(id_annotation=i_annotations["id"], 
+                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+
+
+
+                
+        
+        asynckivy.start(on_start())
+
+
+    def next_page(self, voltar=False):
+        self.ids.box.clear_widgets()
+
         
 
-        if type(annotations) is dict:
-            for i_annotations in annotations["results"]:
-                self.ids.box.add_widget(
-                    MDCardDiary(id_annotation=i_annotations["id"], image_thumb=i_annotations["thumb"], text=i_annotations["text"])
-                )
+        if voltar == False:
+            # para frente
+            annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_next_page)
+
+
+            self.var_previous_page = self.var_atual_page
+            self.var_atual_page = self.var_next_page
+            self.var_next_page += 1
+
+
+        
+        elif voltar == True:
+            # para trás
+            annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_previous_page)
+            
+
+            self.var_atual_page = self.var_previous_page
+            self.var_previous_page = self.var_atual_page - 1
+            self.var_next_page = self.var_atual_page + 1
+
+        
+
+        async def next_page():
+            self.count = str(self.var_atual_page)
+            self.ids.box.add_widget(
+                        SelectPage(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box.add_widget(
+                        MDCardDiary(id_annotation=i_annotations["id"], 
+                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+            
+
                 
+
+        asynckivy.start(next_page())
+
 
     # to refresh pages
     def set_list(self):
+        annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+        annotations = annotations.filter_by_id(id_object=self.manager.user_id)
+
         async def set_list():
-            for i in range(0, 5):
-                await asynckivy.sleep(1)
-                self.ids.box.add_widget(
-                    MDCardDiary()
+            self.count = str(self.var_atual_page)
+            self.ids.box.add_widget(
+                    SelectPage(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box.add_widget(
+                        MDCardDiary(id_annotation=i_annotations["id"], 
+                                image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
                     )
+                
+                       
+
+                
 
         asynckivy.start(set_list())
+        
+
 
     def refresh_callback(self, *args):
         
 
         def refresh_callback(interval):
             self.ids.box.clear_widgets()
+            self.var_previous_page = 0
+            self.var_atual_page = 1
+            self.var_next_page = 2
             
+
             # form of documentation is bug layout where x = 0 in if
-            self.x, self.y = 0, 15
+            # self.x, self.y = 0, 15
             
             self.set_list()
             self.ids.refresh_layout.refresh_done()
             self.tick = 0
 
         Clock.schedule_once(refresh_callback, 1)
+
 
 
     # part of form annotation
@@ -116,11 +235,57 @@ class Diary(MDScreen):
     # fim part of form annotation
 
 
+    # sair do app 
+    def confirmacao(self, *args, **kwargs):
+        # self.add_widget(self.dialog)
+
+    
+        self.dialog = MDDialog(
+            text="Deseja realmente sair?",
+            md_bg_color=(1,1,1,1),
+            buttons=[
+                MDFlatButton(
+                    text="Não",
+                    theme_text_color="Custom",
+                    text_color=(0,0,0,1),
+                    on_release=self.closeDialog
+                ),
+
+                MDFlatButton(
+                    text="Sair",
+                    theme_text_color="Custom",
+                    text_color=(0,0,0,1),
+                    on_release=App.get_running_app().stop
+                ),
+            ],
+        )
+    
+        self.dialog.open()
+
+        # tem que retorna um True para on_request_close
+        # se não não abre o dialog
+        return True
+
+    def closeDialog(self, inst):
+        self.dialog.dismiss()
+
+
 
 class MDCardDiary(MDBoxLayout):
     id_annotation = NumericProperty()
     image_thumb = StringProperty()
     text = StringProperty()
+
+    # def __init__(self, id_annotation=-1, text="none", image_thumb=image_thumb_none, **kwargs):
+    #     super(MDCardDiary, self).__init__(**kwargs)
+    #     self.text = text
+    #     self.id_annotation = id_annotation
+    #     self.image_thumb = image_thumb
+
+
+
+class SelectPage(MDBoxLayout):
+    screen = ObjectProperty()
 
 
 

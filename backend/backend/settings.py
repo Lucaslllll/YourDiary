@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+import orjson
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -58,7 +59,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
-    ]
+    ],
+    "DEFAULT_RENDERER_CLASSES": (
+        "drf_orjson_renderer.renderers.ORJSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ),
+    "ORJSON_RENDERER_OPTIONS": (
+        orjson.OPT_NON_STR_KEYS,
+        orjson.OPT_SERIALIZE_DATACLASS,
+        orjson.OPT_SERIALIZE_NUMPY,
+    ),
+ 
  
 }
 

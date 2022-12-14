@@ -11,6 +11,7 @@ from kivy.config import Config
 Window.softinput_mode = 'below_target'
 Config.set('kivy', 'keyboard_mode', 'systemandmulti')
 
+
 class YourDiaryApp(App, MDApp):
 
     DEBUG = 1

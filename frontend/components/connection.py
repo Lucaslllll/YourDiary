@@ -152,18 +152,24 @@ class AccessDB(object):
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
 
-        try:
-            requisicao = requests.post(self.url+self.name_url, data=data, files=files,
-                                        headers=head)
-        except:
-            return None
+        if files != None:
+            try:
+                requisicao = requests.post(self.url+self.name_url, data=data, files=files,
+                                            headers=head)
+            except:
+                return "Error ao Fazer Requisição ao Servidor"
+        else:
+            try:
+                requisicao = requests.post(self.url+self.name_url, data=data, headers=head)
+            except:
+                return "Error ao Fazer Requisição ao Servidor"
 
 
         # codigo 201 é para create
         if requisicao.status_code == 201:
             return True
         elif requisicao.status_code == 200:
-            return request.json()
+            return requisicao.json()
         elif requisicao.status_code == 401:
             return "Sem Autorização"
         else:
@@ -173,3 +179,48 @@ class AccessDB(object):
         # print(requisicao.content)
         return False
 
+    
+    # annotations/by/author/<int:pk> or annotations/by/author/<int:pk>?page=nº => nesse formato para usar os filtros
+    def filter_by_id(self, id_object=None, page=None):
+        auth = Authenticat()
+        resposta = auth.do_auth()
+
+
+        if resposta == True:
+            self.token_access = auth.get_token()
+            self.token_refresh = auth.get_token_refresh()
+            head = {'Authorization': 'Bearer {}'.format(self.token_access)}
+
+            
+            if page != None:
+                try:
+                    request = requests.get(self.url+self.name_url+"/"+str(id_object)+"?page={}".format(page), headers=head)
+                except:
+                    return "Error ao Fazer Requisição ao Servidor"                
+                    
+            else:
+                if id_object == None:
+                    try:
+                        request = requests.get(self.url+self.name_url, headers=head)
+                    except:
+                        return "Error ao Fazer Requisição ao Servidor"
+                
+                else:
+                    try:
+                        request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head)
+                    except:
+                        return "Error ao Fazer Requisição ao Servidor"
+
+
+
+
+            if request.status_code == 200:
+                return request.json()
+            elif request.status_code == 401:
+                return "Sem Autorização"
+            else:
+                return "Erro Inesperado"
+        elif resposta == False:
+            return "Credencias Inválidas"
+        else:
+            return "Problemas em contatar o servidor!"

@@ -22,9 +22,13 @@ class TestCrudInTable(object):
 
         self.image = images[x]
         name = names[x]
+        preview =   " Lorem ipsum dolor sit amet, consectetuer adipiscing elit."\
+                    "Aenean commodo ligula eget dolor. Aenean massa. Cum sociis"\
+                    "natoque penatibus et magnis dis p"
 
         self.dados = {
             "name": name,
+            "preview": preview,
             "text": "LOREM LOREM",
             "date": "2022-11-25T00:07:46Z",
             "category": [],
@@ -54,9 +58,9 @@ test = TestCrudInTable()
 test.load()
 
 if len(sys.argv) > 1:
-    if len(sys.argv) == 2:
+    if len(sys.argv) == 3:
         test.execute(method=sys.argv[1], name_url=sys.argv[2])
-
-    test.execute(method=sys.argv[1])
+    else:
+        test.execute(method=sys.argv[1])
 
 

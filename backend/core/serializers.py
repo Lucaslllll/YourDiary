@@ -14,5 +14,9 @@ class AnnotationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Annotation
         fields = '__all__'
-        
 
+
+class AnnotationAuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Annotation
+        fields = ["author"]

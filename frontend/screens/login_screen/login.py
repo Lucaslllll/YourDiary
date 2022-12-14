@@ -1,22 +1,17 @@
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.properties import ListProperty, NumericProperty, StringProperty
+from kivy.storage.jsonstore import JsonStore
 
-from kivymd.uix.snackbar import BaseSnackbar
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
+from kivymd.uix.snackbar import Snackbar
 
 from kaki.app import App
 
 
-
-
-
-class AlertErrorSnackbar(BaseSnackbar):
-    text = StringProperty(None)
-    icon = StringProperty(None)
-    font_size = NumericProperty("15sp")
+from components.connection import AccessDB
 
 
 
@@ -26,9 +21,8 @@ class Login(MDScreen):
     texto_alert = ""
 
     def alert_error_connection(self, *args):
-        snackbar = AlertErrorSnackbar(
+        snackbar = Snackbar(
                 text=self.texto_alert,
-                icon="information",
                 snackbar_x="10dp",
                 snackbar_y="10dp",
                 buttons=[
@@ -46,16 +40,20 @@ class Login(MDScreen):
         username = self.ids.id_text_username.text
         senha = self.ids.id_text_password.text
 
+        data = {
+            "username": username,
+            "password": senha,
+        }
 
-        user = Usuario()
-        resposta = user.do_login(username, senha)
-
+        user = AccessDB(name_url="accounts/login/", tag="ANNOTATIONS")
+        resposta = user.post(data=data)
+        
         if type(resposta) is dict:
             self.ids.load_spinner.active = True
 
             self.path = App.get_running_app().user_data_dir+"/"
             store = JsonStore(self.path+'data.json')
-            store.put('user', id=resposta['dados']['id'])    
+            store.put('user', id=resposta['id'])    
             
             self.pass_of_login()
         else:
@@ -69,14 +67,14 @@ class Login(MDScreen):
 
     def pass_of_login(self, *args):
         self.load_if = True
-        self.path = App.get_running_app().user_data_dir+"/"
+        # self.path = App.get_running_app().user_data_dir+"/"
         
 
         store = JsonStore(self.path+'data.json')
         store.put('login_auth', access=True)
         
         # obs: mudar para outra tela
-        App.get_running_app().root.current = "login_name"
+        self.manager.current = "diary_name"
         
     # segunda forma de passar para outra tela
     # def pass_to_register(self, *args):
