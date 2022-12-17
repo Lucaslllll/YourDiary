@@ -1,0 +1,101 @@
+<Annotation>
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "20/10/2022"
+            id: toolbarNoticia
+            md_bg_color: 1, 0.5, 0.5, 1
+            use_overflow: True
+            #overflow_cls: CustomDropMenu()
+
+            right_action_items: 
+                [
+                ["dots-vertical", lambda x: root.DropApp(x), "Opções", "Opções"],
+                ]
+
+
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "10dp"
+                spacing: "100dp"
+
+                MDLabel:
+                    # md_bg_color: 1, .8, .6, 1
+                    id: title_annotation
+                    font_style: "H6"
+                    bold: True
+                    halign: "center"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    # text: root.title_example
+                    text: "Título Sobrenome"
+
+
+                FitImage:
+                    id: image_annotation
+                    size_hint_y: None
+                    height: "300dp"
+                    source: "assets/imagens/yourdiary-logo.png"
+
+
+                MDLabel:
+                    # md_bg_color: 0.3, 1, 0.6, 1
+                    id: details_annotation
+                    halign: "justify"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    text: root.text_example
+
+
+                MDGridLayout:
+                    id: categories_annotation
+                    rows: 10
+                    cols: 5
+                    spacing: "10dp"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    
+
+                    MDLabel:    
+                        halign: "left"
+                        bold: True
+                        text: "Categories:"
+
+
+
+                MDLabel:
+                    id: author_annotation
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    halign: "center"
+                    valign: "center"
+                    text: "Author: Lucaslllll"
+
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: self.minimum_height
+
+
+                    MDLabel:
+                        id: edit_annotation
+                        halign: "center"
+                        valign: "center"
+                        text: "Not Edited"
+
+                    MDLabel:
+                        id: public_annotation
+                        halign: "center"
+                        valign: "center"
+                        text: "Not Public"
+

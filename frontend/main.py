@@ -22,6 +22,7 @@ class YourDiaryApp(App, MDApp):
         os.path.join(os.getcwd(), "screens/register_screen/register.kv"),
         os.path.join(os.getcwd(), "screens/diary_screen/diary.kv"),
         os.path.join(os.getcwd(), "screens/diary_list_screen/diary-list.kv"),
+        os.path.join(os.getcwd(), "screens/annotation_screen/annotation.kv"),
 
     }
 
@@ -31,7 +32,8 @@ class YourDiaryApp(App, MDApp):
         "Login": "screens.login_screen.login",
         "Register": "screens.register_screen.register",
         "Diary": "screens.diary_screen.diary",
-        "DiaryList": "screens.diary_list_screen.diary-list",     
+        "DiaryList": "screens.diary_list_screen.diary-list",
+        "Annotation": "screens.annotation_screen.annotation",     
 
     }
 

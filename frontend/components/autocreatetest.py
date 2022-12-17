@@ -31,7 +31,7 @@ class TestCrudInTable(object):
             "preview": preview,
             "text": "LOREM LOREM",
             "date": "2022-11-25T00:07:46Z",
-            "category": [],
+            "category": [1],
             "author": 1,
             "public": False,
             "edit": False,

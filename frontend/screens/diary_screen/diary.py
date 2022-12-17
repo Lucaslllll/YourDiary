@@ -9,8 +9,9 @@ from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.filemanager import MDFileManager
-from kivymd.toast import toast
+from kivymd.uix.snackbar import Snackbar
 
+from kivymd.toast import toast
 from kivymd.utils import asynckivy
 from kivymd.icon_definitions import md_icons
 
@@ -23,7 +24,7 @@ from kaki.app import App
 from kivymd.app import MDApp
 import os
 from components.connection import Authenticat, AccessDB
-
+import datetime
 
 
 
@@ -41,6 +42,7 @@ class Diary(MDScreen):
         self.image_thumb_none = "/home/Lucas/Documentos/YourDiary/frontend/assets/imagens/yourdiary-logo.png"
         # print(App.get_running_app().get_root().root)
         self.count = "0"
+        self.texto_alert = ""
 
     def on_pre_enter(self):
         Window.bind(on_request_close=self.confirmacao)
@@ -55,6 +57,7 @@ class Diary(MDScreen):
         Window.unbind(on_request_close=self.confirmacao)
         self.ids.box.clear_widgets()
         self.ids.scroll_id.clear_widgets()
+
         
 
     def do_logout(self):
@@ -79,7 +82,7 @@ class Diary(MDScreen):
         if type(categories) is list:
             for cat in categories:
                 self.ids.scroll_id.add_widget(
-                    CheckListCategory(text=str(cat["name"]), id_category=cat["id"])
+                    CheckListCategory(managerer=self, text=str(cat["name"]), id_category=cat["id"])
                     
                 )
 
@@ -97,7 +100,7 @@ class Diary(MDScreen):
                 for i_annotations in annotations["results"]:
                     await asynckivy.sleep(1)
                     self.ids.box.add_widget(
-                        MDCardDiary(id_annotation=i_annotations["id"], 
+                        MDCardDiary(diary_screen=self, id_annotation=i_annotations["id"], 
                                     image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
                                     text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
                     )
@@ -149,7 +152,7 @@ class Diary(MDScreen):
                 for i_annotations in annotations["results"]:
                     await asynckivy.sleep(1)
                     self.ids.box.add_widget(
-                        MDCardDiary(id_annotation=i_annotations["id"], 
+                        MDCardDiary(diary_screen=self, id_annotation=i_annotations["id"], 
                                     image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
                                     text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
                     )
@@ -176,7 +179,7 @@ class Diary(MDScreen):
                 for i_annotations in annotations["results"]:
                     await asynckivy.sleep(1)
                     self.ids.box.add_widget(
-                        MDCardDiary(id_annotation=i_annotations["id"], 
+                        MDCardDiary(diary_screen=self, id_annotation=i_annotations["id"], 
                                 image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
                                 text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
                     )
@@ -232,6 +235,63 @@ class Diary(MDScreen):
                 self.file_manager.back()
 
         return True
+
+
+    def send_annotation(self, *args):
+        data = {
+            "name": self.ids.id_note_name.text,
+            "preview": self.ids.id_note_preview.text,
+            "text": self.ids.id_note_text.text,
+            "date": datetime.datetime.now(),
+            "public": self.ids.id_note_public.active,
+            "edit": False,
+            "author": self.manager.user_id,
+            "category": self.id_category_select,
+        }
+
+        annotation = AccessDB(name_url="annotations/", tag="ANNOTATIONS")
+        resposta = annotation.post(data=data, files=self.files)
+
+        if resposta == True:
+            self.clear_form()
+            self.manager.current = "diary_list_name"
+        else:
+            self.texto_alert = resposta
+            Clock.schedule_once(self.alert_error_connection, 3)
+
+    def alert_error_connection(self, *args):
+        snackbar = Snackbar(
+                text=self.texto_alert,
+                snackbar_x="10dp",
+                snackbar_y="10dp",
+                buttons=[
+                    MDFlatButton(text="Fechar", text_color=(1, 1, 1, 1),
+                                theme_text_color='Custom')
+                ]
+            )
+        snackbar.size_hint_x = (
+            Window.width - (snackbar.snackbar_x * 2)
+        ) / Window.width
+        snackbar.open()
+
+    def timeout_spinner(self, *args):
+        self.ids.load_spinner_note.active = False
+      
+    def on_press_spinner(self, *args):
+        self.ids.load_spinner_note.active = True
+        self.ids.load_spinner_note.determinate = False
+        self.ids.load_spinner_note.determinate_time = 2
+        # depois de 3 segundos executará timeout_spinner
+        # desligando o spinner
+        Clock.schedule_once(self.timeout_spinner, 3)
+
+    def clear_form(self):
+        self.ids.id_note_name.text = ""
+        self.ids.id_note_preview.text = ""
+        self.ids.id_note_text.text = ""
+        self.ids.id_note_public.active = False
+        
+
     # fim part of form annotation
 
 
@@ -275,13 +335,19 @@ class MDCardDiary(MDBoxLayout):
     id_annotation = NumericProperty()
     image_thumb = StringProperty()
     text = StringProperty()
+    image_thumb_none = "/home/Lucas/Documentos/YourDiary/frontend/assets/imagens/yourdiary-logo.png"
+    diary_screen = ObjectProperty()
 
-    # def __init__(self, id_annotation=-1, text="none", image_thumb=image_thumb_none, **kwargs):
-    #     super(MDCardDiary, self).__init__(**kwargs)
-    #     self.text = text
-    #     self.id_annotation = id_annotation
-    #     self.image_thumb = image_thumb
+    def __init__(self, diary_screen, id_annotation=-1, text="none", image_thumb=image_thumb_none, **kwargs):
+        super(MDCardDiary, self).__init__(**kwargs)
+        self.text = text
+        self.id_annotation = id_annotation
+        self.image_thumb = image_thumb
+        self.diary_screen = diary_screen
 
+    def read_more(self):
+        self.diary_screen.manager.current_view_annotation = self.id_annotation
+        self.diary_screen.manager.current = "annotation_name"
 
 
 class SelectPage(MDBoxLayout):
@@ -292,12 +358,13 @@ class SelectPage(MDBoxLayout):
 class CheckListCategory(MDBoxLayout):
     text = StringProperty()
     id_category = NumericProperty()
-    managerer = Diary()
+    managerer = ObjectProperty()
 
-    def __init__(self, text, id_category, **kwargs):
+    def __init__(self, managerer, text, id_category, **kwargs):
         super().__init__(**kwargs)
         self.text = text
         self.id_category = id_category
+        self.managerer = managerer
 
 
     def on_checkbox_active(self, checkbox, value):

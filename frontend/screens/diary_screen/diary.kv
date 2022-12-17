@@ -99,6 +99,7 @@
                 icon: 'note'
 
                 MDBoxLayout:
+                    id: id_form_diary
                     orientation: "vertical"
                     spacing: "30dp"
 
@@ -150,6 +151,7 @@
 
 
                                 MDSwitch:
+                                    id: id_note_public
                                     width: dp(34)
                                     pos_hint: {"center_y": .5}
                                     icon_active_color: "white"
@@ -178,16 +180,17 @@
 
 
                             MDFlatButton:
-                                id: id_noticia_enviar
+                                id: id_note_enviar
                                 text: "Entrar"
                                 theme_text_color: "Custom"
                                 md_bg_color: 0.2, 1, 0.2, 1
                                 text_color: 1, 1, 1, 1
-                                on_release: root.send_news()
+                                on_release: root.send_annotation()
                                 on_press: root.on_press_spinner()
+                                
 
                             MDSpinner:
-                                id: load_spinner_noticia
+                                id: load_spinner_note
                                 size_hint: None, None
                                 size: dp(20), dp(20)
                                 pos_hint: {'center_x': .5, 'center_y': .5}
@@ -301,6 +304,7 @@
         MDRoundFlatIconButton:
             pos_hint: {"center_x":  0.7, "center_y": 0.5}
             text: "Observar"
+            on_release: root.read_more()
 
 
 
