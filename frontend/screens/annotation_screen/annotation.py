@@ -19,7 +19,7 @@ from components.connection import AccessDB
 class Annotation(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
+        self.list_of_members_chips = []
         menu_items = [
             {
                 "viewclass": "OneLineListItem",
@@ -39,8 +39,7 @@ class Annotation(MDScreen):
             items=menu_items,
             width_mult=4,
         )
-        self.title_example = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Aenean commodo ligula eget dolor. Aenean massa. Cum sociisnatoque penatibus et magnis dis p"\
-                            
+        self.title_example = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Aenean commodo ligula eget dolor. Aenean massa. Cum sociisnatoque penatibus et magnis dis p"                            
         self.text_example = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Aenean commodo ligula eget dolor. Aenean massa. Cum sociisnatoque penatibus et magnis dis p"\
                             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Aenean commodo ligula eget dolor. Aenean massa. Cum sociisnatoque penatibus et magnis dis p"\
                             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Aenean commodo ligula eget dolor. Aenean massa. Cum sociisnatoque penatibus et magnis dis p"\
@@ -89,17 +88,20 @@ class Annotation(MDScreen):
         id_annotation = self.manager.current_view_annotation
         annotation = AccessDB(name_url="annotations", tag="ANNOTATIONS")
         annotation = annotation.get(id_object=id_annotation)
-        
+       
+
         
 
         if type(annotation) is dict:
             date = annotation['date'].split("T")[0]
+            author_ob = AccessDB(name_url="accounts/users", tag="USERS")
+            author_ob = author_ob.get(id_object=annotation['author'])
 
             self.ids.title_annotation.text = annotation['name']
             self.ids.image_annotation.source = annotation['thumb']
             self.ids.details_annotation.text = annotation['text']
             self.ids.toolbarNoticia.title = date
-            self.ids.author_annotation.text = "Author: "+str(annotation['author'])
+            self.ids.author_annotation.text = author_ob['username']
             self.ids.edit_annotation.text = "Edited " if annotation['edit'] else "Not Edited"
             self.ids.public_annotation.text = "Public " if annotation['public'] else "Personal"
 
@@ -107,11 +109,17 @@ class Annotation(MDScreen):
             for category in annotation['category']:
                 category_ob = AccessDB(name_url="categories", tag="CATEGORIES")
                 category_ob = category_ob.get(id_object=category)
-                self.ids.categories_annotation.add_widget(MDChip(id=str(category_ob['id']), text=category_ob['name']))
 
+                atual_chip = MDChip(id=str(category_ob['id']), text=category_ob['name'])
+                self.ids.categories_annotation.add_widget(atual_chip)
+                self.list_of_members_chips.append(atual_chip)
+
+    
 
     def on_pre_leave(self):
-        self.ids.categories_annotation.remove_widget(id="1")
+        for chip in self.list_of_members_chips:
+            self.ids.categories_annotation.remove_widget(chip)
+        
         Window.unbind(on_keyboard=self.voltar)
         Window.unbind(on_request_close=self.voltar_android)
 

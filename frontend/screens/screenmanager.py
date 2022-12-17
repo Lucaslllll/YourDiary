@@ -9,6 +9,7 @@ class MainScreenManager(ScreenManager):
     path = ""
     user_id = None
     current_view_annotation = None
+    background_annotation = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

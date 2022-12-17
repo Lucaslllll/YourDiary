@@ -1,0 +1,1 @@
+colocar background customizavel, o usuario upa o background que quer, mas tera um default para todo mundo

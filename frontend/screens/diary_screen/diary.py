@@ -43,6 +43,8 @@ class Diary(MDScreen):
         # print(App.get_running_app().get_root().root)
         self.count = "0"
         self.texto_alert = ""
+        
+        
 
     def on_pre_enter(self):
         Window.bind(on_request_close=self.confirmacao)
@@ -50,7 +52,7 @@ class Diary(MDScreen):
         self.var_previous_page = 0
         self.var_atual_page = 1
         self.var_next_page = 2
-        
+        self.manager.background_annotation = "assets/imagens/yourdiary-logo.png"
 
 
     def on_pre_leave(self):
