@@ -1,6 +1,6 @@
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.properties import ListProperty, NumericProperty, StringProperty
+from kivy.properties import ListProperty, NumericProperty, StringProperty, ObjectProperty
 
 from kivymd.uix.snackbar import BaseSnackbar
 from kivymd.uix.screen import MDScreen
@@ -37,14 +37,14 @@ class DiaryList(MDScreen):
         self.ids.idlist.clear_widgets()
 
     def on_start(self, *args):
-        annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
-        annotations = annotations.get()
+        annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+        annotations = annotations.filter_by_id(id_object=self.manager.user_id)
         
 
         if type(annotations) is dict:
             for i_annotations in annotations["results"]:
                 self.ids.idlist.add_widget(
-                    SwipeToDeleteItem(note_id=i_annotations['id'], text=i_annotations['name'], url_image=i_annotations['thumb'])
+                    SwipeToDeleteItem(diary_list_screen=self, id_annotation=i_annotations['id'], text=i_annotations['name'], url_image=i_annotations['thumb'])
                 )
 
 
@@ -52,13 +52,13 @@ class DiaryList(MDScreen):
     def next_page(self, page, voltar=False):
         self.ids.idlist.clear_widgets()
 
-        annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
-        annotations = annotations.get(page=page)
+        annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+        annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=page)
 
         if type(annotations) is dict:
             for i_annotations in annotations["results"]:
                 self.ids.idlist.add_widget(
-                    SwipeToDeleteItem(note_id=i_annotations['id'], text=i_annotations['name'], url_image=i_annotations['thumb'])
+                    SwipeToDeleteItem(diary_list_screen=self, id_annotation=i_annotations['id'], text=i_annotations['name'], url_image=i_annotations['thumb'])
                 )
 
             if voltar == False:
@@ -67,7 +67,6 @@ class DiaryList(MDScreen):
             else:
                 self.var_next_page -= 1
                 self.var_previous_page -= 1
-        
 
 
 
@@ -134,6 +133,15 @@ class DiaryList(MDScreen):
 
 class SwipeToDeleteItem(MDCardSwipe):
     text = StringProperty()
-    note_id = NumericProperty()
+    id_annotation = NumericProperty()
+    date_annotation = StringProperty("Unknown")
     url_image = StringProperty()
-    managerer = DiaryList()
+    diary_list_screen = ObjectProperty()
+
+
+    def edit_annotation(self):
+        self.diary_list_screen.manager.current_view_annotation = self.id_annotation
+        self.diary_list_screen.manager.current = "diary_edit_name"
+
+
+

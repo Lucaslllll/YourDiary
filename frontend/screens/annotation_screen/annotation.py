@@ -93,7 +93,7 @@ class Annotation(MDScreen):
         
 
         if type(annotation) is dict:
-            date = annotation['date'].split("T")[0]
+            date = annotation['date'].split("T")[0].replace("-", "/")
             author_ob = AccessDB(name_url="accounts/users", tag="USERS")
             author_ob = author_ob.get(id_object=annotation['author'])
 

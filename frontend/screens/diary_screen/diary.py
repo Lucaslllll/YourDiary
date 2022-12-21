@@ -102,7 +102,7 @@ class Diary(MDScreen):
                 for i_annotations in annotations["results"]:
                     await asynckivy.sleep(1)
                     self.ids.box.add_widget(
-                        MDCardDiary(diary_screen=self, id_annotation=i_annotations["id"], 
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
                                     image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
                                     text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
                     )
@@ -154,7 +154,7 @@ class Diary(MDScreen):
                 for i_annotations in annotations["results"]:
                     await asynckivy.sleep(1)
                     self.ids.box.add_widget(
-                        MDCardDiary(diary_screen=self, id_annotation=i_annotations["id"], 
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
                                     image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
                                     text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
                     )
@@ -181,7 +181,7 @@ class Diary(MDScreen):
                 for i_annotations in annotations["results"]:
                     await asynckivy.sleep(1)
                     self.ids.box.add_widget(
-                        MDCardDiary(diary_screen=self, id_annotation=i_annotations["id"], 
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
                                 image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
                                 text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
                     )
@@ -337,15 +337,21 @@ class MDCardDiary(MDBoxLayout):
     id_annotation = NumericProperty()
     image_thumb = StringProperty()
     text = StringProperty()
+    date_annotation = StringProperty()
     image_thumb_none = "/home/Lucas/Documentos/YourDiary/frontend/assets/imagens/yourdiary-logo.png"
     diary_screen = ObjectProperty()
 
-    def __init__(self, diary_screen, id_annotation=-1, text="none", image_thumb=image_thumb_none, **kwargs):
+    def __init__(self, diary_screen, date_annotation, id_annotation=-1, text="none", image_thumb=image_thumb_none, **kwargs):
         super(MDCardDiary, self).__init__(**kwargs)
         self.text = text
         self.id_annotation = id_annotation
         self.image_thumb = image_thumb
         self.diary_screen = diary_screen
+        if date_annotation != None:
+            self.date_annotation = date_annotation.split("T")[0].replace("-", "/")
+
+        else:
+            self.date_annotation = "Unknown Date"
 
     def read_more(self):
         self.diary_screen.manager.current_view_annotation = self.id_annotation

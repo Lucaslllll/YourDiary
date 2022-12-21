@@ -1,0 +1,121 @@
+<DiaryEdit>
+    MDBoxLayout:
+        id: form_diary_edit
+        orientation: "vertical"
+        spacing: "30dp"
+
+        # FitImage:
+            
+            
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: "vertical"
+                padding: "20dp"
+                spacing: "30dp"
+                size_hint_y: None
+                height: self.minimum_height+100
+
+                
+
+                MDTextField:
+                    id: id_note_name
+                    hint_text: "Título"
+                    max_text_length: 150
+                    line_color_normal: 1, 0, 1, 1
+                    text_color_focus: 0, 0, 0, 1
+                    
+                MDTextField:
+                    id: id_note_preview
+                    hint_text: "prévia"
+                    max_text_length: 150
+                    multiline: True
+                    line_color_normal: 1, 0, 1, 1
+                    text_color_focus: 0, 0, 0, 1
+                    
+
+                MDTextFieldRect:
+                    id: id_note_text
+                    hint_text: "Texto"
+                    line_color_normal: 1, 0, 1, 1
+                    text_color_focus: 0, 0, 0, 1
+                    multiline: True
+                    mode: "round"
+                    fill_color: 1, 0, 0, 1
+                    size_hint_y:None
+                    height:"200dp"
+
+
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+
+                    MDLabel:
+                        text: "Público"
+
+
+                    MDSwitch:
+                        id: id_note_public
+                        width: dp(34)
+                        pos_hint: {"center_y": .5}
+                        icon_active_color: "white"
+                        thumb_color_inactive: "grey"
+                        track_color_inactive: "grey"
+
+                MDLabel:
+                    text: "Categoria"
+
+
+                ScrollView:
+                    size_hint_y: None
+                    height: "150dp"
+
+                    MDList:
+                        id: scroll_edit_id
+
+
+
+
+                MDRoundFlatIconButton:
+                    text: "Imagem"
+                    icon: "folder"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    on_release: root.file_manager_open()
+
+
+                MDFlatButton:
+                    id: id_note_enviar
+                    text: "Entrar"
+                    theme_text_color: "Custom"
+                    md_bg_color: 0.2, 1, 0.2, 1
+                    text_color: 1, 1, 1, 1
+                    on_release: root.send_annotation()
+                    on_press: root.on_press_spinner()
+                    
+
+                MDSpinner:
+                    id: load_spinner_note
+                    size_hint: None, None
+                    size: dp(20), dp(20)
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    #active: True if root.load_if == True else False
+                    active: False
+                    determinate_time: 0
+
+
+#customs classes
+
+<CheckEditCategory>:
+    orientation: "horizontal"
+    size_hint_y: None
+    height: self.minimum_height
+
+    MDLabel:
+        text: root.text
+
+    MDCheckbox:
+        size_hint: None,None
+        size: "48dp", "48dp"
+        pos_hint: {"center_y": 0.5}
+        on_active: root.on_checkbox_active(*args)

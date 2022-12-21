@@ -49,6 +49,9 @@
                     on_release: root.next_page(root.var_next_page, voltar=False)
 
 
+
+# customs
+
 <SwipeToDeleteItem>:
     size_hint_y: None
     height: content.height
@@ -78,7 +81,21 @@
                 MDLabel:
                     text: root.text
 
+                    MDFloatingActionButton:
+                        text: "Edit"
+                        md_bg_color: "purple"
+                        icon: "pencil"
+                        pos_hint: {"center_y": 0.5}
+                        on_release: root.edit_annotation()
+
+
+                
                 FitImage:
                     size_hint_y: None
                     height: root.height-50
                     source: root.url_image
+
+                    # MDLabel:
+                    #     text: root.date_annotation                
+
+

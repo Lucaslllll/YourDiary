@@ -38,7 +38,7 @@ class TestCrudInTable(object):
             
         }
 
-    def execute(self, method, name_url="annotations/"):
+    def execute(self, method, name_url="annotations/", id_object=None):
 
         try:  
             # se não for post nem put, então AssertionError será método inválido
@@ -48,8 +48,9 @@ class TestCrudInTable(object):
                 annotations.post(data=self.dados, files=self.image)
             elif method == "PUT":
                 annotations = AccessDB(name_url=name_url, tag="ANNOTATIONS")
-                annotations.put(data=self.dados, files=self.image)
+                annotations.put(id_object=id_object, data=self.dados, files=self.image)
 
+            
         except AssertionError as msg:
             print(msg)
 
@@ -60,6 +61,8 @@ test.load()
 if len(sys.argv) > 1:
     if len(sys.argv) == 3:
         test.execute(method=sys.argv[1], name_url=sys.argv[2])
+    elif len(sys.argv) == 4:
+        test.execute(method=sys.argv[1], name_url=sys.argv[2], id_object=sys.argv[3])
     else:
         test.execute(method=sys.argv[1])
 

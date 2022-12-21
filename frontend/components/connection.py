@@ -179,6 +179,45 @@ class AccessDB(object):
         # print(requisicao.content)
         return False
 
+    def put(self, data, id_object, files=None, *args, **kwargs):
+        auth = Authenticat()
+        resposta = auth.do_auth()
+
+        self.token_access = auth.get_token()
+        self.token_refresh = auth.get_token_refresh()
+
+
+        head = {'Authorization': 'Bearer {}'.format(self.token_access)}
+
+
+        if files != None:
+            try:
+                requisicao = requests.put(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, files=files,
+                                            headers=head)
+            except:
+                return "Error ao Fazer Requisição ao Servidor"
+        else:
+            try:
+                requisicao = requests.put(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, headers=head)
+            except:
+                return "Error ao Fazer Requisição ao Servidor"
+
+
+        print(requisicao.json())
+        # codigo 201 é para create
+        if requisicao.status_code == 201:
+            return True
+        elif requisicao.status_code == 200:
+            return requisicao.json()
+        elif requisicao.status_code == 401:
+            return "Sem Autorização"
+        else:
+            return "Erro Inesperado"
+
+
+        # print(requisicao.content)
+        return False
+
     
     # annotations/by/author/<int:pk> or annotations/by/author/<int:pk>?page=nº => nesse formato para usar os filtros
     def filter_by_id(self, id_object=None, page=None):
