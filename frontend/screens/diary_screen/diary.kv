@@ -20,7 +20,7 @@
                 name: 'screen 1'
                 text: 'Global'
                 icon: 'web'
-                badge_icon: "numeric-10"
+                # badge_icon: "numeric-10"
 
 
                 
@@ -71,7 +71,7 @@
                 name: 'screen 2'
                 text: 'Pessoal'
                 icon: 'bag-personal'
-                badge_icon: "numeric-5"
+                # badge_icon: "numeric-5"
 
                 
 
@@ -242,10 +242,13 @@
                 DrawerLabelItem:
                     icon: "information-outline"
                     text: "Sobre o app"
+                    on_release: root.see_help()
 
                 DrawerLabelItem:
                     icon: "handshake-outline"
                     text: "Ajude o app"
+                    on_release: root.see_donate()
+
 
 
 #custons classes

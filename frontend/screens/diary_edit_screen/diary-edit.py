@@ -91,7 +91,6 @@ class DiaryEdit(MDScreen):
 
 
     def send_annotation(self, *args):
-        print(self.id_category_select)
         data = {
             "name": self.ids.id_note_name.text,
             "preview": self.ids.id_note_preview.text,

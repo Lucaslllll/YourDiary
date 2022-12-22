@@ -37,6 +37,7 @@ class Favorite(models.Model):
 
 class Reports(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
+	author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 	title = models.CharField(max_length=255)
 	details = models.TextField()
 

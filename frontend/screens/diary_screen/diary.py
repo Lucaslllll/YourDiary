@@ -296,6 +296,49 @@ class Diary(MDScreen):
 
     # fim part of form annotation
 
+    # options of configurations
+
+    def see_help(self):
+        strin = "\n  O intuito é criar uma rede social para desabafar ou colocar as situações do dia a dia"\
+                "\n  Na forma de um diário digital, onde pode vir a servir como terapia para angustias e coisas que não podemos falar para qualquer um"\
+
+        self.dialog = MDDialog(
+            title="Sobre",
+            text=strin,
+            md_bg_color=(1,1,1,1),
+            buttons=[
+                MDFlatButton(
+                    text="Sair",
+                    theme_text_color="Custom",
+                    text_color=(0,0,0,1),
+                    on_release=self.closeDialog
+                ),
+            ],
+        )
+    
+        self.dialog.open()
+
+    def see_donate(self):
+        strin = "\n  Quem puder ajudar com qualquer valor para melhoria da infraestrutura, funcionalidades ou até para pagar um café :) doe"\
+                "\n\n Paypal: "\
+                "\n Pix: "\
+                "\n\n Aplicativo em fase beta. Mais atualizações em breve... "
+
+        self.dialog = MDDialog(
+            title="Ajude o App",
+            text=strin,
+            md_bg_color=(1,1,1,1),
+            buttons=[
+                MDFlatButton(
+                    text="Sair",
+                    theme_text_color="Custom",
+                    text_color=(0,0,0,1),
+                    on_release=self.closeDialog
+                ),
+            ],
+        )
+    
+        self.dialog.open()
 
     # sair do app 
     def confirmacao(self, *args, **kwargs):

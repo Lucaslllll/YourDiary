@@ -7,7 +7,7 @@ class Authenticat(object):
         self.token_access = None
         self.token_refresh = None
         self.url_token = url_token
-
+        
 
     def do_auth(self):
         valores = {
@@ -203,7 +203,6 @@ class AccessDB(object):
                 return "Error ao Fazer Requisição ao Servidor"
 
 
-        print(requisicao.json())
         # codigo 201 é para create
         if requisicao.status_code == 201:
             return True
