@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework import routers
-from .api import CategoryViewSet, AnnotationViewSet, AnnotationByAuthor
+from .api import CategoryViewSet, AnnotationViewSet, AnnotationByAuthor, AnnotationPublic
 from rest_framework.authtoken import views
     
 
@@ -17,5 +17,6 @@ urlpatterns = router.urls
 
 urlpatterns += [
     path('annotations/by/author/<int:pk>', AnnotationByAuthor.as_view(), name='annotation_author'),
+    path('annotations/public', AnnotationPublic.as_view(), name='annotation_public'),
     
 ]

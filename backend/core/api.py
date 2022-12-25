@@ -17,7 +17,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class AnnotationViewSet(viewsets.ModelViewSet):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     queryset = Annotation.objects.all()
     serializer_class = AnnotationSerializer
     pagination_class = StandardResultsSetPagination
@@ -25,9 +25,17 @@ class AnnotationViewSet(viewsets.ModelViewSet):
 
 class AnnotationByAuthor(generics.ListAPIView):
     serializer_class = AnnotationSerializer
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         author = self.kwargs['pk']
         return Annotation.objects.filter(author=author)
+
+class AnnotationPublic(generics.ListAPIView):
+    serializer_class = AnnotationSerializer
+    # permission_classes = (IsAuthenticated, )
+    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        return Annotation.objects.filter(public=True)

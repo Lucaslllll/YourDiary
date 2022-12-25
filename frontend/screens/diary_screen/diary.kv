@@ -45,14 +45,20 @@
                             text: "Favoritos"
                             icon: "star"
 
-                    ScrollView:
+
+
+                    MDScrollViewRefreshLayout:
+                        id: refresh_layout_global
+                        refresh_callback: root.refresh_callback_global
+                        root_layout: root
 
                         MDBoxLayout:
+                            id: box_global
                             orientation: "vertical"
-                            padding: "20dp"
-                            spacing: "30dp"
                             size_hint_y: None
-                            height: self.minimum_height+100
+                            height: self.minimum_height
+                            spacing: "30dp"
+                            padding: "10dp"
                             
                             
 
@@ -353,6 +359,50 @@
             pos_hint: {'center_x': .6}                
             on_release: root.screen.next_page(voltar=False)
             # on_release: app.appname.next_page(1, voltar=False)
+
+
+<SelectPageGlobal>:
+    orientation: "horizontal"
+    size_hint: None, None
+    width: "300dp"
+    height: self.minimum_height+50
+    pos_hint: {"center_x": .5}
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: previous_diary_id
+            text: "<< previous"
+            theme_text_color: "Custom"
+            text_color: "#E2F14F"
+            pos_hint: {'center_x': .4}
+            on_release: root.screen.next_page_global(voltar=True)
+            # on_release: app.manager.diary_id.root.next_page(root.var_previous_page, voltar=True)
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: count_diary_id
+            text: root.screen.count_global
+            theme_text_color: "Custom"
+            text_color: "#48D79F"
+            pos_hint: {'center_x': .5}
+
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: next_diary_id
+            text: "next >>"
+            theme_text_color: "Custom"
+            text_color: "#0BD126"
+            pos_hint: {'center_x': .6}                
+            on_release: root.screen.next_page_global(voltar=False)
+            # on_release: app.appname.next_page(1, voltar=False)
+
 
 # components
 

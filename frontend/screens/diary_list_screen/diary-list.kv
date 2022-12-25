@@ -5,7 +5,7 @@
 
         MDTopAppBar:
             elevation: 4
-            title: "Suas Anotações - Edição"
+            title: "Arraste Para Editar"
             md_bg_color: 0.1, 0, 0.1, 1
 
         MDScrollView:
@@ -55,47 +55,54 @@
 <SwipeToDeleteItem>:
     size_hint_y: None
     height: content.height
-    on_swipe_complete: root.parent.parent.parent.parent.on_swipe_complete(root)
+    # on_swipe_complete: root.parent.parent.parent.parent.on_swipe_complete(root)
     # on_swipe_complete: root.managerer.on_swipe_complete(root) isso não dá certo porque cria uma cópia e não tem acesso ao original, é interessante para obter dados antes de modifica-los
+    # o de cima só dá certo se passar a referência, em baixo eu mando o self no .py
+    # on_swipe_complete: root.diary_list_screen.on_swipe_complete(root) funfa
     
     MDCardSwipeLayerBox:
         padding: "8dp"
 
-        # MDIconButton:
-        #     md_bg_color: 1, 1, 0, 1
-        #     icon: "trash-can"
-        #     pos_hint: {"center_y": .5}
-        #     on_release: self.parent.parent.managerer.remove_item_for_icon(root)
+        MDBoxLayout:
+            orientation: "vertical"
+            
+            MDIconButton:
+                icon: "trash-can"
+                md_bg_color: 1, 0, 0, 1
+                # pos_hint: {"center_y": .9}
+                on_release: root.diary_list_screen.on_swipe_complete(root)
+
+            
+            MDFloatingActionButton:
+                text: "Edit"
+                md_bg_color: "purple"
+                icon: "pencil"
+                # pos_hint: {"center_y": 0.5}
+                on_release: root.edit_annotation()
+
 
     MDCardSwipeFrontBox:
+        md_bg_color: 0.7, 0.7, 0.7, 0.5
 
-        # Content of card.
         OneLineListItem:
             id: content
             height: "200dp"
             _no_ripple_effect: True
+            text: root.text
+            bold: True
 
             MDBoxLayout:
                 orientation: "horizontal"
 
+                # qualquer widget serve
                 MDLabel:
-                    text: root.text
-
-                    MDFloatingActionButton:
-                        text: "Edit"
-                        md_bg_color: "purple"
-                        icon: "pencil"
-                        pos_hint: {"center_y": 0.5}
-                        on_release: root.edit_annotation()
-
-
-                
+                    text: "" 
+                    
                 FitImage:
                     size_hint_y: None
                     height: root.height-50
                     source: root.url_image
+                    pos_hint: {"center_y": 0.6}
 
-                    # MDLabel:
-                    #     text: root.date_annotation                
-
+                             
 

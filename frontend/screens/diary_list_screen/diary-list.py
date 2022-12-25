@@ -29,6 +29,7 @@ class DiaryList(MDScreen):
         Window.bind(on_request_close=self.voltar_android)
         Clock.schedule_once(self.on_start, 1)
         self.var_previous_page = 0
+        self.var_atual_page = 1
         self.var_next_page = 2
 
     def on_pre_leave(self):
@@ -55,18 +56,36 @@ class DiaryList(MDScreen):
         annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
         annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=page)
 
+        
+
+        if voltar == False:
+            # para frente
+            annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_next_page)
+
+
+            self.var_previous_page = self.var_atual_page
+            self.var_atual_page = self.var_next_page
+            self.var_next_page += 1
+
+
+        
+        elif voltar == True:
+            # para trás
+            annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_previous_page)
+            
+
+            self.var_atual_page = self.var_previous_page
+            self.var_previous_page = self.var_atual_page - 1
+            self.var_next_page = self.var_atual_page + 1
+
+
         if type(annotations) is dict:
             for i_annotations in annotations["results"]:
                 self.ids.idlist.add_widget(
                     SwipeToDeleteItem(diary_list_screen=self, id_annotation=i_annotations['id'], text=i_annotations['name'], url_image=i_annotations['thumb'])
                 )
-
-            if voltar == False:
-                self.var_next_page += 1
-                self.var_previous_page += 1                
-            else:
-                self.var_next_page -= 1
-                self.var_previous_page -= 1
 
 
 
@@ -105,6 +124,7 @@ class DiaryList(MDScreen):
     # choices
     def closeDialog(self, inst):
         self.dialog.dismiss()
+
 
     def sure_of_delete(self, instance):
         annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")

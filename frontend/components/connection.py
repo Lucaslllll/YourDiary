@@ -80,7 +80,7 @@ class AccessDB(object):
             
             if page != None:
                 try:
-                    request = requests.get(self.url+self.name_url+"/?page={}".format(page), headers=head)
+                    request = requests.get(self.url+self.name_url+"?page={}".format(page), headers=head)
                 except:
                     return "Error ao Fazer Requisição ao Servidor"                
             
@@ -93,7 +93,7 @@ class AccessDB(object):
                 
                 else:
                     try:
-                        request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head)
+                        request = requests.get(self.url+self.name_url+"{}".format(id_object), headers=head)
                     except:
                         return "Error ao Fazer Requisição ao Servidor"
 
@@ -172,6 +172,8 @@ class AccessDB(object):
             return requisicao.json()
         elif requisicao.status_code == 401:
             return "Sem Autorização"
+        elif requisicao.status_code == 400:
+            return "Falta ou Dado Já Repetido Por Outros"
         else:
             return "Erro Inesperado"
 

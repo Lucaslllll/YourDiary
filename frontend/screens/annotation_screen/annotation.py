@@ -101,7 +101,7 @@ class Annotation(MDScreen):
             self.ids.image_annotation.source = annotation['thumb']
             self.ids.details_annotation.text = annotation['text']
             self.ids.toolbarNoticia.title = date
-            self.ids.author_annotation.text = author_ob['username']
+            self.ids.author_annotation.text = "@"+author_ob['username']
             self.ids.edit_annotation.text = "Edited " if annotation['edit'] else "Not Edited"
             self.ids.public_annotation.text = "Public " if annotation['public'] else "Personal"
 

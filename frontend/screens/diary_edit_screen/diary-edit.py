@@ -18,6 +18,7 @@ from components.connection import AccessDB
 from kaki.app import App
 import datetime
 import os
+from kivy.utils import platform
 
 class DiaryEdit(MDScreen):
     def __init__(self, **kwargs):
@@ -68,8 +69,21 @@ class DiaryEdit(MDScreen):
 
     # part of form annotation
     def file_manager_open(self):
-        self.file_manager.show(os.path.expanduser("~"))
-        self.manager_open = True
+        if platform != 'android' :
+            self.file_manager.show(os.path.expanduser("~"))
+            self.manager_open = True
+
+        else:
+            import android
+            from android.storage import primary_external_storage_path
+            from android.permissions import request_permissions, Permission
+            
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
+            ext_path = primary_external_storage_path()
+            path = os.path.join(ext_path,'Downloads')
+
+            self.file_manager.show(path)
+            self.manager_open = True  
 
     def select_path(self, path: str):
         self.exit_manager()

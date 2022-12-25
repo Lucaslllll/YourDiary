@@ -20,6 +20,12 @@ class Login(MDScreen):
     dialog = None
     texto_alert = ""
 
+    def on_pre_enter(self):
+        Window.bind(on_request_close=self.confirmacao)
+
+    def on_pre_leave(self):
+        Window.unbind(on_request_close=self.confirmacao)        
+
     def alert_error_connection(self, *args):
         snackbar = Snackbar(
                 text=self.texto_alert,
@@ -53,7 +59,8 @@ class Login(MDScreen):
 
             self.path = App.get_running_app().user_data_dir+"/"
             store = JsonStore(self.path+'data.json')
-            store.put('user', id=resposta['id'])    
+            store.put('user', id=resposta['id'])   
+            self.manager.user_id = resposta['id'] 
             
             self.pass_of_login()
         else:
@@ -93,3 +100,36 @@ class Login(MDScreen):
         # desligando o spinner
         Clock.schedule_once(self.timeout_spinner, 3)
 
+
+    def confirmacao(self, *args, **kwargs):
+        # self.add_widget(self.dialog)
+
+    
+        self.dialog = MDDialog(
+            text="Deseja realmente sair?",
+            md_bg_color=(1,1,1,1),
+            buttons=[
+                MDFlatButton(
+                    text="Não",
+                    theme_text_color="Custom",
+                    text_color=(0,0,0,1),
+                    on_release=self.closeDialog
+                ),
+
+                MDFlatButton(
+                    text="Sair",
+                    theme_text_color="Custom",
+                    text_color=(0,0,0,1),
+                    on_release=App.get_running_app().stop
+                ),
+            ],
+        )
+    
+        self.dialog.open()
+
+        # tem que retorna um True para on_request_close
+        # se não não abre o dialog
+        return True
+
+    def closeDialog(self, inst):
+        self.dialog.dismiss()
