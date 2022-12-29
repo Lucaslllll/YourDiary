@@ -167,7 +167,7 @@ class Diary(MDScreen):
         if voltar == False:
             # para frente
             annotations = AccessDB(name_url="annotations/public", tag="ANNOTATIONS")
-            annotations = annotations.get(id_object=self.manager.user_id, page=self.var_next_page)
+            annotations = annotations.get(id_object=self.manager.user_id, page=self.var_next_page_global)
 
 
             self.var_previous_page_global = self.var_atual_page_global
@@ -179,7 +179,7 @@ class Diary(MDScreen):
         elif voltar == True:
             # para trás
             annotations = AccessDB(name_url="annotations/public", tag="ANNOTATIONS")
-            annotations = annotations.get(id_object=self.manager.user_id, page=self.var_previous_page)
+            annotations = annotations.get(id_object=self.manager.user_id, page=self.var_previous_page_global)
             
 
             self.var_atual_page_global = self.var_previous_page_global
@@ -362,7 +362,6 @@ class Diary(MDScreen):
 
     # part of form annotation
     def file_manager_open(self):
-        print(platform)
         if platform != 'android' :
             self.file_manager.show(os.path.expanduser("~"))
             self.manager_open = True

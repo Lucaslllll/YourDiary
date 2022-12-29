@@ -34,7 +34,7 @@ class AnnotationByAuthor(generics.ListAPIView):
 
 class AnnotationPublic(generics.ListAPIView):
     serializer_class = AnnotationSerializer
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):

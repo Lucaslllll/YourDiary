@@ -3,13 +3,13 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.contrib.auth.hashers import make_password, check_password
 
-from .models import User
-from .serializers import UserSerializer, LoginSerializer
+from .models import User, Message
+from .serializers import UserSerializer, LoginSerializer, MessageSerializer, MessageCreateSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -34,3 +34,100 @@ class LoginAPI(generics.GenericAPIView):
                             "email" : userOb.email,
                         
                         })
+
+class MessagesAPI(generics.GenericAPIView):
+    # permission_classes = (IsAuthenticated, )
+    serializer_class = MessageSerializer
+
+
+    # def get(self, request, *args, **kwargs):
+    #     author = self.kwargs['pk_sender']
+    #     receiver = self.kwargs['pk_receiver']
+        
+    #     return Response(
+    #                         Message.objects.filter(sender=author, receiver=receiver)
+    #                 )
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if serializer.validated_data:
+            sender = request.data['sender']
+            receiver = request.data['receiver']
+
+            dict_msg = {}; n = 0;
+
+            for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
+                dict_msg[n] = pk['id']
+                n += 1
+            for pk in Message.objects.filter(sender=receiver, receiver=sender).values():
+                dict_msg[n] = pk['id']
+                n += 1
+
+
+
+            lista = [None]*len(dict_msg); n = 0
+
+            # dict_msg dentro da lista
+            for i in dict_msg.values():
+                lista[n] = { 
+                    'id': Message.objects.get(pk=i).id,
+                    'text': Message.objects.get(pk=i).text,
+                    'seen': Message.objects.get(pk=i).seen,
+                    'sender': Message.objects.get(pk=i).sender.id,
+                    'receiver': Message.objects.get(pk=i).receiver.id,
+                    'date': Message.objects.get(pk=i).date
+
+                }
+                n += 1
+
+            list_definitive = sorted(lista, key=lambda k: k['date']) 
+            # dic_definitives = {}; contador = 0
+            # for dic in lista:
+            #     dic_definitives[contador] = dic
+            #     contador += 1
+            # print(dic_definitives)
+            # ordenado = sorted(dic_definitives, key=lambda dic_definitive: dic_definitives[dic_definitive]['date'])
+            # print(dic_definitives)
+            return Response({"results": list_definitive})
+
+        else:
+            return Response(
+                {"results": serializer.validated_data}
+            )
+        
+
+class MessagesCreateAPI(generics.CreateAPIView):
+    # permission_classes = (IsAuthenticated, )
+    serializer_class = MessageCreateSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if serializer.validated_data:
+
+
+            try:
+                sender_ob = User.objects.get(id=request.data['sender'])
+                receiver_ob = User.objects.get(id=request.data['receiver'])
+                
+                
+                dict_msg = {
+                    "text": request.data["text"]
+                }
+                
+                msg = Message(**dict_msg, sender=sender_ob, receiver=receiver_ob)
+                msg.save()
+            except Exception as e:
+                return Response({"results": e})
+
+            return Response({
+                    "results": serializer.validated_data
+                })
+
+        else:
+            return Response({
+                "results": serializer.validated_data
+                })

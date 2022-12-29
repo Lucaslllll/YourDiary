@@ -93,11 +93,17 @@
                         valign: "center"
                         text: "Not Public"
 
-                MDLabel:
-                    id: author_annotation
+                MDBoxLayout:
+                    orientation: "horizontal"
                     size_hint_y: None
-                    height: self.texture_size[1]
-                    text_size: self.width, None
-                    halign: "center"
-                    valign: "center"
-                    text: "Author: Lucaslllll"
+                    height: self.minimum_height
+                    
+                    MDFlatButton:
+                        id: author_annotation
+                        size_hint_y: None
+                        # height: self.texture_size[1]             isso é para label
+                        text_size: self.width, None      
+                        halign: "center"
+                        valign: "center"
+                        text: "Author: Lucaslllll"
+                        on_release: root.go_chat()

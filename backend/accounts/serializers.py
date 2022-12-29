@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
-from .models import User
+from .models import User, Message
 
 
 
@@ -38,3 +38,14 @@ class LoginSerializer(serializers.Serializer):
 
 
         return data
+
+
+class MessageSerializer(serializers.Serializer):
+    sender = serializers.CharField()
+    receiver = serializers.CharField()
+
+
+class MessageCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'

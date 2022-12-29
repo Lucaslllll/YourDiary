@@ -128,7 +128,7 @@ class DiaryList(MDScreen):
 
     def sure_of_delete(self, instance):
         annotations = AccessDB(name_url="annotations", tag="ANNOTATIONS")
-        annotations.delete(id_object=self.instance_to_delete.note_id)
+        annotations.delete(id_object=self.instance_to_delete.id_annotation)
         
         self.ids.idlist.remove_widget(self.instance_to_delete)
         self.dialog.dismiss()

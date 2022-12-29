@@ -164,7 +164,7 @@ class AccessDB(object):
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
-
+        # print(requisicao.text)
         # codigo 201 é para create
         if requisicao.status_code == 201:
             return True

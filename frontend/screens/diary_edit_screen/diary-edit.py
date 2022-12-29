@@ -38,7 +38,7 @@ class DiaryEdit(MDScreen):
         self.on_start()
         
     def on_start(self, *args):
-        categories = AccessDB(name_url="categories", tag="CATEGORIES")
+        categories = AccessDB(name_url="categories/", tag="CATEGORIES")
         categories = categories.get()
 
         
@@ -49,7 +49,7 @@ class DiaryEdit(MDScreen):
                     
                 )
 
-        annotation = AccessDB(name_url="annotations", tag="ANNOTATIONS")
+        annotation = AccessDB(name_url="annotations/", tag="ANNOTATIONS")
         user_ob = annotation.get(id_object=self.manager.current_view_annotation)
 
         if type(user_ob) is dict:

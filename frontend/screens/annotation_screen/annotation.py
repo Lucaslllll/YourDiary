@@ -20,6 +20,8 @@ class Annotation(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.list_of_members_chips = []
+        self.user_to_chat = None
+        self.update_msg_event = None
         menu_items = [
             {
                 "viewclass": "OneLineListItem",
@@ -86,7 +88,7 @@ class Annotation(MDScreen):
         Window.bind(on_request_close=self.voltar_android)
 
         id_annotation = self.manager.current_view_annotation
-        annotation = AccessDB(name_url="annotations", tag="ANNOTATIONS")
+        annotation = AccessDB(name_url="annotations/", tag="ANNOTATIONS")
         annotation = annotation.get(id_object=id_annotation)
        
 
@@ -94,8 +96,11 @@ class Annotation(MDScreen):
 
         if type(annotation) is dict:
             date = annotation['date'].split("T")[0].replace("-", "/")
-            author_ob = AccessDB(name_url="accounts/users", tag="USERS")
+            author_ob = AccessDB(name_url="accounts/users/", tag="USERS")
             author_ob = author_ob.get(id_object=annotation['author'])
+
+            self.user_to_chat = annotation['author']
+
 
             self.ids.title_annotation.text = annotation['name']
             self.ids.image_annotation.source = annotation['thumb']
@@ -107,7 +112,7 @@ class Annotation(MDScreen):
 
             
             for category in annotation['category']:
-                category_ob = AccessDB(name_url="categories", tag="CATEGORIES")
+                category_ob = AccessDB(name_url="categories/", tag="CATEGORIES")
                 category_ob = category_ob.get(id_object=category)
 
                 atual_chip = MDChip(id=str(category_ob['id']), text=category_ob['name'])
@@ -133,6 +138,10 @@ class Annotation(MDScreen):
         self.manager.current = text_item
 
 
+    def go_chat(self):
+        self.manager.user_id_chat = self.user_to_chat
+        self.manager.current = "chat_name"
+
 
     def voltar_android(self, *args, **kwargs):
         self.manager.current = "diary_name"
@@ -146,3 +155,4 @@ class Annotation(MDScreen):
             return True
 
         return False
+        

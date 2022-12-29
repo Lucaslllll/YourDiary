@@ -1,0 +1,90 @@
+<Chat>
+    MDBoxLayout:
+        orientation: "vertical"
+
+
+        MDTopAppBar:
+            title: ""
+            id: toolbarNoticia
+            md_bg_color: 1, 0.5, 0.5, 1
+            use_overflow: True
+            #overflow_cls: CustomDropMenu()
+
+            right_action_items: 
+                [
+                ["dots-vertical", lambda x: root.DropApp(x), "Opções", "Opções"],
+                ]
+
+        MDBoxLayout:
+            size_hint_y: 4
+            md_bg_color: 1, 1, 1, 1
+
+            ScrollView:
+                scroll_y: 0
+                
+                MDBoxLayout:
+                    id: box_chat
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "30dp"
+                    spacing: "30dp"
+                    
+
+               
+               
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            spacing: "20dp"
+            size_hint_y: 0.5
+
+            ScrollView:
+                size_hint_x: 4
+                scroll_y: 0
+
+                MDTextField:
+                    id: chat_keyboard
+                    multiline: True
+                    height: "100dp" # para funcionar o scroll_y tem definir altura
+                    # valign: 'middle'
+                    # x: root.ids['chat_keyboard'].x + 10
+                    # y: root.ids['chat_keyboard'].y + 5
+                    # size: root.width - 80, 33
+
+
+            MDIconButton:
+                id: sender_keyboard
+                size_hint_x: 1
+                md_bg_color: 1, 0, 0, 0.3
+                icon: "send"
+                on_release: root.send_message()
+
+
+
+<MessageLayout>:
+    id: box_message
+    size_hint_y: None
+    height: self.minimum_height
+    pos_hint: {"center_x": 0.6}
+    md_bg_color: 0.8, 0.8, 0.8, 1
+    radius: 10
+
+
+<Message>:
+    allow_selection: True
+    allow_copy: True
+    color: 0, 0, 0, 1
+
+<MessageOtherLayout>:
+    id: box_message
+    size_hint_y: None
+    height: self.minimum_height
+    pos_hint: {"center_x": 0.4}
+    md_bg_color: 0.1, 0.3, 0.8, 0.8
+    radius: 10
+
+
+<MessageOther>:
+    allow_selection: True
+    allow_copy: True

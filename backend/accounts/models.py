@@ -11,3 +11,13 @@ class User(models.Model):
 	def __str__(self):
 		return self.username
 
+
+class Message(models.Model):
+	text = models.CharField(max_length=255)
+	date = models.DateTimeField(auto_now_add=True)
+	sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+	receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receivers')
+	seen = models.BooleanField(default='False')
+
+	def __str__(self):
+		return self.text
