@@ -10,14 +10,12 @@ from rest_framework.permissions import IsAuthenticated
 
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
 class LoginAPI(generics.GenericAPIView):
     permission_classes = (IsAuthenticated, )
-    
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
@@ -36,7 +34,7 @@ class LoginAPI(generics.GenericAPIView):
                         })
 
 class MessagesAPI(generics.GenericAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = MessageSerializer
 
 
@@ -58,13 +56,17 @@ class MessagesAPI(generics.GenericAPIView):
 
             dict_msg = {}; n = 0;
 
-            for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
-                dict_msg[n] = pk['id']
-                n += 1
-            for pk in Message.objects.filter(sender=receiver, receiver=sender).values():
-                dict_msg[n] = pk['id']
-                n += 1
-
+            if sender != receiver:
+                for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
+                    dict_msg[n] = pk['id']
+                    n += 1
+                for pk in Message.objects.filter(sender=receiver, receiver=sender).values():
+                    dict_msg[n] = pk['id']
+                    n += 1
+            else:
+                for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
+                    dict_msg[n] = pk['id']
+                    n += 1
 
 
             lista = [None]*len(dict_msg); n = 0
@@ -90,7 +92,9 @@ class MessagesAPI(generics.GenericAPIView):
             # print(dic_definitives)
             # ordenado = sorted(dic_definitives, key=lambda dic_definitive: dic_definitives[dic_definitive]['date'])
             # print(dic_definitives)
-            return Response({"results": list_definitive})
+            return Response(
+                {"results": list_definitive}
+            )
 
         else:
             return Response(
@@ -99,7 +103,42 @@ class MessagesAPI(generics.GenericAPIView):
         
 
 class MessagesCreateAPI(generics.CreateAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
+    serializer_class = MessageCreateSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if serializer.validated_data:
+
+
+            try:
+                sender_ob = User.objects.get(id=request.data['sender'])
+                receiver_ob = User.objects.get(id=request.data['receiver'])
+                
+                
+                dict_msg = {
+                    "text": request.data["text"]
+                }
+                
+                msg = Message(**dict_msg, sender=sender_ob, receiver=receiver_ob)
+                msg.save()
+            except Exception as e:
+                return Response({"results": e})
+
+            return Response({
+                    "results": serializer.validated_data
+                })
+
+        else:
+            return Response({
+                "results": serializer.validated_data
+                })
+
+
+class ChatAPI(generics.ListAPIView):
+    permission_classes = (IsAuthenticated, )
     serializer_class = MessageCreateSerializer
 
     def post(self, request, *args, **kwargs):

@@ -17,7 +17,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class AnnotationViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     queryset = Annotation.objects.all()
     serializer_class = AnnotationSerializer
     pagination_class = StandardResultsSetPagination

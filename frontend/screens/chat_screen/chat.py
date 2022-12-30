@@ -53,15 +53,17 @@ class Chat(MDScreen):
         ]
 
     def on_pre_enter(self):
-        Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
         self.update_msg_event = Clock.schedule_interval(self.update_msgs, 3)
         self.update_msg_event()
+        Window.bind(on_keyboard=self.voltar)
+        Window.bind(on_request_close=self.voltar_android)
+        
 
     def on_pre_leave(self):
+        self.ids.box_chat.clear_widgets()
+        Clock.unschedule(self.update_msg_event)
         Window.unbind(on_keyboard=self.voltar)
         Window.unbind(on_request_close=self.voltar_android)
-        Clock.unschedule(self.update_msg_event)
 
 
     def update_msgs(self, *args):
@@ -95,13 +97,11 @@ class Chat(MDScreen):
             self.ids.chat_keyboard.text = ""
             self.messages.append(texto)
 
+            print("passow")
             messages = AccessDB(name_url="accounts/messages/create/", tag="MESSAGE")
             messages = messages.post(data={"text":texto, "sender": self.manager.user_id, "receiver": self.manager.user_id_chat})
 
-
             self.update_msg_event()
-            # print(self.messages)
-            # self.saveData()
         
             # Clock.schedule_once(self.other_fake_user, 1)
 

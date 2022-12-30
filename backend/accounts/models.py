@@ -7,6 +7,7 @@ class User(models.Model):
 	last_name = models.CharField(max_length=255)
 	email = models.EmailField(null=True, blank=True)
 	password = models.CharField(max_length=100)
+	image = models.ImageField(null=True, blank=True)
 
 	def __str__(self):
 		return self.username
@@ -21,3 +22,4 @@ class Message(models.Model):
 
 	def __str__(self):
 		return self.text
+

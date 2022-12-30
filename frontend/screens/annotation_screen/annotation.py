@@ -21,7 +21,6 @@ class Annotation(MDScreen):
         super().__init__(**kwargs)
         self.list_of_members_chips = []
         self.user_to_chat = None
-        self.update_msg_event = None
         menu_items = [
             {
                 "viewclass": "OneLineListItem",

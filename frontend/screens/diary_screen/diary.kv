@@ -30,11 +30,14 @@
 
 
                     MDNavigationRail:
-                        md_bg_color: 1, 0, 0.3, 1
+                        md_bg_color: 1, 1, 0.4, 0.7
+                        badge_bg_color: "#b0f0d6"
+                        
 
                         MDNavigationRailItem:
                             text: "Todos"
                             icon: "search-web"
+
 
                         MDNavigationRailItem:
                             text: "Seguidos"
@@ -228,6 +231,11 @@
                     on_release: root.manager.current = "diary_list_name"
 
                 MDNavigationDrawerItem:
+                    text: "Seus Chats"
+                    icon: "chat"
+                    # on_release: root.manager.current = "diary_list_name"
+
+                MDNavigationDrawerItem:
                     text: "Configurar"
                     icon: "cog-outline"
 
@@ -330,7 +338,7 @@
 
         MDFlatButton:
             id: previous_diary_id
-            text: "<< previous"
+            text: "<< antes"
             theme_text_color: "Custom"
             text_color: "#E2F14F"
             pos_hint: {'center_x': .4}
@@ -353,7 +361,7 @@
 
         MDFlatButton:
             id: next_diary_id
-            text: "next >>"
+            text: "próximo >>"
             theme_text_color: "Custom"
             text_color: "#0BD126"
             pos_hint: {'center_x': .6}                
@@ -373,7 +381,7 @@
 
         MDFlatButton:
             id: previous_diary_id
-            text: "<< previous"
+            text: "<< antes"
             theme_text_color: "Custom"
             text_color: "#E2F14F"
             pos_hint: {'center_x': .4}
@@ -396,7 +404,7 @@
 
         MDFlatButton:
             id: next_diary_id
-            text: "next >>"
+            text: "próximo >>"
             theme_text_color: "Custom"
             text_color: "#0BD126"
             pos_hint: {'center_x': .6}                

@@ -25,6 +25,8 @@ class YourDiaryApp(App, MDApp):
         os.path.join(os.getcwd(), "screens/diary_edit_screen/diary-edit.kv"),
         os.path.join(os.getcwd(), "screens/annotation_screen/annotation.kv"),
         os.path.join(os.getcwd(), "screens/chat_screen/chat.kv"),
+        os.path.join(os.getcwd(), "screens/chat_list_screen/chat-list.kv"),
+
     
     }
 
@@ -38,6 +40,7 @@ class YourDiaryApp(App, MDApp):
         "DiaryList": "screens.diary_list_screen.diary-list",
         "Annotation": "screens.annotation_screen.annotation",     
         "Chat": "screens.chat_screen.chat",
+        "ChatList": "screens.chat_list_screen.chat-list",
 
     }
 
