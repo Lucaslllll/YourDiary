@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework import routers
-from .api import UserViewSet, LoginAPI, MessagesAPI, MessagesCreateAPI
+from .api import UserViewSet, LoginAPI, MessagesAPI, MessagesCreateAPI, ChatAPI
 from rest_framework.authtoken import views
     
 
@@ -17,5 +17,6 @@ urlpatterns += [
     path('login/', LoginAPI.as_view(), name='login'),
     path('messages/', MessagesAPI.as_view(), name='messages'),
     path('messages/create/', MessagesCreateAPI.as_view(), name='message_create'),
+    path('chat/', ChatAPI.as_view(), name='chat'),
 
 ]

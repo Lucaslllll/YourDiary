@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password, check_password
 
 from .models import User, Message
 from .serializers import UserSerializer, LoginSerializer, MessageSerializer, MessageCreateSerializer
+from .serializers import ChatSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -137,9 +138,9 @@ class MessagesCreateAPI(generics.CreateAPIView):
                 })
 
 
-class ChatAPI(generics.ListAPIView):
-    permission_classes = (IsAuthenticated, )
-    serializer_class = MessageCreateSerializer
+class ChatAPI(generics.GenericAPIView):
+    # permission_classes = (IsAuthenticated, )
+    serializer_class = ChatSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -148,25 +149,10 @@ class ChatAPI(generics.ListAPIView):
         if serializer.validated_data:
 
 
-            try:
-                sender_ob = User.objects.get(id=request.data['sender'])
-                receiver_ob = User.objects.get(id=request.data['receiver'])
-                
-                
-                dict_msg = {
-                    "text": request.data["text"]
-                }
-                
-                msg = Message(**dict_msg, sender=sender_ob, receiver=receiver_ob)
-                msg.save()
-            except Exception as e:
-                return Response({"results": e})
+            dic = {Message.objects.filter(sender=request.data['id_user'])}
+            dic.update(Message.objects.filter(receiver=request.data['id_user']))
 
-            return Response({
-                    "results": serializer.validated_data
-                })
+            return Response(dic)
 
         else:
-            return Response({
-                "results": serializer.validated_data
-                })
+            return Response({"results": "source"})
