@@ -97,7 +97,6 @@ class Chat(MDScreen):
             self.ids.chat_keyboard.text = ""
             self.messages.append(texto)
 
-            print("passow")
             messages = AccessDB(name_url="accounts/messages/create/", tag="MESSAGE")
             messages = messages.post(data={"text":texto, "sender": self.manager.user_id, "receiver": self.manager.user_id_chat})
 
@@ -114,7 +113,7 @@ class Chat(MDScreen):
             self.ids.box_chat.add_widget(MessageOtherLayout(texto=self.msgs[1]))
         elif self.msg_other == 5:
             self.ids.box_chat.add_widget(MessageOtherLayout(texto=self.msgs[2]))
-        print(self.msg_other)
+        # print(self.msg_other)
         self.msg_other += 1
         
 
