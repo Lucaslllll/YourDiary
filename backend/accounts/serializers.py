@@ -53,3 +53,14 @@ class MessageCreateSerializer(serializers.ModelSerializer):
 class ChatSerializer(serializers.Serializer):
     id_user = serializers.CharField()
     
+    def validate(self, data):
+        pk = data['id_user']
+        
+        
+        try:
+            userOb = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Dados errados")
+
+        # mandar logo um true nessa validate data
+        return True

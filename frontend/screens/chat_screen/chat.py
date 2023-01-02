@@ -127,13 +127,13 @@ class Chat(MDScreen):
 
 
     def voltar_android(self, *args, **kwargs):
-        self.manager.current = "annotation_name"
+        self.manager.current = "chat_list_name"
         return True
 
     def voltar(self, window, key, *args):
         # esc tem o codigo 27
         if key == 27:
-            self.manager.current = "annotation_name"
+            self.manager.current = "chat_list_name"
             # print(self.manager.current)
             return True
 
