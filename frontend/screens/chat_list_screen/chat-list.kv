@@ -7,6 +7,11 @@
             title: "Chats"
             md_bg_color: 0.7, 0.7, 0.7, 1
 
+            # right_action_items:
+            #     [
+            #     ["arrow-right", root.back_to_diary()]
+            #     ]
+
         MDScrollView:
             scroll_timeout : 100
 
@@ -15,3 +20,6 @@
                 padding: 0
 	                
 	                
+
+<ListItemCustom>:
+    on_release: root.go_chat()

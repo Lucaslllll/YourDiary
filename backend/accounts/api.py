@@ -148,11 +148,31 @@ class ChatAPI(generics.GenericAPIView):
 
         if serializer.validated_data:
 
+            data = [{'id': msg.pk, 'text': msg.text, 'sender': msg.sender.pk, 'date': msg.date} for msg in Message.objects.filter(receiver=request.data['id_user'])]
+        
+            data = sorted(data, key=lambda k: k['date'], reverse=True) # para pegar o fim da lista de dictionary com as datas mais recentes
 
-            dic = {Message.objects.filter(sender=request.data['id_user'])}
-            dic.update(Message.objects.filter(receiver=request.data['id_user']))
+            lista_final = []; list_used = []
 
-            return Response(dic)
+            for i in range(0, len(data)):
+                if i == 0:
+                    lista_final.append(data[i])
+                    list_used.append(data[i]['sender'])
+                else:
+                    if data[i-1]['sender'] == data[i]['sender']:
+                        continue
+                    else:
+                        if data[i]['sender'] in list_used:
+                            continue
+                        else:
+                            list_used.append(data[i]['sender'])
+                            lista_final.append(data[i])
+
+                        
+
+            
+
+            return Response({"results": lista_final})
 
         else:
-            return Response({"results": "source"})
+            return Response({"results": "source"}, status.HTTP_400_BAD_REQUEST)
