@@ -139,7 +139,7 @@ class MessagesCreateAPI(generics.CreateAPIView):
 
 
 class ChatAPI(generics.GenericAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = ChatSerializer
 
     def post(self, request, *args, **kwargs):
