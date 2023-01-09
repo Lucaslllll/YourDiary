@@ -30,8 +30,8 @@
 
 
                     MDNavigationRail:
-                        md_bg_color: 1, 1, 0.4, 0.7
-                        badge_bg_color: "#b0f0d6"
+                        md_bg_color: "#fed8b1"
+                        badge_bg_color: "#ffb11b"
                         
 
                         MDNavigationRailItem:
@@ -225,6 +225,7 @@
                     spacing: "4dp"
                     padding: "12dp", 0, 0, "56dp"
 
+        
                 MDNavigationDrawerItem:
                     text: "Organizar Notas"
                     icon: "playlist-edit"
@@ -234,6 +235,12 @@
                     text: "Seus Chats"
                     icon: "chat"
                     on_release: root.manager.current = "chat_list_name"
+
+                MDNavigationDrawerItem:
+                    text: "Perfil"
+                    icon: "account"
+                    # on_release: root.manager.current = "chat_list_name"
+
 
                 MDNavigationDrawerItem:
                     text: "Configurar"

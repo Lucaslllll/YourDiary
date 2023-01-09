@@ -37,19 +37,24 @@ class ChatList(MDScreen):
         chats = chats.post(data={"id_user":self.manager.user_id})        
         
         if type(chats) is dict:
-            for chat in chats['results']:            
-                self.ids.idlist.add_widget(
+            for chat in chats['results']:
+                user_ob = AccessDB(name_url="accounts/users/", tag="USERS")
+                user_ob = user_ob.get(id_object=chat['sender'])
+                
+                if type(user_ob) is dict:
+                    self.ids.idlist.add_widget(
 
-                    ListItemCustom(
-                        ImageLeftWidget(
-                            source="assets/imagens/yourdiary-logo.png"
-                        ),
-                        text=chat['text'],
-                        chat=self,
-                        id_user_chat=chat['sender'],
-                        
+                        ListItemCustom(
+                            ImageLeftWidget(
+                                source="assets/imagens/yourdiary-logo.png"
+                            ),
+                            text=user_ob['username']+" | "+chat['text'],
+                            chat=self,
+                            id_user_chat=chat['sender'],
+                            
+                            
+                        )
                     )
-                )
 
 
     def run_list_fake(self, *args):
@@ -88,6 +93,7 @@ class ChatList(MDScreen):
 class ListItemCustom(OneLineAvatarListItem):
     chat = ObjectProperty()
     id_user_chat = NumericProperty()
+    name_user_chat = StringProperty()
 
     def go_chat(self):
         self.chat.manager.user_id_chat = self.id_user_chat

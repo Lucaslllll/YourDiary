@@ -29,7 +29,7 @@ class TestCrudInTable(object):
         self.dados = {
             "name": name,
             "preview": preview,
-            "text": "LOREM LOREM",
+            "text": str(preview+preview),
             "date": "2022-11-25T00:07:46Z",
             "category": [1],
             "author": 1,

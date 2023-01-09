@@ -16,8 +16,9 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kaki.app import App
 from datetime import datetime
 from components.connection import AccessDB
-
-
+from kivymd.utils import asynckivy
+import requests
+import json
 
 class Chat(MDScreen):
     def __init__(self, **kwargs):
@@ -43,57 +44,100 @@ class Chat(MDScreen):
             items=menu_items,
             width_mult=4,
         )
-        self.msg_other = 0
-        self.msgs = [
-            """Os caras estão desesperados hein. Vendo que pessoas inteligentes fora do sistema estão cada vez mais ganhando espaço perante a "opinião publica", os caras simplesmente estão queimando seus próprios "ídolos" para desmerecer a inteligência dos "outsiders". So rindo mesmo""",
-            """Os caras já fazem o melhor que podem pra cercar o establishment científico e evitam ao máximo entregar o Nobel pra sujeitos desalinhados das narrativas oficiais. Dai quando um deles se desvia eles precisam empregar narrativas midiáticas pra destruir a reputação dos caras.""",
-            """O que ocorre com frequência é qdo algum estudioso passa a incomodar o sistema, toma um cala boca, e nem sabe o porquê, pois não se liga nas"""        
+        self.last_msg = ""
+        self.count_msg = 0
+        self.messages_db = AccessDB(name_url="accounts/messages/", tag="MESSAGE")
 
-
-        ]
 
     def on_pre_enter(self):
-        self.update_msg_event = Clock.schedule_interval(self.update_msgs, 3)
-        self.update_msg_event()
+        self.sender = self.manager.user_id,
+        self.receiver = self.manager.user_id_chat
+
+        self.update_msg_event = Clock.schedule_interval(self.update_msgs, 5)
+        self.update_msg_event() # intervalo para ficar rodando
+        # self.update_msgs() # executa primeiro
+        
+
         Window.bind(on_keyboard=self.voltar)
         Window.bind(on_request_close=self.voltar_android)
         
 
     def on_pre_leave(self):
         self.ids.box_chat.clear_widgets()
-        Clock.unschedule(self.update_msg_event)
+        self.update_msg_event.cancel()
         Window.unbind(on_keyboard=self.voltar)
         Window.unbind(on_request_close=self.voltar_android)
+        # zerar as variáveis que checka as ultimas msgs do chat
+        self.count_msg = 0 
+        self.last_msg = ""
+
+    # function to test optimization of routes
+    def optimization_route_chat(self):
+        data = {
+            "sender": self.sender,
+            "receiver": self.receiver
+        }
+        requisicao = requests.post("http://143.198.165.63/accounts/messages/", data=data)
+
+        if requisicao.status_code == 201:
+            return True
+        elif requisicao.status_code == 200:
+            return requisicao.json()
+        elif requisicao.status_code == 401:
+            return "Sem Autorização"
+        elif requisicao.status_code == 400:
+            return "Falta ou Dado Já Repetido Por Outros"
+        else:
+            return "Erro Inesperado"
 
 
     def update_msgs(self, *args):
-        self.ids.box_chat.clear_widgets()
-        
-        messages = AccessDB(name_url="accounts/messages/", tag="MESSAGE")
-        data = {
-            "sender": self.manager.user_id,
-            "receiver": self.manager.user_id_chat
 
-        }
-        messages = messages.post(data=data)
-        
-        if type(messages) is dict:
-            for msg in messages["results"]:
-                if msg['sender'] == self.manager.user_id:
-                    self.ids.box_chat.add_widget(MessageLayout(texto=msg["text"]))
-                elif msg['sender'] == self.manager.user_id_chat:
-                    self.ids.box_chat.add_widget(MessageOtherLayout(texto=msg["text"]))
-                else:
-                    self.ids.box_chat.add_widget(MessageLayout(texto="Erro ao Sincronizar Mensagens"))
+        async def update_msgs():
+            
+
+            # await asynckivy.sleep(1)
+
+            messages = self.optimization_route_chat()
+            
+            if type(messages) is dict and len(messages['results']) != 0:
+                if messages['results'][-1]['date'] != self.last_msg:
+                    if self.count_msg == 0:    
+
+                        for msg in messages["results"]:
+                            if msg['sender'] == self.manager.user_id:
+                                self.ids.box_chat.add_widget(MessageLayout(texto=msg["text"]))
+                            elif msg['sender'] == self.manager.user_id_chat:
+                                self.ids.box_chat.add_widget(MessageOtherLayout(texto=msg["text"]))
+                            else:
+                                self.ids.box_chat.add_widget(MessageLayout(texto="Erro ao Sincronizar Mensagens"))
+
+                        self.last_msg = messages['results'][-1]['date']
+                        self.count_msg = 1
+                    
+
+                    else:
+                        self.last_msg = messages['results'][-1]['date']
+
+                        if messages['results'][-1]['sender'] == self.manager.user_id:
+                                self.ids.box_chat.add_widget(MessageLayout(texto=messages['results'][-1]["text"]))
+                        elif messages['results'][-1]['sender'] == self.manager.user_id_chat:
+                            self.ids.box_chat.add_widget(MessageOtherLayout(texto=messages['results'][-1]["text"]))
+
+
+
+        asynckivy.start(update_msgs())
 
 
     def send_message(self):
         texto = self.ids.chat_keyboard.text
         if texto != "":
-            Clock.unschedule(self.update_msg_event)
+            # Clock.unschedule(self.update_msg_event)
+            self.update_msg_event.cancel()
 
-
-            self.ids.box_chat.add_widget(MessageLayout(texto=texto))
+            self.update_msgs()
+            
+            # self.ids.box_chat.add_widget(MessageLayout(texto=texto)) gera duplicada nessa atualização de codigo
             self.ids.chat_keyboard.text = ""
             self.messages.append(texto)
 
@@ -102,7 +146,6 @@ class Chat(MDScreen):
 
             self.update_msg_event()
         
-            # Clock.schedule_once(self.other_fake_user, 1)
 
 
     # function to test chat

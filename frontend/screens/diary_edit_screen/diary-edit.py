@@ -80,9 +80,10 @@ class DiaryEdit(MDScreen):
             
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
             ext_path = primary_external_storage_path()
-            path = os.path.join(ext_path,'Downloads')
 
-            self.file_manager.show(path)
+            print("Sabemos que é android")
+            print(ext_path)
+            self.file_manager.show(ext_path)
             self.manager_open = True  
 
     def select_path(self, path: str):

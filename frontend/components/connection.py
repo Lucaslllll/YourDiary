@@ -1,9 +1,10 @@
 import requests
 import json
+from components.crypto import USERNAME, PASSWORD
 
 
 class Authenticat(object):
-    def __init__(self, url_token="http://localhost:8000/token"):
+    def __init__(self, url_token="http://143.198.165.63/token"):
         self.token_access = None
         self.token_refresh = None
         self.url_token = url_token
@@ -11,9 +12,11 @@ class Authenticat(object):
 
     def do_auth(self):
         valores = {
-            "username":"cliente",
-            "password":"#You*Front$Diary"
+            "username":USERNAME,
+            "password":PASSWORD
         }
+        
+
 
         try:
             requisicao = requests.post(self.url_token, data=valores)
@@ -32,7 +35,7 @@ class Authenticat(object):
 
         # return token acess if auth is true
 
-    def do_refresh(self, refresh, url_refresh="http://localhost:8000/token/refresh"):
+    def do_refresh(self, refresh, url_refresh="http://143.198.165.63/token/refresh"):
         valores = {
             "refresh":self.token_refresh,
         }
@@ -61,20 +64,20 @@ class Authenticat(object):
 class AccessDB(object):
 
     # tag é só enfeitar e para fácil visualização
-    def __init__(self, name_url:str, url:str="http://localhost:8000/", tag:str="None"):
+    def __init__(self, name_url:str, url:str="http://143.198.165.63/", tag:str="None"):
         self.token_access = None
         self.token_refresh = None
         self.name_url = name_url
         self.url = url
+        self.auth = Authenticat()
 
     def get(self, id_object=None, page=None):
-        auth = Authenticat()
-        resposta = auth.do_auth()
+        resposta = self.auth.do_auth()
 
 
         if resposta == True:
-            self.token_access = auth.get_token()
-            self.token_refresh = auth.get_token_refresh()
+            self.token_access = self.auth.get_token()
+            self.token_refresh = self.auth.get_token_refresh()
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             
@@ -112,13 +115,12 @@ class AccessDB(object):
 
 
     def delete(self, id_object=None):
-        auth = Authenticat()
-        resposta = auth.do_auth()
+        resposta = self.auth.do_auth()
 
 
         if resposta == True:
-            self.token_access = auth.get_token()
-            self.token_refresh = auth.get_token_refresh()
+            self.token_access = self.auth.get_token()
+            self.token_refresh = self.auth.get_token_refresh()
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             try:
@@ -142,16 +144,15 @@ class AccessDB(object):
 
 
     def post(self, data, files=None, *args, **kwargs):
-        auth = Authenticat()
-        resposta = auth.do_auth()
+        resposta = self.auth.do_auth()
 
-        self.token_access = auth.get_token()
-        self.token_refresh = auth.get_token_refresh()
+        self.token_access = self.auth.get_token()
+        self.token_refresh = self.auth.get_token_refresh()
 
 
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
-
+        
         if files != None:
             try:
                 requisicao = requests.post(self.url+self.name_url, data=data, files=files,
@@ -182,11 +183,10 @@ class AccessDB(object):
         return False
 
     def put(self, data, id_object, files=None, *args, **kwargs):
-        auth = Authenticat()
-        resposta = auth.do_auth()
+        resposta = self.auth.do_auth()
 
-        self.token_access = auth.get_token()
-        self.token_refresh = auth.get_token_refresh()
+        self.token_access = self.auth.get_token()
+        self.token_refresh = self.auth.get_token_refresh()
 
 
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
@@ -222,13 +222,12 @@ class AccessDB(object):
     
     # annotations/by/author/<int:pk> or annotations/by/author/<int:pk>?page=nº => nesse formato para usar os filtros
     def filter_by_id(self, id_object=None, page=None):
-        auth = Authenticat()
-        resposta = auth.do_auth()
+        resposta = self.auth.do_auth()
 
 
         if resposta == True:
-            self.token_access = auth.get_token()
-            self.token_refresh = auth.get_token_refresh()
+            self.token_access = self.auth.get_token()
+            self.token_refresh = self.auth.get_token_refresh()
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             

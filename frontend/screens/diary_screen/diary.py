@@ -530,6 +530,9 @@ class Diary(MDScreen):
         # se não não abre o dialog
         return True
 
+
+        
+
     def closeDialog(self, inst):
         self.dialog.dismiss()
 
