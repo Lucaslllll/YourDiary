@@ -35,7 +35,7 @@ class LoginAPI(generics.GenericAPIView):
                         })
 
 class MessagesAPI(generics.GenericAPIView):
-    #permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = MessageSerializer
 
 

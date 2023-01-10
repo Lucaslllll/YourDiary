@@ -19,6 +19,7 @@ from components.connection import AccessDB
 from kivymd.utils import asynckivy
 import requests
 import json
+from components.crypto import USERNAME, PASSWORD
 
 class Chat(MDScreen):
     def __init__(self, **kwargs):
@@ -46,12 +47,17 @@ class Chat(MDScreen):
         )
         self.last_msg = ""
         self.count_msg = 0
-        self.messages_db = AccessDB(name_url="accounts/messages/", tag="MESSAGE")
+        
 
 
     def on_pre_enter(self):
         self.sender = self.manager.user_id,
         self.receiver = self.manager.user_id_chat
+        self.token_access = ""
+
+        self.update_do_auth = Clock.schedule_interval(self.optimization_do_auth, 120)
+        self.update_do_auth()
+        self.optimization_do_auth()
 
         self.update_msg_event = Clock.schedule_interval(self.update_msgs, 5)
         self.update_msg_event() # intervalo para ficar rodando
@@ -64,6 +70,7 @@ class Chat(MDScreen):
 
     def on_pre_leave(self):
         self.ids.box_chat.clear_widgets()
+        self.update_do_auth.cancel()
         self.update_msg_event.cancel()
         Window.unbind(on_keyboard=self.voltar)
         Window.unbind(on_request_close=self.voltar_android)
@@ -71,13 +78,36 @@ class Chat(MDScreen):
         self.count_msg = 0 
         self.last_msg = ""
 
+
+    def optimization_do_auth(self, *args):
+        valores = {
+            "username":USERNAME,
+            "password":PASSWORD
+        }
+        
+
+
+        try:
+            requisicao = requests.post("http://143.198.165.63/token", data=valores)
+        except:
+            return None
+
+        dic_content = requisicao.json()
+        self.token_access = dic_content["access"]
+        
+        return self.token_access
+
+
     # function to test optimization of routes
     def optimization_route_chat(self):
         data = {
             "sender": self.sender,
             "receiver": self.receiver
         }
-        requisicao = requests.post("http://143.198.165.63/accounts/messages/", data=data)
+
+        head = {'Authorization': 'Bearer {}'.format(self.token_access)}
+
+        requisicao = requests.post("http://143.198.165.63/accounts/messages/", data=data, headers=head)
 
         if requisicao.status_code == 201:
             return True
