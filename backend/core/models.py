@@ -28,14 +28,13 @@ class Annotation(models.Model):
 class Like(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	like = models.BooleanField()
 
 class Favorite(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class Reports(models.Model):
+class Report(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
 	author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 	title = models.CharField(max_length=255)
@@ -43,3 +42,9 @@ class Reports(models.Model):
 
 	def __str__(self):
 		return self.annotation.name + " | " + self.title
+
+class Comment(models.Model):
+	title = models.CharField(max_length=255)
+	text = models.TextField()
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)

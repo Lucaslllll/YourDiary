@@ -21,6 +21,6 @@ class MainScreenManager(ScreenManager):
         store = JsonStore(self.path+"data.json")
         if store.exists('login_auth'):
             if store.get('login_auth')['access'] == True:
-                self.current = "diary_name"
+                # self.current = "diary_name"
                 self.user_id = store.get("user")["id"]
                 

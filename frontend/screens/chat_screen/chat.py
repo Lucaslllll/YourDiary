@@ -21,6 +21,8 @@ import requests
 import json
 from components.crypto import USERNAME, PASSWORD
 
+
+
 class Chat(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

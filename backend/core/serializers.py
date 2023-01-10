@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Category, Annotation
+from .models import Category, Annotation, Comment, Report
 
 
 
@@ -20,3 +20,8 @@ class AnnotationAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Annotation
         fields = ["author"]
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'

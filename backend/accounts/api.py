@@ -51,56 +51,45 @@ class MessagesAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if serializer.validated_data:
-            sender = request.data['sender']
-            receiver = request.data['receiver']
+        sender = request.data['sender']
+        receiver = request.data['receiver']
+        dict_msg = []; mid_list = [];
 
-            dict_msg = {}; n = 0;
-
-            if sender != receiver:
-                for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
-                    dict_msg[n] = pk['id']
-                    n += 1
-                for pk in Message.objects.filter(sender=receiver, receiver=sender).values():
-                    dict_msg[n] = pk['id']
-                    n += 1
-            else:
-                for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
-                    dict_msg[n] = pk['id']
-                    n += 1
+        if sender != receiver:
+            for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
+                dict_msg.append(pk['id'])
+                
+            for pk in Message.objects.filter(sender=receiver, receiver=sender).values():
+                dict_msg.append(pk['id'])
+        
+        else:
+            for pk in Message.objects.filter(sender=sender, receiver=receiver).values():
+                dict_msg.append(pk['id'])
+        
 
 
-            lista = [None]*len(dict_msg); n = 0
 
-            # dict_msg dentro da lista
-            for i in dict_msg.values():
-                lista[n] = { 
-                    'id': Message.objects.get(pk=i).id,
-                    'text': Message.objects.get(pk=i).text,
-                    'seen': Message.objects.get(pk=i).seen,
-                    'sender': Message.objects.get(pk=i).sender.id,
-                    'receiver': Message.objects.get(pk=i).receiver.id,
-                    'date': Message.objects.get(pk=i).date
+        # dict_msg dentro da mid_list
+        for i in dict_msg:
+            mid_list.append( 
+                { 
+                'id': Message.objects.get(pk=i).id,
+                'text': Message.objects.get(pk=i).text,
+                'seen': Message.objects.get(pk=i).seen,
+                'sender': Message.objects.get(pk=i).sender.id,
+                'receiver': Message.objects.get(pk=i).receiver.id,
+                'date': Message.objects.get(pk=i).date
 
                 }
-                n += 1
-
-            list_definitive = sorted(lista, key=lambda k: k['date']) 
-            # dic_definitives = {}; contador = 0
-            # for dic in lista:
-            #     dic_definitives[contador] = dic
-            #     contador += 1
-            # print(dic_definitives)
-            # ordenado = sorted(dic_definitives, key=lambda dic_definitive: dic_definitives[dic_definitive]['date'])
-            # print(dic_definitives)
-            return Response(
-                {"results": list_definitive}
             )
 
-        else:
-            return Response(
-                {"results": serializer.validated_data}
-            )
+        list_definitive = sorted(mid_list, key=lambda k: k['date']) 
+        
+        
+        return Response(
+            {"results": list_definitive}
+        )
+
         
 
 class MessagesCreateAPI(generics.CreateAPIView):
