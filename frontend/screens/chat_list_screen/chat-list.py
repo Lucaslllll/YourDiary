@@ -38,15 +38,22 @@ class ChatList(MDScreen):
         
         if type(chats) is dict:
             for chat in chats['results']:
-                user_ob = AccessDB(name_url="accounts/users/", tag="USERS")
+                user_ob = AccessDB(name_url="accounts/users", tag="USERS")
                 user_ob = user_ob.get(id_object=chat['sender'])
                 
                 if type(user_ob) is dict:
+                    if user_ob["image"] != None:
+                        profile_image = user_ob["image"]
+                    else:
+                        profile_image = "assets/imagens/none-image-user.png"
+
+
                     self.ids.idlist.add_widget(
 
                         ListItemCustom(
                             ImageLeftWidget(
-                                source="assets/imagens/yourdiary-logo.png"
+                                source=profile_image,
+                                radius=100
                             ),
                             text=user_ob['username']+" | "+chat['text'],
                             chat=self,

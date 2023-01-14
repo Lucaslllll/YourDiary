@@ -81,7 +81,7 @@ class DiaryEdit(MDScreen):
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
             ext_path = primary_external_storage_path()
 
-            print("Sabemos que é android")
+
             print(ext_path)
             self.file_manager.show(ext_path)
             self.manager_open = True  

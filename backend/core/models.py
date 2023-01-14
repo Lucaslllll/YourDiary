@@ -12,7 +12,7 @@ class Annotation(models.Model):
 	name = models.CharField(max_length=255)
 	preview = models.CharField(max_length=255, null=True)
 	text = models.TextField()
-	thumb = models.ImageField(null=True, blank=True)
+	thumb = models.ImageField(upload_to="images/annotations", null=True, blank=True)
 	date = models.DateTimeField(null=True, blank=True)
 	category = models.ManyToManyField(Category, blank=True)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
