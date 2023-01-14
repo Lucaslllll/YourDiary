@@ -60,14 +60,16 @@ class Diary(MDScreen):
 
         self.manager.background_annotation = "assets/imagens/yourdiary-logo.png"
 
-
     def on_pre_leave(self):
         Window.unbind(on_request_close=self.confirmacao)
         self.ids.box.clear_widgets()
         self.ids.box_global.clear_widgets()
         self.ids.scroll_id.clear_widgets()
 
-        
+
+    def go_profile(self):
+        self.manager.current_view_user = self.manager.user_id
+        self.manager.current = "profile_name"        
 
     def do_logout(self):
         self.path = App.get_running_app().user_data_dir+"/"

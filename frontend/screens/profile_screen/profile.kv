@@ -1,4 +1,140 @@
 <Profile>
-	MDBoxLayout:
-		MDLabel:
-			text: "Profile"
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+
+
+        MDTopAppBar:
+            title: ""
+            id: toolbarProfile
+            md_bg_color: 0.8, 0.8, 0.8, 1
+            use_overflow: True
+            #overflow_cls: CustomDropMenu()
+
+            right_action_items: 
+                [
+                ["dots-vertical", lambda x: root.DropApp(x), "Opções", "Opções"],
+                ]
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: self.minimum_height
+            padding: "10dp"
+
+
+            MDBoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                size_hint_x: 1
+                height: "150dp"
+
+                FitImageCustom:
+                    id: idImageProfile
+                    size_hint: None, None
+                    width: "100dp"
+                    height: "100dp"                    
+                    source: "assets/imagens/none-image-user.png"                    
+                    radius: 100
+                    pos_hint: {"center_y": 0.9, "center_x": 0.5}
+                    on_release: root.file_manager_open()
+
+                MDFlatButton:
+                    id: idButtonProfile
+                    theme_text_color: "Custom"
+                    md_bg_color: 1, 0.5, 0.5, 1
+                    text_color: 1, 1, 1, 1
+                    pos_hint: {"center_y": 0.5, "center_x": 0.5}
+                    text: "Enviar"
+                    disabled: True
+                    opacity: 0
+                    on_release: root.send_photo()
+
+
+            MDBoxLayout:
+                orientation: "vertical"
+                size_hint_x: 2
+
+                MDLabel:
+                    text: "Seguidores 100k"
+                    halign: "center"
+
+                MDLabel:
+                    text: "Seguindo 200"
+                    halign: "center"
+
+
+
+        MDSeparator:
+
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            height: self.minimum_height
+            padding: "20dp"
+
+
+            MDBoxLayout:
+                orientation: "horizontal"
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDIconButton:
+                    id: idButtonConfig
+                    icon: "cog-outline"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 1
+                    disabled: True
+                    opacity: 0
+
+                MDIconButton:
+                    id: idButtonChat
+                    icon: "chat"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 1
+                    disabled: True
+                    opacity: 0
+                    on_release: root.go_chat()
+
+                MDIconButton:
+                    id: idButtonFollow
+                    icon: "account-arrow-left"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 1
+                    disabled: True
+                    opacity: 0
+
+
+
+            MDBoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "40dp"
+                
+                MDLabel:
+                    size_hint_y: None
+                    height: "100dp"
+                    halign: "justify"
+                    text: "Parece que você ainda não tem email cadastrado, caso queira, cadastre!"
+
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    pos_hint: {"center_y": 0.9}
+
+                    MDTextField:
+                        validator: "email"
+
+                    MDFlatButton:
+                        text: "enviar"
+
+        MDBoxLayout:
+
+
+
+# customs components
+<FitImageCustom@FitImage+Button>:

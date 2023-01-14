@@ -87,15 +87,15 @@ class Annotation(MDScreen):
         Window.bind(on_request_close=self.voltar_android)
 
         id_annotation = self.manager.current_view_annotation
-        annotation = AccessDB(name_url="annotations/", tag="ANNOTATIONS")
-        annotation = annotation.get(id_object=id_annotation)
+        annotation = AccessDB(name_url="annotations", tag="ANNOTATIONS")
+        annotation = annotation.get(id_object=57)
        
 
         
 
         if type(annotation) is dict:
             date = annotation['date'].split("T")[0].replace("-", "/")
-            author_ob = AccessDB(name_url="accounts/users/", tag="USERS")
+            author_ob = AccessDB(name_url="accounts/users", tag="USERS")
             author_ob = author_ob.get(id_object=annotation['author'])
 
             self.user_to_chat = annotation['author']
@@ -111,7 +111,7 @@ class Annotation(MDScreen):
 
             
             for category in annotation['category']:
-                category_ob = AccessDB(name_url="categories/", tag="CATEGORIES")
+                category_ob = AccessDB(name_url="categories", tag="CATEGORIES")
                 category_ob = category_ob.get(id_object=category)
 
                 atual_chip = MDChip(id=str(category_ob['id']), text=category_ob['name'])
@@ -137,9 +137,10 @@ class Annotation(MDScreen):
         self.manager.current = text_item
 
 
-    def go_chat(self):
-        self.manager.user_id_chat = self.user_to_chat
-        self.manager.current = "chat_name"
+    def go_profile(self):
+        self.manager.current_view_user = self.user_to_chat
+        self.manager.current = "profile_name"
+
 
 
     def voltar_android(self, *args, **kwargs):
