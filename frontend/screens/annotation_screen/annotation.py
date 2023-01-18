@@ -88,7 +88,7 @@ class Annotation(MDScreen):
 
         id_annotation = self.manager.current_view_annotation
         annotation = AccessDB(name_url="annotations", tag="ANNOTATIONS")
-        annotation = annotation.get(id_object=57)
+        annotation = annotation.get(id_object=id_annotation)
        
 
         

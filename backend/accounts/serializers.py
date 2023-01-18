@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
-from .models import User, Message
+from .models import User, Message, Profile
 
 
 
@@ -64,3 +64,8 @@ class ChatSerializer(serializers.Serializer):
 
         # mandar logo um true nessa validate data
         return True
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'

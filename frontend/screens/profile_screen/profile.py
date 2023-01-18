@@ -26,6 +26,7 @@ class Profile(MDScreen):
             exit_manager=self.exit_manager, select_path=self.select_path
         )
         self.user_db = AccessDB(name_url="accounts/users", tag="USERS")
+        self.profile_db = AccessDB(name_url="accounts/profiles", tag="PROFILES")
         
 
     def on_pre_enter(self):
@@ -41,6 +42,9 @@ class Profile(MDScreen):
             self.user_ob = self.user_db.get(id_object=self.manager.user_id)
             self.ids.idImageProfile.disabled = False
             
+            self.ids.idValidationEmail.opacity = 1
+            self.ids.idValidationEmail.disabled = False
+ 
             self.ids.idButtonConfig.disabled = False
             self.ids.idButtonConfig.opacity = 1
             self.ids.idButtonChat.disabled = True
@@ -77,14 +81,18 @@ class Profile(MDScreen):
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.voltar)
         Window.unbind(on_request_close=self.voltar_android)
-        
+        self.ids.idButtonProfile.opacity = 0
+        self.ids.idButtonProfile.disabled = True
 
-        self.ids.idButtonConfig.opacity = 100
-        self.ids.idButtonConfig.disabled = False
-        self.ids.idButtonChat.opacity = 100
-        self.ids.idButtonChat.disabled = False
-        self.ids.idButtonFollow.opacity = 100
-        self.ids.idButtonFollow.disabled = False
+        self.ids.idValidationEmail.opacity = 0
+        self.ids.idValidationEmail.disabled = True        
+
+        self.ids.idButtonConfig.opacity = 0
+        self.ids.idButtonConfig.disabled = True
+        self.ids.idButtonChat.opacity = 0
+        self.ids.idButtonChat.disabled = True
+        self.ids.idButtonFollow.opacity = 0
+        self.ids.idButtonFollow.disabled = True
 
 
 
@@ -169,6 +177,15 @@ class Profile(MDScreen):
     def go_chat(self):
         self.manager.user_id_chat = self.manager.current_view_user
         self.manager.current = "chat_name"
+
+    def do_follow(self):
+        data = {
+            "user": self.manager.current_view_user,
+            "following": [],
+            "followers": [self.manager.user_id]
+        }
+        profile_ob = self.profile_db.post()
+
 
 
     def voltar_android(self, *args, **kwargs):

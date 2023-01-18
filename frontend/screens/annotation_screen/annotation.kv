@@ -55,6 +55,16 @@
                     text_size: self.width, None
                     text: root.text_example
 
+               
+                MDFlatButton:
+                    id: author_annotation
+                    size_hint_y: None
+                    # height: self.texture_size[1]             isso é para label
+                    text_size: self.width, None      
+                    pos_hint: {"center_x": 0.9}
+                    text: "Author: Lucaslllll"
+                    on_release: root.go_profile()
+
 
                 MDGridLayout:
                     id: categories_annotation
@@ -80,7 +90,6 @@
                     size_hint_y: None
                     height: self.minimum_height
 
-
                     MDLabel:
                         id: edit_annotation
                         halign: "center"
@@ -94,16 +103,5 @@
                         text: "Not Public"
 
                 MDBoxLayout:
-                    orientation: "horizontal"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    
-                    MDFlatButton:
-                        id: author_annotation
-                        size_hint_y: None
-                        # height: self.texture_size[1]             isso é para label
-                        text_size: self.width, None      
-                        halign: "center"
-                        valign: "center"
-                        text: "Author: Lucaslllll"
-                        on_release: root.go_profile()
+
+                
