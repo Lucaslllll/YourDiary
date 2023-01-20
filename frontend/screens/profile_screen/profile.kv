@@ -53,13 +53,23 @@
                 orientation: "vertical"
                 size_hint_x: 2
 
-                MDLabel:
-                    text: "Seguidores 100k"
-                    halign: "center"
+                MDBoxLayout:
+                    MDLabel:
+                        id: idNamePerfil
+                        halign: "center"
 
-                MDLabel:
-                    text: "Seguindo 200"
-                    halign: "center"
+                MDBoxLayout:    
+                    orientation: "horizontal"
+
+                    MDLabel:
+                        id: idFollowerLabel
+                        text: "0 Seguidores"
+                        halign: "center"
+
+                    MDLabel:
+                        id: idFollowingLabel
+                        text: "0 Seguindo"
+                        halign: "center"
 
 
 

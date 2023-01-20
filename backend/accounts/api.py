@@ -169,7 +169,6 @@ class ChatAPI(generics.GenericAPIView):
             return Response({"results": "source"}, status.HTTP_400_BAD_REQUEST)
 
 
-
 class ProfileAPI(generics.ListAPIView):
     # permission_classes = (IsAuthenticated, )
     serializer_class = ProfileSerializer
@@ -180,58 +179,9 @@ class ProfileAPI(generics.ListAPIView):
         target = self.kwargs['pk']
         return Profile.objects.filter(user=target)
 
-class ProfilesCreateAPI(generics.UpdateAPIView):
+
+class ProfileViewSet(viewsets.ModelViewSet):
     # permission_classes = (IsAuthenticated, )
+    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-    # def post(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-
-        
-   
-    #     user_ob = User.objects.get(pk=serializer.data["user"])
-    #     following_ob, followers_ob = serializer.data["following"], serializer.data["followers"]
-
-    #     dict_profile = {
-    #         "following": following_ob,
-    #         "followers": followers_ob
-    #     }
-
-        
-
-
-    #     return Response({
-    #             "results": serializer.validated_data
-    #         })
-
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        user_ob = User.objects.get(pk=serializer.data["user"])
-        following_ob, followers_ob = serializer.data["following"], serializer.data["followers"]
-
-        dict_profile = {
-            "following": following_ob,
-            "followers": followers_ob
-        }
-
-        try:
-            profile_ob = Profile.objects.get(pk=user_ob.pk)
-            
-            following_ob = following_ob + profile_ob.following
-            profile_ob.following = following_ob
-            followers_ob = followers_ob + profile_ob.followers
-            profile_ob.followers = followers_ob
-            profile_ob.save()    
-
-        except Profile.DoesNotExist:
-            profile_ob = Profile(user=user_ob)
-            profile_ob.save()
-            profile_ob.followers.set(followers_ob)
-            profile_ob.following.set(following_ob)        
-   
-        
-
-        
