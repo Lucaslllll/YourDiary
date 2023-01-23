@@ -1,4 +1,5 @@
 from kivymd.uix.screen import MDScreen
+from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.list import IRightBodyTouch, OneLineAvatarIconListItem, TwoLineAvatarIconListItem
@@ -15,10 +16,12 @@ from kivymd.toast import toast
 from kivymd.utils import asynckivy
 from kivymd.icon_definitions import md_icons
 
+
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.properties import StringProperty, NumericProperty, ListProperty, ObjectProperty
 from kivy.storage.jsonstore import JsonStore
+
 
 from kaki.app import App
 from kivymd.app import MDApp
@@ -104,6 +107,89 @@ class Diary(MDScreen):
         self.global_area()
 
 
+    def following_area(self):
+        annotations = AccessDB(name_url="accounts/followings", tag="ANNOTATIONS")
+        annotations = annotations.get(id_object=self.manager.user_id)
+        self.ids.box_global.clear_widgets()
+
+        async def following_area():
+            self.count_global = str(self.var_atual_page_global)
+            self.ids.box_global.add_widget(
+                    SelectPageFollowing(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box_global.add_widget(
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
+                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+
+
+        self.var_previous_page_global = 0
+        self.var_atual_page_global = 1
+        self.var_next_page_global = 2                
+        
+        asynckivy.start(following_area())
+
+
+    def next_page_following(self, voltar=False):
+        self.ids.box_global.clear_widgets()
+
+        
+
+        if voltar == False:
+            # para frente
+            annotations = AccessDB(name_url="accounts/followings", tag="FOLLOWINGS")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_next_page_global)
+
+
+            self.var_previous_page_global = self.var_atual_page_global
+            self.var_atual_page_global = self.var_next_page_global
+            self.var_next_page_global += 1
+
+
+        
+        elif voltar == True:
+            # para trás
+            annotations = AccessDB(name_url="accounts/followings", tag="FOLLOWINGS")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_previous_page_global)
+            
+
+            self.var_atual_page_global = self.var_previous_page_global
+            self.var_previous_page_global = self.var_atual_page_global - 1
+            self.var_next_page_global = self.var_atual_page_global + 1
+
+        
+
+        async def next_page_following():
+            self.count_global = str(self.var_atual_page_global)
+            self.ids.box_global.add_widget(
+                        SelectPageFollowing(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box_global.add_widget(
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
+                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+            
+
+                
+
+        asynckivy.start(next_page_following())
+
+
+
+
+
     def global_area(self):
         annotations = AccessDB(name_url="annotations/public", tag="ANNOTATIONS")
         annotations = annotations.get()
@@ -130,35 +216,6 @@ class Diary(MDScreen):
         
         asynckivy.start(global_area())
 
-
-
-
-
-    def personal_area(self):
-        annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
-        annotations = annotations.filter_by_id(id_object=self.manager.user_id)
-        
-        async def personal_area():
-            self.count = str(self.var_atual_page)
-            self.ids.box.add_widget(
-                    SelectPage(screen=self)
-            )
-
-            if type(annotations) is dict:
-
-                for i_annotations in annotations["results"]:
-                    await asynckivy.sleep(1)
-                    self.ids.box.add_widget(
-                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
-                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
-                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
-                    )
-
-
-
-                
-        
-        asynckivy.start(personal_area())
 
 
     def next_page_global(self, voltar=False):
@@ -212,6 +269,86 @@ class Diary(MDScreen):
         asynckivy.start(next_page_global())
 
 
+    # to refresh pages
+    def set_list_global(self):
+        annotations = AccessDB(name_url="annotations/public", tag="ANNOTATIONS")
+        annotations = annotations.get()
+
+        async def set_list_global():
+            self.count_global = str(self.var_atual_page_global)
+            self.ids.box_global.add_widget(
+                    SelectPageGlobal(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box_global.add_widget(
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
+                                image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+                
+                       
+
+                
+
+        asynckivy.start(set_list_global())
+
+
+
+    def refresh_callback_global(self, *args):
+        
+
+        def refresh_callback_global(interval):
+            self.ids.box_global.clear_widgets()
+            self.var_previous_page_global = 0
+            self.var_atual_page_global = 1
+            self.var_next_page_global = 2
+            
+
+            # form of documentation is bug layout where x = 0 in if
+            # self.x, self.y = 0, 15
+            
+            self.set_list_global()
+            self.ids.refresh_layout_global.refresh_done()
+            self.tick = 0
+
+        Clock.schedule_once(refresh_callback_global, 1)
+        
+
+
+    def personal_area(self):
+        annotations = AccessDB(name_url="annotations/by/author", tag="ANNOTATIONS")
+        annotations = annotations.filter_by_id(id_object=self.manager.user_id)
+        
+        async def personal_area():
+            self.count = str(self.var_atual_page)
+            self.ids.box.add_widget(
+                    SelectPage(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box.add_widget(
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
+                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+
+
+
+                
+        
+        asynckivy.start(personal_area())
+
+
+    
+
+
     def next_page(self, voltar=False):
         self.ids.box.clear_widgets()
 
@@ -263,33 +400,6 @@ class Diary(MDScreen):
         asynckivy.start(next_page())
 
 
-    # to refresh pages
-    def set_list_global(self):
-        annotations = AccessDB(name_url="annotations/public", tag="ANNOTATIONS")
-        annotations = annotations.get()
-
-        async def set_list_global():
-            self.count_global = str(self.var_atual_page_global)
-            self.ids.box_global.add_widget(
-                    SelectPageGlobal(screen=self)
-            )
-
-            if type(annotations) is dict:
-
-                for i_annotations in annotations["results"]:
-                    await asynckivy.sleep(1)
-                    self.ids.box_global.add_widget(
-                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
-                                image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
-                                text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
-                    )
-                
-                       
-
-                
-
-        asynckivy.start(set_list_global())
-
 
 
 
@@ -319,26 +429,6 @@ class Diary(MDScreen):
 
         asynckivy.start(set_list())
         
-
-
-    def refresh_callback_global(self, *args):
-        
-
-        def refresh_callback_global(interval):
-            self.ids.box_global.clear_widgets()
-            self.var_previous_page_global = 0
-            self.var_atual_page_global = 1
-            self.var_next_page_global = 2
-            
-
-            # form of documentation is bug layout where x = 0 in if
-            # self.x, self.y = 0, 15
-            
-            self.set_list_global()
-            self.ids.refresh_layout_global.refresh_done()
-            self.tick = 0
-
-        Clock.schedule_once(refresh_callback_global, 1)
 
 
     def refresh_callback(self, *args):
@@ -540,7 +630,7 @@ class Diary(MDScreen):
 
 
 
-class MDCardDiary(MDBoxLayout):
+class MDCardDiary(BoxLayout):
     id_annotation = NumericProperty()
     image_thumb = StringProperty()
     text = StringProperty()
@@ -566,15 +656,18 @@ class MDCardDiary(MDBoxLayout):
 
 
 
-class SelectPageGlobal(MDBoxLayout):
+class SelectPageFollowing(BoxLayout):
     screen = ObjectProperty()
 
-class SelectPage(MDBoxLayout):
+class SelectPageGlobal(BoxLayout):
+    screen = ObjectProperty()
+
+class SelectPage(BoxLayout):
     screen = ObjectProperty()
 
 
 
-class CheckListCategory(MDBoxLayout):
+class CheckListCategory(BoxLayout):
     text = StringProperty()
     id_category = NumericProperty()
     managerer = ObjectProperty()

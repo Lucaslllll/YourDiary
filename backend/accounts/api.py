@@ -4,10 +4,13 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from django.contrib.auth.hashers import make_password, check_password
 
 from .models import User, Message, Profile
+from core.models import Annotation
 from .serializers import UserSerializer, LoginSerializer, MessageSerializer, MessageCreateSerializer
 from .serializers import ChatSerializer, ProfileSerializer
+from core.serializers import AnnotationSerializer
 from rest_framework.permissions import IsAuthenticated
 
+from core.utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
@@ -185,3 +188,20 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+
+
+class FollowingAPI(generics.ListAPIView):
+    # permission_classes = (IsAuthenticated, )
+    serializer_class = AnnotationSerializer
+    pagination_class = StandardResultsSetPagination
+
+
+    def get_queryset(self):
+        user_ob = User.objects.get(pk=self.kwargs['pk'])
+        profile_ob = Profile.objects.get(user=user_ob)
+
+        lista = []
+        for following in profile_ob.following.all():
+            lista.append(following)
+
+        return Annotation.objects.filter(author__in=lista, public=True).order_by("-date")

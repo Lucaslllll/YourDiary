@@ -26,7 +26,8 @@ class Profile(MDScreen):
             exit_manager=self.exit_manager, select_path=self.select_path
         )
         self.user_db = AccessDB(name_url="accounts/users", tag="USERS")
-        
+        self.profile_followers = ""
+        self.profile_following = ""
         
 
     def on_pre_enter(self):
@@ -84,11 +85,14 @@ class Profile(MDScreen):
                     # self.ids.idButtonFollow.disabled = True
                     self.ids.idButtonFollow.icon = "account-check"
                     self.ids.idButtonFollow.on_release = self.do_unfollow
-
+                else:
+                    self.ids.idButtonFollow.on_release = self.do_follow    
 
                 self.ids.idFollowerLabel.text = "".join([str(len(profile_ob[0]["followers"])), " Seguidores"])
                 self.ids.idFollowingLabel.text = "".join([ str(len(profile_ob[0]["following"])), " Seguindo"])                
 
+            else:
+                self.ids.idButtonFollow.on_release = self.do_follow
             
 
             
@@ -212,18 +216,16 @@ class Profile(MDScreen):
             profile_ob =  AccessDB(name_url="accounts/profiles/", tag="PROFILES")
             profile_ob = profile_ob.post(data=data)
 
-
         else:   
             followers = profile_ob[0]["followers"]
             data["followers"] = list(set(followers) | set(data["followers"]))
             
             profile_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
             profile_ob = profile_ob.patch(id_object=self.manager.current_view_user, data=data)
+        
+        self.update_profiles(unfollow=False)
+
             
-        print(profile_ob)
-
-        self.update_profiles(dict_aux=profile_ob, unfollow=True)
-
 
 
         profile_user_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
@@ -248,33 +250,31 @@ class Profile(MDScreen):
         profile_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
         profile_ob = profile_ob.get(id_object=self.manager.current_view_user)
         if len(profile_ob) != 0:
-               
+            
             if self.manager.user_id in profile_ob[0]["followers"]:
-                profile_ob[0]["followers"] = profile_ob[0]["followers"].remove(self.manager.user_id)
+                profile_ob[0]["followers"].remove(self.manager.user_id)
                 data = profile_ob[0]
                 profile_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
-                profile_ob = profile_ob.patch(id_object=self.manager.current_view_user, data=data)
+                profile_ob = profile_ob.put(id_object=self.manager.current_view_user, data=data)
 
             
-
 
         profile_user_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
-        profile_user_ob = profile_user_ob.get(id_object=self.manager.user_id)
-
+        profile_user_ob = profile_user_ob.get(id_object=self.manager.user_id)        
         if len(profile_user_ob) != 0:
-
-            if self.manager.current_view_user in profile_user_ob[0]["followers"]:
-                profile_user_ob[0]["following"] = profile_user_ob[0]["following"].remove(self.manager.current_view_user)
-                data = profile_user_ob[0]
-                profile_user_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
-                profile_user_ob = profile_user_ob.patch(id_object=self.manager.user_id, data=data)
             
-                self.update_profiles(dict_aux=profile_user_ob, unfollow=True)            
+            if self.manager.current_view_user in profile_user_ob[0]["following"]:
+                profile_user_ob[0]["following"].remove(self.manager.current_view_user)
+                data = profile_user_ob[0]
+                print(data)
+                profile_user_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
+                profile_user_ob = profile_user_ob.put(id_object=self.manager.user_id, data=data)
+                self.update_profiles(unfollow=True)            
 
 
 
 
-    def update_profiles(self, dict_aux, unfollow):
+    def update_profiles(self, unfollow):
         if unfollow:
             self.ids.idButtonFollow.icon = "account-arrow-left"
             self.ids.idButtonFollow.on_release = self.do_follow
@@ -282,8 +282,10 @@ class Profile(MDScreen):
             self.ids.idButtonFollow.icon = "account-check"
             self.ids.idButtonFollow.on_release = self.do_unfollow
 
-        self.ids.idFollowerLabel.text = "".join([str(len(dict_aux["followers"])), " Seguidores"])
-        self.ids.idFollowingLabel.text = "".join([ str(len(dict_aux["following"])), " Seguindo"])
+        profile_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
+        profile_ob = profile_ob.get(id_object=self.manager.current_view_user)        
+        self.ids.idFollowerLabel.text = "".join([str(len(profile_ob[0]["followers"])), " Seguidores"])
+        self.ids.idFollowingLabel.text = "".join([ str(len(profile_ob[0]["following"])), " Seguindo"])
 
 
 
