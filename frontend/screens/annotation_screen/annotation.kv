@@ -19,7 +19,7 @@
 
         ScrollView:
 
-            MDBoxLayout:
+            BoxLayout:
                 orientation: "vertical"
                 size_hint_y: None
                 height: self.minimum_height
@@ -56,7 +56,22 @@
                     text: root.text_example
 
 
-                MDGridLayout:
+                
+
+                MDLabel:
+                    id: edit_annotation
+                    halign: "center"
+                    valign: "center"
+                    text: "Não Editado"
+
+                MDLabel:
+                    id: public_annotation
+                    halign: "center"
+                    valign: "center"
+                    text: "Não Público"
+
+
+                GridLayout:
                     id: categories_annotation
                     rows: 10
                     cols: 5
@@ -75,35 +90,33 @@
                
 
 
-                MDBoxLayout:
+                BoxLayout:
                     orientation: "horizontal"
                     size_hint_y: None
                     height: self.minimum_height
+                    spacing: "20dp"
 
+                    MDIconButton:
+                        icon: "thumb-up"
+                        pos_hint: {"center_x": 0.5}
 
-                    MDLabel:
-                        id: edit_annotation
-                        halign: "center"
-                        valign: "center"
-                        text: "Not Edited"
+                    MDIconButton:
+                        icon: "star"
+                        pos_hint: {"center_x": 0.5}
 
-                    MDLabel:
-                        id: public_annotation
-                        halign: "center"
-                        valign: "center"
-                        text: "Not Public"
-
-                MDBoxLayout:
-                    orientation: "horizontal"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    
-                    MDFlatButton:
+                    Arroba:
                         id: author_annotation
                         size_hint_y: None
-                        # height: self.texture_size[1]             isso é para label
+                        height: self.texture_size[1]
                         text_size: self.width, None      
-                        halign: "center"
-                        valign: "center"
+                        pos_hint: {"center_x": 0.9, "center_y": 0.5}
                         text: "Author: Lucaslllll"
                         on_release: root.go_profile()
+
+
+
+                BoxLayout:
+
+
+
+<Arroba@ButtonBehavior+MDLabel>:

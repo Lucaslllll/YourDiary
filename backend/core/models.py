@@ -29,9 +29,13 @@ class Like(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+# Favorite e Profile são problemas iguais
+# Mas em favorite vou fazer a moda antiga
+# Sem o manytomanyfield do django
 class Favorite(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	date = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class Report(models.Model):

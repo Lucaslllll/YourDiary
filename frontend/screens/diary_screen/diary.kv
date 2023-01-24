@@ -42,6 +42,7 @@
                         MDNavigationRailItem:
                             text: "Seguidos"
                             icon: "book-heart"
+                            on_release: root.following_area()
 
 
                         MDNavigationRailItem:
@@ -296,16 +297,19 @@
     radius: 10
     size_hint_y: None
     height: self.minimum_height
-
+    
     canvas:
         Color:
             rgba: (0.8, 0.8, 0.1, 0.2)
-        Rectangle:
+        
+        RoundedRectangle:
             size: self.size
             pos: self.pos
+            radius: [(40, 40), (40, 40), (10, 10), (10, 10)]
 
 
     FitImage:
+        radius: 10
         size_hint_y: None
         height: "300dp"
         source: root.image_thumb
@@ -329,6 +333,9 @@
         MDRoundFlatIconButton:
             pos_hint: {"center_x":  0.7, "center_y": 0.5}
             text: "Observar"
+            md_bg_color: 0.2, 0.6, 0.7, 1
+            line_color: "#45d8cf"
+            text_color: 1, 1, 1, 1
             on_release: root.read_more()
 
 
@@ -417,6 +424,51 @@
             pos_hint: {'center_x': .6}                
             on_release: root.screen.next_page_global(voltar=False)
             # on_release: app.appname.next_page(1, voltar=False)
+
+
+
+<SelectPageFollowing>:
+    orientation: "horizontal"
+    size_hint: None, None
+    width: "300dp"
+    height: self.minimum_height+50
+    pos_hint: {"center_x": .5}
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: previous_diary_id
+            text: "<< antes"
+            theme_text_color: "Custom"
+            text_color: "#E2F14F"
+            pos_hint: {'center_x': .4}
+            on_release: root.screen.next_page_following(voltar=True)
+            # on_release: app.manager.diary_id.root.next_page(root.var_previous_page, voltar=True)
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: count_diary_id
+            text: root.screen.count_global
+            theme_text_color: "Custom"
+            text_color: "#48D79F"
+            pos_hint: {'center_x': .5}
+
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: next_diary_id
+            text: "próximo >>"
+            theme_text_color: "Custom"
+            text_color: "#0BD126"
+            pos_hint: {'center_x': .6}                
+            on_release: root.screen.next_page_following(voltar=False)
+            # on_release: app.appname.next_page(1, voltar=False)
+
 
 
 # components

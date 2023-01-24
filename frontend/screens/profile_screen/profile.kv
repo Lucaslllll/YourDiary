@@ -12,10 +12,7 @@
             use_overflow: True
             #overflow_cls: CustomDropMenu()
 
-            right_action_items: 
-                [
-                ["dots-vertical", lambda x: root.DropApp(x), "Opções", "Opções"],
-                ]
+
 
         MDBoxLayout:
             orientation: "horizontal"
@@ -56,13 +53,23 @@
                 orientation: "vertical"
                 size_hint_x: 2
 
-                MDLabel:
-                    text: "Seguidores 100k"
-                    halign: "center"
+                MDBoxLayout:
+                    MDLabel:
+                        id: idNamePerfil
+                        halign: "center"
 
-                MDLabel:
-                    text: "Seguindo 200"
-                    halign: "center"
+                MDBoxLayout:    
+                    orientation: "horizontal"
+
+                    MDLabel:
+                        id: idFollowerLabel
+                        text: "0 Seguidores"
+                        halign: "center"
+
+                    MDLabel:
+                        id: idFollowingLabel
+                        text: "0 Seguindo"
+                        halign: "center"
 
 
 
@@ -104,14 +111,18 @@
                     size_hint_x: 1
                     disabled: True
                     opacity: 0
+                    # on_release: root.do_follow()
 
 
 
             MDBoxLayout:
+                id: idValidationEmail
                 orientation: "vertical"
                 size_hint_y: None
                 height: self.minimum_height
                 padding: "40dp"
+                disabled: True
+                opacity: 0                
                 
                 MDLabel:
                     size_hint_y: None

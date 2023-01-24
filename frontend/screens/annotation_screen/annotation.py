@@ -88,7 +88,7 @@ class Annotation(MDScreen):
 
         id_annotation = self.manager.current_view_annotation
         annotation = AccessDB(name_url="annotations", tag="ANNOTATIONS")
-        annotation = annotation.get(id_object=57)
+        annotation = annotation.get(id_object=id_annotation)
        
 
         
@@ -106,8 +106,8 @@ class Annotation(MDScreen):
             self.ids.details_annotation.text = annotation['text']
             self.ids.toolbarNoticia.title = date
             self.ids.author_annotation.text = "@"+author_ob['username']
-            self.ids.edit_annotation.text = "Edited " if annotation['edit'] else "Not Edited"
-            self.ids.public_annotation.text = "Public " if annotation['public'] else "Personal"
+            self.ids.edit_annotation.text = "Editado " if annotation['edit'] else "Não Editado"
+            self.ids.public_annotation.text = "Público " if annotation['public'] else "Pessoal"
 
             
             for category in annotation['category']:
