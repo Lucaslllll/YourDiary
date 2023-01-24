@@ -43,14 +43,14 @@ class AnnotationPublic(generics.ListAPIView):
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
     pagination_class = StandardResultsSetPagination
 
 
 class FavoriteAPI(generics.ListAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = FavoriteSerializer
     pagination_class = StandardResultsSetPagination
 

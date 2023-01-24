@@ -173,7 +173,7 @@ class ChatAPI(generics.GenericAPIView):
 
 
 class ProfileAPI(generics.ListAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = ProfileSerializer
 
 
@@ -184,14 +184,14 @@ class ProfileAPI(generics.ListAPIView):
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
 
 
 class FollowingAPI(generics.ListAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = AnnotationSerializer
     pagination_class = StandardResultsSetPagination
 
