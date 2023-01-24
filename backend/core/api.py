@@ -3,8 +3,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 
-from .models import User, Category, Annotation, Like, Comment
+from .models import User, Category, Annotation, Like, Comment, Favorite
 from .serializers import CategorySerializer, AnnotationSerializer, CommentSerializer
+from .serializers import FavoriteSerializer
 from .utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 
@@ -39,6 +40,26 @@ class AnnotationPublic(generics.ListAPIView):
 
     def get_queryset(self):
         return Annotation.objects.filter(public=True)
+
+
+class FavoriteViewSet(viewsets.ModelViewSet):
+    # permission_classes = (IsAuthenticated, )
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+    pagination_class = StandardResultsSetPagination
+
+
+class FavoriteAPI(generics.ListAPIView):
+    # permission_classes = (IsAuthenticated, )
+    serializer_class = FavoriteSerializer
+    pagination_class = StandardResultsSetPagination
+
+
+    def get_queryset(self):
+        user_ob = User.objects.get(pk=self.kwargs['pk'])
+    
+        return Favorite.objects.filter(user=user_ob).order_by("-date")
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )

@@ -130,7 +130,6 @@ class Profile(MDScreen):
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
             ext_path = primary_external_storage_path()
 
-            print(ext_path)
             self.file_manager.show(ext_path)
             self.manager_open = True  
 
@@ -266,7 +265,6 @@ class Profile(MDScreen):
             if self.manager.current_view_user in profile_user_ob[0]["following"]:
                 profile_user_ob[0]["following"].remove(self.manager.current_view_user)
                 data = profile_user_ob[0]
-                print(data)
                 profile_user_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
                 profile_user_ob = profile_user_ob.put(id_object=self.manager.user_id, data=data)
                 self.update_profiles(unfollow=True)            
