@@ -1,84 +1,32 @@
 import requests
 import json
-from components.crypto import USERNAME, PASSWORD
-
-
-
-class Authenticat(object):
-    def __init__(self, url_token="http://localhost:8000/token"):
-        self.token_access = None
-        self.token_refresh = None
-        self.url_token = url_token
-        
-
-    def do_auth(self):
-        valores = {
-            "username":USERNAME,
-            "password":PASSWORD
-        }
-        
-
-
-        try:
-            requisicao = requests.post(self.url_token, data=valores)
-        except:
-            return None
-
-        dic_content = requisicao.json()
-        if requisicao.status_code == 200:
-            self.token_access = dic_content["access"]
-            self.token_refresh = dic_content["refresh"]
-        elif requisicao.status_code == 401:
-            return False
-
-        return True
-
-
-        # return token acess if auth is true
-
-    def do_refresh(self, refresh, url_refresh="http://localhost:8000/token/refresh"):
-        valores = {
-            "refresh":self.token_refresh,
-        }
-        
-
-        try:
-            requisicao = requests.post(url_refresh, data=valores)
-        except:
-            return None
-
-        dic_content = requisicao.json()
-        self.token_access = dic_content["access"]
-
-        return self.token_access
-        # return token if send refresh token
-
-
-    def get_token(self):
-        return self.token_access
-
-
-    def get_token_refresh(self):
-        return self.token_refresh
-
+from components.authentication import Authenticat
+from kaki.app import App
+from kivy.storage.jsonstore import JsonStore
 
 class AccessDB(object):
 
     # tag é só enfeitar e para fácil visualização
-    def __init__(self, name_url:str, url:str="http://localhost:8000/", tag:str="None"):
-        self.token_access = None
-        self.token_refresh = None
+    def __init__(self, name_url:str, url:str="http://143.198.165.63/", tag:str="None"):
         self.name_url = name_url
         self.url = url
-        self.auth = Authenticat()
+        self.path = App.get_running_app().user_data_dir+"/"
+        
+        store = JsonStore(self.path+"data.json")
+        if store.exists('authentication'):    
+            self.resposta = store.get("authentication")["resposta"]
+            self.token_access = store.get("authentication")["token_access"]
+            self.token_refresh = store.get("authentication")["token_refresh"]
+        else:
+            self.resposta = False
+            self.token_access = None
+            self.token_refresh = None
+
+
+
 
     def get(self, id_object=None, page=None):
-        resposta = self.auth.do_auth()
-
-
-        if resposta == True:
-            self.token_access = self.auth.get_token()
-            self.token_refresh = self.auth.get_token_refresh()
+        if self.resposta == True:
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             
@@ -109,19 +57,15 @@ class AccessDB(object):
                 return "Sem Autorização"
             else:
                 return "Erro Inesperado"
-        elif resposta == False:
+        elif self.resposta == False:
             return "Credencias Inválidas"
         else:
             return "Problemas em contatar o servidor!"
 
 
     def delete(self, id_object=None):
-        resposta = self.auth.do_auth()
-
-
-        if resposta == True:
-            self.token_access = self.auth.get_token()
-            self.token_refresh = self.auth.get_token_refresh()
+        
+        if self.resposta == True:
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             try:
@@ -139,7 +83,7 @@ class AccessDB(object):
                 return "Erro Inesperado"
 
         
-        elif resposta == False:
+        elif self.resposta == False:
             return "Credencias Inválidas"
 
         else:
@@ -147,12 +91,6 @@ class AccessDB(object):
 
 
     def post(self, data, files=None, *args, **kwargs):
-        resposta = self.auth.do_auth()
-
-        self.token_access = self.auth.get_token()
-        self.token_refresh = self.auth.get_token_refresh()
-
-
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
         
@@ -186,12 +124,6 @@ class AccessDB(object):
         return False
 
     def put(self, data, id_object, files=None, *args, **kwargs):
-        resposta = self.auth.do_auth()
-
-        self.token_access = self.auth.get_token()
-        self.token_refresh = self.auth.get_token_refresh()
-
-
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
 
@@ -223,12 +155,6 @@ class AccessDB(object):
         return False
 
     def patch(self, data, id_object, files=None, *args, **kwargs):
-        resposta = self.auth.do_auth()
-
-        self.token_access = self.auth.get_token()
-        self.token_refresh = self.auth.get_token_refresh()
-
-
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
 
@@ -262,12 +188,7 @@ class AccessDB(object):
     
     # annotations/by/author/<int:pk> or annotations/by/author/<int:pk>?page=nº => nesse formato para usar os filtros
     def filter_by_id(self, id_object=None, page=None):
-        resposta = self.auth.do_auth()
-
-
-        if resposta == True:
-            self.token_access = self.auth.get_token()
-            self.token_refresh = self.auth.get_token_refresh()
+        if self.resposta == True:
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             
@@ -299,7 +220,7 @@ class AccessDB(object):
                 return "Sem Autorização"
             else:
                 return "Erro Inesperado"
-        elif resposta == False:
+        elif self.resposta == False:
             return "Credencias Inválidas"
         else:
             return "Problemas em contatar o servidor!"

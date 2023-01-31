@@ -6,6 +6,10 @@ from kivymd.app import MDApp
 from kaki.app import App
 from kivy.factory import Factory
 
+from components.authentication import Authenticat
+from kivy.clock import Clock
+from kivy.storage.jsonstore import JsonStore
+
 from kivy.core.window import Window
 from kivy.config import Config
 Window.softinput_mode = 'below_target'
@@ -13,6 +17,24 @@ Config.set('kivy', 'keyboard_mode', 'systemandmulti')
 
 
 class YourDiaryApp(App, MDApp):
+    def __init__(self, **kwargs):
+        # herdará de buttonbehavior e label
+        super(YourDiaryApp, self).__init__(**kwargs)
+        self.path = self.user_data_dir+"/"
+        self.auth = Authenticat()
+        self.resposta = self.auth.do_auth()
+        self.token_access = self.auth.get_token()
+        self.token_refresh = self.auth.get_token_refresh()
+
+        if self.resposta == True:
+            store = JsonStore(self.path+'data.json')
+            store.put('authentication', 
+                    resposta=self.resposta,
+                    token_access=self.token_access,
+                    token_refresh=self.token_refresh
+                )
+        Clock.schedule_interval(self.reload, 120)
+
 
     DEBUG = 1
 
@@ -50,6 +72,17 @@ class YourDiaryApp(App, MDApp):
     AUTORELOADER_PATHS = [
         (".", {"recursive": True}),
     ]
+
+    def reload(self, *args):
+        self.resposta = self.auth.do_auth()
+        self.token_access = self.auth.get_token()
+        self.token_refresh = self.auth.get_token_refresh()
+        store = JsonStore(self.path+'data.json')
+        store.put('authentication', 
+                    resposta=self.resposta,
+                    token_access=self.token_access,
+                    token_refresh=self.token_refresh
+                )
 
     def build_app(self):
         return Factory.MainScreenManager()
