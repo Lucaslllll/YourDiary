@@ -89,7 +89,7 @@ class Annotation(MDScreen):
         id_annotation = self.manager.current_view_annotation
         annotation = AccessDB(name_url="annotations", tag="ANNOTATIONS")
         annotation = annotation.get(id_object=id_annotation)
-       
+        
 
         
 
@@ -118,7 +118,9 @@ class Annotation(MDScreen):
                 self.ids.categories_annotation.add_widget(atual_chip)
                 self.list_of_members_chips.append(atual_chip)
 
-    
+        Clock.schedule_once(self.check_favorite, 2)
+
+
 
     def on_pre_leave(self):
         for chip in self.list_of_members_chips:
@@ -136,12 +138,49 @@ class Annotation(MDScreen):
         self.menu.dismiss()
         self.manager.current = text_item
 
+    # ações
+
+    def do_favorite(self):
+        self.check_favorite()
+        if type(self.favorite_check_ob) is dict:          
+            
+            favorite_ob = AccessDB(name_url="favorites", tag="FAVORITES")
+            favorite_ob = favorite_ob.delete(id_object=self.favorite_check_ob["results"]["id"])
+            if type(favorite_ob) is dict:
+                self.ids.idFavorite.icon_color = (0, 0, 0, 1)
+       
+
+        else:
+            data = {
+                "user": self.manager.user_id,
+                "annotation": self.manager.current_view_annotation
+            }
+            favorite_ob = AccessDB(name_url="favorites/", tag="FAVORITES")
+            favorite_ob = favorite_ob.post(data=data)
+            if type(favorite_ob) is bool: # aqui tem que dar 201 status
+                self.ids.idFavorite.icon_color = (1, 1, 0, 1)
+
+
+
+    def check_favorite(self, *args):
+        data = {
+            "id": "",
+            "user": self.manager.user_id,
+            "annotation": self.manager.current_view_annotation
+        }
+        self.favorite_check_ob =  AccessDB(name_url="annotations/favorites/check/", tag="FAVORITES_CHECK")
+        self.favorite_check_ob = self.favorite_check_ob.post(data=data)
+        if type(self.favorite_check_ob) is dict:
+            self.ids.idFavorite.icon_color = (1, 1, 0, 1) 
+        else:
+            self.ids.idFavorite.icon_color = (0, 0, 0, 1)
 
     def go_profile(self):
         self.manager.current_view_user = self.user_to_chat
         self.manager.current = "profile_name"
 
 
+    # fim ações
 
     def voltar_android(self, *args, **kwargs):
         self.manager.current = "diary_name"

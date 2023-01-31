@@ -5,7 +5,7 @@ from components.crypto import USERNAME, PASSWORD
 
 
 class Authenticat(object):
-    def __init__(self, url_token="http://143.198.165.63/token"):
+    def __init__(self, url_token="http://localhost:8000/token"):
         self.token_access = None
         self.token_refresh = None
         self.url_token = url_token
@@ -36,7 +36,7 @@ class Authenticat(object):
 
         # return token acess if auth is true
 
-    def do_refresh(self, refresh, url_refresh="http://143.198.165.63/token/refresh"):
+    def do_refresh(self, refresh, url_refresh="http://localhost:8000/token/refresh"):
         valores = {
             "refresh":self.token_refresh,
         }
@@ -65,7 +65,7 @@ class Authenticat(object):
 class AccessDB(object):
 
     # tag é só enfeitar e para fácil visualização
-    def __init__(self, name_url:str, url:str="http://143.198.165.63/", tag:str="None"):
+    def __init__(self, name_url:str, url:str="http://localhost:8000/", tag:str="None"):
         self.token_access = None
         self.token_refresh = None
         self.name_url = name_url
@@ -129,8 +129,10 @@ class AccessDB(object):
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
-            if request.status_code == 200:
-                return request.json()
+            if request.status_code == 204:
+                return {}
+            elif request.status_code == 200:
+                return {}
             elif request.status_code == 401:
                 return "Sem Autorização"
             else:
@@ -166,7 +168,7 @@ class AccessDB(object):
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
-        # print(requisicao.text)
+        # print((requisicao.text, requisicao.json))
         # codigo 201 é para create
         if requisicao.status_code == 201:
             return True

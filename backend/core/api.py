@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import User, Category, Annotation, Like, Comment, Favorite
 from .serializers import CategorySerializer, AnnotationSerializer, CommentSerializer
-from .serializers import FavoriteSerializer
+from .serializers import FavoriteSerializer, FavoriteCheckSerializer
 from .utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 
@@ -43,14 +43,14 @@ class AnnotationPublic(generics.ListAPIView):
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
     pagination_class = StandardResultsSetPagination
 
 
 class FavoriteAPI(generics.ListAPIView):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     serializer_class = FavoriteSerializer
     pagination_class = StandardResultsSetPagination
 
@@ -60,6 +60,18 @@ class FavoriteAPI(generics.ListAPIView):
     
         return Favorite.objects.filter(user=user_ob).order_by("-date")
 
+class FavoriteCheckAPI(generics.GenericAPIView):
+    # permission_classes = (IsAuthenticated, )
+    serializer_class = FavoriteCheckSerializer
+    pagination_class = StandardResultsSetPagination
+    queryset = Favorite.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response({"results": serializer.data })    
+        # return Response({"results": "source"}, status.HTTP_400_BAD_REQUEST
 
 class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )

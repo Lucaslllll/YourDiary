@@ -155,16 +155,6 @@ class Profile(MDScreen):
         return True
 
 
-    def send_photo(self):
-        
-        user_ob = self.user_db.patch(id_object=self.manager.user_id, data={}, files=self.files)
-
-        if type(user_ob) is dict:
-            self.manager.current = "diary_name"
-        else:
-            self.texto_alert = "Erro: Imagens Acima de 8mb ou Formato Inválido"
-            Clock.schedule_once(self.alert_error_connection, 2)
-
 
     def alert_error_connection(self, *args):
         snackbar = Snackbar(
@@ -192,6 +182,17 @@ class Profile(MDScreen):
         # desligando o spinner
         Clock.schedule_once(self.timeout_spinner, 3)
 
+
+    # ações
+    def send_photo(self):
+        
+        user_ob = self.user_db.patch(id_object=self.manager.user_id, data={}, files=self.files)
+
+        if type(user_ob) is dict:
+            self.manager.current = "diary_name"
+        else:
+            self.texto_alert = "Erro: Imagens Acima de 8mb ou Formato Inválido"
+            Clock.schedule_once(self.alert_error_connection, 2)
 
     def go_chat(self):
         self.manager.user_id_chat = self.manager.current_view_user
@@ -285,6 +286,7 @@ class Profile(MDScreen):
         self.ids.idFollowerLabel.text = "".join([str(len(profile_ob[0]["followers"])), " Seguidores"])
         self.ids.idFollowingLabel.text = "".join([ str(len(profile_ob[0]["following"])), " Seguindo"])
 
+    # fim de ações
 
 
 

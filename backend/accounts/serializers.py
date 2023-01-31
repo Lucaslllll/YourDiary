@@ -56,9 +56,8 @@ class ChatSerializer(serializers.Serializer):
     def validate(self, data):
         pk = data['id_user']
         
-        
         try:
-            userOb = User.objects.get(id=pk)
+            userOb = User.objects.get(id=int(pk))
         except User.DoesNotExist:
             raise serializers.ValidationError("Dados errados")
 

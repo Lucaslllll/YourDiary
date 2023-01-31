@@ -87,31 +87,51 @@
 
 
 
-               
-
-
                 BoxLayout:
-                    orientation: "horizontal"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    spacing: "20dp"
+                    orientation: "vertical"
+                    spacing: "40dp"
 
-                    MDIconButton:
-                        icon: "thumb-up"
-                        pos_hint: {"center_x": 0.5}
+                    MDLabel:    
+                        halign: "left"
+                        bold: True
+                        text: "Ações:"
 
-                    MDIconButton:
-                        icon: "star"
-                        pos_hint: {"center_x": 0.5}
-
-                    Arroba:
-                        id: author_annotation
+                    BoxLayout:
+                        orientation: "horizontal"
                         size_hint_y: None
-                        height: self.texture_size[1]
-                        text_size: self.width, None      
-                        pos_hint: {"center_x": 0.9, "center_y": 0.5}
-                        text: "Author: Lucaslllll"
-                        on_release: root.go_profile()
+                        height: self.minimum_height
+                        spacing: "20dp"
+
+                        MDIconButton:
+                            id: idLike
+                            icon: "thumb-up"
+                            pos_hint: {"center_x": 0.5}
+                            theme_text_color: "Custom"
+
+                        MDIconButton:
+                            id: idFavorite
+                            icon: "star"
+                            pos_hint: {"center_x": 0.5}
+                            theme_text_color: "Custom"
+                            on_release: root.do_favorite()
+
+                        MDIconButton:
+                            id: idReport
+                            icon: "alert-octagon"
+                            pos_hint: {"center_x": 0.5}
+                            theme_text_color: "Custom"
+
+
+                        Arroba:
+                            id: author_annotation
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None      
+                            pos_hint: {"center_x": 0.9, "center_y": 0.5}
+                            text: "Author: Lucaslllll"
+                            theme_text_color: "Custom"
+                            text_color: 0.3, 0.3, 1, 1
+                            on_release: root.go_profile()
 
 
 

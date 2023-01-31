@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 from .api import CategoryViewSet, AnnotationViewSet, AnnotationByAuthor, AnnotationPublic
-from .api import FavoriteViewSet, FavoriteAPI
+from .api import FavoriteViewSet, FavoriteAPI, FavoriteCheckAPI
 from rest_framework.authtoken import views
     
 
@@ -21,5 +21,6 @@ urlpatterns += [
     path('annotations/by/author/<int:pk>', AnnotationByAuthor.as_view(), name='annotation_author'),
     path('annotations/public', AnnotationPublic.as_view(), name='annotation_public'),
     path('annotations/favorites/<int:pk>', FavoriteAPI.as_view(), name='annotations_favorites'),
+    path('annotations/favorites/check/', FavoriteCheckAPI.as_view(), name='annotations_favorites_check'),
     
 ]

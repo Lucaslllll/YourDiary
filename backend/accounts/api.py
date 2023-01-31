@@ -140,36 +140,31 @@ class ChatAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if serializer.validated_data:
-
-            data = [{'id': msg.pk, 'text': msg.text, 'sender': msg.sender.pk, 'date': msg.date} for msg in Message.objects.filter(receiver=request.data['id_user'])]
         
-            data = sorted(data, key=lambda k: k['date'], reverse=True) # para pegar o fim da lista de dictionary com as datas mais recentes
+        data = [{'id': msg.pk, 'text': msg.text, 'sender': msg.sender.pk, 'date': msg.date} for msg in Message.objects.filter(receiver=request.data['id_user'])]
+    
+        data = sorted(data, key=lambda k: k['date'], reverse=True) # para pegar o fim da lista de dictionary com as datas mais recentes
 
-            lista_final = []; list_used = []
+        lista_final = []; list_used = []
 
-            for i in range(0, len(data)):
-                if i == 0:
-                    lista_final.append(data[i])
-                    list_used.append(data[i]['sender'])
+        for i in range(0, len(data)):
+            if i == 0:
+                lista_final.append(data[i])
+                list_used.append(data[i]['sender'])
+            else:
+                if data[i-1]['sender'] == data[i]['sender']:
+                    continue
                 else:
-                    if data[i-1]['sender'] == data[i]['sender']:
+                    if data[i]['sender'] in list_used:
                         continue
                     else:
-                        if data[i]['sender'] in list_used:
-                            continue
-                        else:
-                            list_used.append(data[i]['sender'])
-                            lista_final.append(data[i])
+                        list_used.append(data[i]['sender'])
+                        lista_final.append(data[i])
+        
 
-                        
+        return Response({"results": lista_final})
 
-            
-
-            return Response({"results": lista_final})
-
-        else:
-            return Response({"results": "source"}, status.HTTP_400_BAD_REQUEST)
+        
 
 
 class ProfileAPI(generics.ListAPIView):
