@@ -147,7 +147,7 @@ class Annotation(MDScreen):
             favorite_ob = AccessDB(name_url="favorites", tag="FAVORITES")
             favorite_ob = favorite_ob.delete(id_object=self.favorite_check_ob["results"]["id"])
             if type(favorite_ob) is dict:
-                self.ids.idFavorite.icon_color = (0, 0, 0, 1)
+                self.ids.id_favorite.icon_color = (0, 0, 0, 1)
        
 
         else:
@@ -158,7 +158,7 @@ class Annotation(MDScreen):
             favorite_ob = AccessDB(name_url="favorites/", tag="FAVORITES")
             favorite_ob = favorite_ob.post(data=data)
             if type(favorite_ob) is bool: # aqui tem que dar 201 status
-                self.ids.idFavorite.icon_color = (1, 1, 0, 1)
+                self.ids.id_favorite.icon_color = (1, 1, 0, 1)
 
 
 
@@ -171,9 +171,9 @@ class Annotation(MDScreen):
         self.favorite_check_ob =  AccessDB(name_url="annotations/favorites/check/", tag="FAVORITES_CHECK")
         self.favorite_check_ob = self.favorite_check_ob.post(data=data)
         if type(self.favorite_check_ob) is dict:
-            self.ids.idFavorite.icon_color = (1, 1, 0, 1) 
+            self.ids.id_favorite.icon_color = (1, 1, 0, 1) 
         else:
-            self.ids.idFavorite.icon_color = (0, 0, 0, 1)
+            self.ids.id_favorite.icon_color = (0, 0, 0, 1)
 
     def go_profile(self):
         self.manager.current_view_user = self.user_to_chat

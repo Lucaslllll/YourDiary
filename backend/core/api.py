@@ -43,25 +43,26 @@ class AnnotationPublic(generics.ListAPIView):
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
     pagination_class = StandardResultsSetPagination
 
 
 class FavoriteAPI(generics.ListAPIView):
-    # permission_classes = (IsAuthenticated, )
-    serializer_class = FavoriteSerializer
+    permission_classes = (IsAuthenticated, )
+    serializer_class = AnnotationSerializer
     pagination_class = StandardResultsSetPagination
 
 
     def get_queryset(self):
         user_ob = User.objects.get(pk=self.kwargs['pk'])
-    
-        return Favorite.objects.filter(user=user_ob).order_by("-date")
+        lista = [favorite.annotation.pk for favorite in Favorite.objects.filter(user=user_ob).order_by("-date")]
+
+        return Annotation.objects.filter(pk__in=lista)
 
 class FavoriteCheckAPI(generics.GenericAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = FavoriteCheckSerializer
     pagination_class = StandardResultsSetPagination
     queryset = Favorite.objects.all()

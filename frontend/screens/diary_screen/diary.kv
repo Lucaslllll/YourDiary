@@ -1,6 +1,6 @@
 <Diary>
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
 
         MDTopAppBar:
@@ -25,18 +25,21 @@
 
                 
 
-                MDBoxLayout:
+                BoxLayout:
                     orientation: "horizontal"
 
 
                     MDNavigationRail:
+                        id: id_nav_rail
                         md_bg_color: "#fed8b1"
                         badge_bg_color: "#ffb11b"
                         
 
                         MDNavigationRailItem:
+                            id: id_filter_todos
                             text: "Todos"
                             icon: "search-web"
+                            on_release: root.refresh_callback_global()
 
 
                         MDNavigationRailItem:
@@ -48,6 +51,7 @@
                         MDNavigationRailItem:
                             text: "Favoritos"
                             icon: "star"
+                            on_release: root.star_area()
 
 
 
@@ -56,7 +60,7 @@
                         refresh_callback: root.refresh_callback_global
                         root_layout: root
 
-                        MDBoxLayout:
+                        BoxLayout:
                             id: box_global
                             orientation: "vertical"
                             size_hint_y: None
@@ -91,7 +95,7 @@
                     refresh_callback: root.refresh_callback
                     root_layout: root
 
-                    MDBoxLayout:
+                    BoxLayout:
                         id: box
                         orientation: "vertical"
                         size_hint_y: None
@@ -108,14 +112,14 @@
                 text: 'Nova Anotação'
                 icon: 'note'
 
-                MDBoxLayout:
+                BoxLayout:
                     id: id_form_diary
                     orientation: "vertical"
                     spacing: "30dp"
 
                     ScrollView:
 
-                        MDBoxLayout:
+                        BoxLayout:
                             orientation: "vertical"
                             padding: "20dp"
                             spacing: "30dp"
@@ -153,7 +157,7 @@
 
 
 
-                            MDBoxLayout:
+                            BoxLayout:
                                 orientation: "horizontal"
 
                                 MDLabel:
@@ -214,7 +218,7 @@
     MDNavigationDrawer:
         id: nav_drawer
 
-        MDBoxLayout:
+        BoxLayout:
             orientation: "vertical"
 
             MDNavigationDrawerMenu:
@@ -320,7 +324,7 @@
         height: "100dp"
         text: root.text
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "horizontal"
         size_hint_y: None
         height: "50dp"
@@ -347,7 +351,7 @@
     height: self.minimum_height+50
     pos_hint: {"center_x": .5}
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -359,7 +363,7 @@
             on_release: root.screen.next_page(voltar=True)
             # on_release: app.manager.diary_id.root.next_page(root.var_previous_page, voltar=True)
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -370,7 +374,7 @@
             pos_hint: {'center_x': .5}
 
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -390,7 +394,7 @@
     height: self.minimum_height+50
     pos_hint: {"center_x": .5}
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -402,7 +406,7 @@
             on_release: root.screen.next_page_global(voltar=True)
             # on_release: app.manager.diary_id.root.next_page(root.var_previous_page, voltar=True)
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -413,7 +417,7 @@
             pos_hint: {'center_x': .5}
 
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -434,7 +438,7 @@
     height: self.minimum_height+50
     pos_hint: {"center_x": .5}
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -446,7 +450,7 @@
             on_release: root.screen.next_page_following(voltar=True)
             # on_release: app.manager.diary_id.root.next_page(root.var_previous_page, voltar=True)
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -457,7 +461,7 @@
             pos_hint: {'center_x': .5}
 
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDFlatButton:
@@ -467,6 +471,49 @@
             text_color: "#0BD126"
             pos_hint: {'center_x': .6}                
             on_release: root.screen.next_page_following(voltar=False)
+            # on_release: app.appname.next_page(1, voltar=False)
+
+
+<SelectPageStar>:
+    orientation: "horizontal"
+    size_hint: None, None
+    width: "300dp"
+    height: self.minimum_height+50
+    pos_hint: {"center_x": .5}
+
+    BoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: previous_diary_id
+            text: "<< antes"
+            theme_text_color: "Custom"
+            text_color: "#E2F14F"
+            pos_hint: {'center_x': .4}
+            on_release: root.screen.next_page_star(voltar=True)
+            # on_release: app.manager.diary_id.root.next_page(root.var_previous_page, voltar=True)
+
+    BoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: count_diary_id
+            text: root.screen.count_global
+            theme_text_color: "Custom"
+            text_color: "#48D79F"
+            pos_hint: {'center_x': .5}
+
+
+    BoxLayout:
+        orientation: "vertical"
+
+        MDFlatButton:
+            id: next_diary_id
+            text: "próximo >>"
+            theme_text_color: "Custom"
+            text_color: "#0BD126"
+            pos_hint: {'center_x': .6}                
+            on_release: root.screen.next_page_star(voltar=False)
             # on_release: app.appname.next_page(1, voltar=False)
 
 

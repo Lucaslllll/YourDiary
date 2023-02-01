@@ -107,6 +107,84 @@ class Diary(MDScreen):
         self.global_area()
 
 
+    def star_area(self):
+        annotations = AccessDB(name_url="annotations/favorites", tag="ANNOTATIONS_FAVORITES")
+        annotations = annotations.get(id_object=self.manager.user_id)
+        self.ids.box_global.clear_widgets()
+
+        async def star_area():
+            self.count_global = str(self.var_atual_page_global)
+            self.ids.box_global.add_widget(
+                    SelectPageStar(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box_global.add_widget(
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
+                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+
+
+        self.var_previous_page_global = 0
+        self.var_atual_page_global = 1
+        self.var_next_page_global = 2                
+        
+        asynckivy.start(star_area())
+
+    def next_page_star(self, voltar=False):
+        self.ids.box_global.clear_widgets()
+
+        
+        if voltar == False:
+            # para frente
+            annotations = AccessDB(name_url="annotations/favorites", tag="ANNOTATIONS_FAVORITES")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_next_page_global)
+
+
+            self.var_previous_page_global = self.var_atual_page_global
+            self.var_atual_page_global = self.var_next_page_global
+            self.var_next_page_global += 1
+
+
+        
+        elif voltar == True:
+            # para trás
+            annotations = AccessDB(name_url="annotations/favorites", tag="ANNOTATIONS_FAVORITES")
+            annotations = annotations.filter_by_id(id_object=self.manager.user_id, page=self.var_previous_page_global)
+            
+
+            self.var_atual_page_global = self.var_previous_page_global
+            self.var_previous_page_global = self.var_atual_page_global - 1
+            self.var_next_page_global = self.var_atual_page_global + 1
+
+        
+
+        async def next_page_star():
+            self.count_global = str(self.var_atual_page_global)
+            self.ids.box_global.add_widget(
+                        SelectPageStar(screen=self)
+            )
+
+            if type(annotations) is dict:
+
+                for i_annotations in annotations["results"]:
+                    await asynckivy.sleep(1)
+                    self.ids.box_global.add_widget(
+                        MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
+                                    image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
+                                    text=i_annotations["preview"] if i_annotations["preview"] != None else "Sem Prévia")
+                    )
+            
+
+        asynckivy.start(next_page_star())
+
+
+
+
     def following_area(self):
         annotations = AccessDB(name_url="accounts/followings", tag="ANNOTATIONS")
         annotations = annotations.get(id_object=self.manager.user_id)
@@ -134,6 +212,8 @@ class Diary(MDScreen):
         self.var_next_page_global = 2                
         
         asynckivy.start(following_area())
+
+
 
 
     def next_page_following(self, voltar=False):
@@ -299,7 +379,8 @@ class Diary(MDScreen):
 
 
     def refresh_callback_global(self, *args):
-        
+        # self.ids.idNavRail.switch_tab(0)
+        # self.ids.id_filter_todos.active = True
 
         def refresh_callback_global(interval):
             self.ids.box_global.clear_widgets()
@@ -655,6 +736,9 @@ class MDCardDiary(BoxLayout):
         self.diary_screen.manager.current = "annotation_name"
 
 
+
+class SelectPageStar(BoxLayout):
+    screen = ObjectProperty()
 
 class SelectPageFollowing(BoxLayout):
     screen = ObjectProperty()
