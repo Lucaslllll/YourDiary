@@ -1,5 +1,5 @@
 <Register>
-	MDBoxLayout:
+	BoxLayout:
 		orientation: "vertical"
 		spacing: "-30dp"
 
@@ -22,7 +22,7 @@
 
         ScrollView:
 
-			MDBoxLayout:
+			BoxLayout:
 				orientation: 'vertical'
 				size_hint_y: None
 				height: self.minimum_height
@@ -63,7 +63,7 @@
 		            # validator: "email"
 
 		
-				MDBoxLayout:
+				BoxLayout:
 		            orientation: "horizontal"
 		            size_hint_y: None
 		            height: id_text_password.height
@@ -89,7 +89,9 @@
 		                    self.icon = "eye" if self.icon == "eye-off" else "eye-off"
 		                    id_text_password.password = False if id_text_password.password is True else True
 		
-		
+				MDCheckbox:
+					id: id_text_terms_of_use
+					
 		        
 		
 	            MDFlatButton:
@@ -102,7 +104,7 @@
 	                on_press: root.on_press_spinner()
 			
 
-		        MDBoxLayout:
+		        BoxLayout:
 		            id: load_spinner_container
 		            orientation: "vertical"
 		            padding: 0, 0

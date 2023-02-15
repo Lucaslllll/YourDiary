@@ -1,1 +1,9 @@
 colocar background customizavel, o usuario upa o background que quer, mas tera um default para todo mundo
+termos de uso para usuários
+colocar uma open animada
+tentar implementar cython para melhorar desempenho
+criar versão para android 11 com kivymd inferior
+colocar comentários nas annotations
+colocar um hero para quem instalou pela primeira vez
+colocar imagem padrão para quem não mandou imagem
+colocar usuário ler seus diários offline

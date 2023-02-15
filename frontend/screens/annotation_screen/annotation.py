@@ -118,7 +118,8 @@ class Annotation(MDScreen):
                 self.ids.categories_annotation.add_widget(atual_chip)
                 self.list_of_members_chips.append(atual_chip)
 
-        Clock.schedule_once(self.check_favorite, 2)
+        Clock.schedule_once(self.check_favorite, 1.8)
+        Clock.schedule_once(self.check_like, 2.5)
 
 
 
@@ -140,6 +141,27 @@ class Annotation(MDScreen):
 
     # ações
 
+    def do_like(self):
+        self.check_like()
+        if type(self.like_check_ob) is dict:          
+            
+            like_ob = AccessDB(name_url="likes", tag="LIKES")
+            like_ob = like_ob.delete(id_object=self.like_check_ob["results"]["id"])
+            if type(like_ob) is dict:
+                self.ids.id_like.icon_color = (0, 0, 0, 1)
+       
+
+        else:
+            data = {
+                "user": self.manager.user_id,
+                "annotation": self.manager.current_view_annotation
+            }
+            like_ob = AccessDB(name_url="likes/", tag="LIKES")
+            like_ob = like_ob.post(data=data)
+            if type(like_ob) is bool: # aqui tem que dar 201 status
+                self.ids.id_like.icon_color = (1, 1, 0, 1)
+            
+        
     def do_favorite(self):
         self.check_favorite()
         if type(self.favorite_check_ob) is dict:          
@@ -160,6 +182,19 @@ class Annotation(MDScreen):
             if type(favorite_ob) is bool: # aqui tem que dar 201 status
                 self.ids.id_favorite.icon_color = (1, 1, 0, 1)
 
+
+    def check_like(self, *args):
+        data = {
+            "id": "",
+            "user": self.manager.user_id,
+            "annotation": self.manager.current_view_annotation
+        }
+        self.like_check_ob =  AccessDB(name_url="annotations/likes/check/", tag="LIKES_CHECK")
+        self.like_check_ob = self.like_check_ob.post(data=data)
+        if type(self.like_check_ob) is dict:
+            self.ids.id_like.icon_color = (1, 1, 0, 1) 
+        else:
+            self.ids.id_like.icon_color = (0, 0, 0, 1)
 
 
     def check_favorite(self, *args):

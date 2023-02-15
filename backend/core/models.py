@@ -29,6 +29,7 @@ class Like(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
 # Favorite e Profile são problemas iguais
 # Mas em favorite vou fazer a moda antiga
 # Sem o manytomanyfield do django
@@ -39,13 +40,13 @@ class Favorite(models.Model):
 
 
 class Report(models.Model):
-	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)
+	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE, null=True, blank=True)
 	author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 	title = models.CharField(max_length=255)
 	details = models.TextField()
 
 	def __str__(self):
-		return self.annotation.name + " | " + self.title
+		return self.title
 
 class Comment(models.Model):
 	title = models.CharField(max_length=255)

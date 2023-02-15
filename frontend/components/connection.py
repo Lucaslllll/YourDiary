@@ -23,8 +23,6 @@ class AccessDB(object):
             self.token_refresh = None
 
 
-
-
     def get(self, id_object=None, page=None):
         if self.resposta == True:
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}

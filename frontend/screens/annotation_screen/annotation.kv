@@ -107,6 +107,7 @@
                             icon: "thumb-up"
                             pos_hint: {"center_x": 0.5}
                             theme_text_color: "Custom"
+                            on_release: root.do_like()
 
                         MDIconButton:
                             id: id_favorite
@@ -120,6 +121,7 @@
                             icon: "alert-octagon"
                             pos_hint: {"center_x": 0.5}
                             theme_text_color: "Custom"
+                            on_release: root.manager.current = "about_name"
 
 
                         Arroba:

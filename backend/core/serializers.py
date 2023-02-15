@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Category, Annotation, Comment, Report, Favorite
+from .models import Category, Annotation, Comment, Report, Favorite, Like
 
 
 
@@ -48,3 +48,29 @@ class FavoriteCheckSerializer(serializers.Serializer):
         return data
 
 
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = '__all__'
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = '__all__'
+
+class LikeCheckSerializer(serializers.Serializer):
+    id = serializers.CharField(required=False)
+    user = serializers.IntegerField()
+    annotation = serializers.IntegerField()
+
+    def validate(self, data):
+
+        try:
+            likeOb = Like.objects.get(user=data['user'], annotation=data['annotation'])
+        except Like.DoesNotExist:
+            raise serializers.ValidationError(False)
+
+        data['id'] = likeOb.id
+        return data
+        

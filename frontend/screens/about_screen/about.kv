@@ -1,0 +1,173 @@
+<About>
+    
+    BoxLayout:
+        orientation: "vertical"
+
+        ScrollView:
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: "50dp"
+                padding: "30dp"
+
+                BoxLayout:
+
+
+                MDLabel:
+                    text: "Sobre o YourDiary"
+                    bold: True
+                    halign: "center"
+
+
+                MDLabel:
+                    halign: "justify"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    text: root.about_1
+
+
+                MDLabel:
+                    text: "Sobre o Autor:"
+                    bold: True
+
+
+                MDSmartTile:
+                    source: "assets/imagens/perfil.png"
+                    radius: 24
+                    box_radius: [0, 0, 24, 24]
+                    box_color: 1, 1, 1, .2
+                    pos_hint: {"center_x": .5, "center_y": .9}
+                    size_hint: None, None
+                    size: "250dp", "250dp"
+                    # pos: 0, 100
+                    
+                    MDIconButton:
+                        icon: "thumb-up-outline"
+                        theme_icon_color: "Custom"
+                        icon_color: 1, 0, 0, 1
+                        pos_hint: {"center_y": .5}
+                        on_release: self.icon = "thumb-up" if self.icon == "thumb-up-outline" else "thumb-up-outline"
+
+
+                    MDLabel:
+                        text: "Lucas Duarte"
+                        bold: True
+                        color: 1, 0, 0, 1
+
+                
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    pos_hint: {"center_x": 0.5}
+
+
+                    MDIconButton:
+                        icon: "github"
+                        theme_text_color: "Custom"
+                        size_hint_x: 1
+                        pos_hint: {"center_x": 0.5}
+                        markup: True
+                        on_release:
+                            import webbrowser
+                            webbrowser.open('https://github.com/Lucaslllll')
+
+                    MDIconButton:
+                        icon: "linkedin"
+                        theme_text_color: "Custom"
+                        icon_color: 0, 0, 1, 0.7
+                        size_hint_x: 1
+                        pos_hint: {"center_x": 0.5}
+                        markup: True
+                        on_release:
+                            import webbrowser
+                            webbrowser.open('https://www.linkedin.com/in/lucasduartedacosta/')
+
+                    MDIconButton:
+                        icon: "whatsapp"
+                        theme_text_color: "Custom"
+                        icon_color: 0, 1, 0, 1
+                        size_hint_x: 1
+                        pos_hint: {"center_x": 0.5}
+                        markup: True
+                        on_release:
+                            import webbrowser
+                            webbrowser.open('http://wa.me/5584981245286')
+
+
+                MDSeparator:
+
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "30dp"
+
+                    MDLabel:
+                        text: "Reporte, Denuncie ou Me Mande Uma Sugestão"
+                        bold: True
+                        halign: "center"
+
+
+
+                    MDTextField:
+                        id: id_titulo_report
+                        hint_text: "Título"
+                        max_text_length: 150
+                        multiline: True
+                        line_color_normal: 1, 0, 1, 1
+                        text_color_focus: 0, 0, 0, 1
+                        
+
+                    MDTextFieldRect:
+                        id: id_detalhes_report
+                        hint_text: "Detalhes"
+                        line_color_normal: 1, 0, 1, 1
+                        text_color_focus: 0, 0, 0, 1
+                        multiline: True
+                        mode: "round"
+                        fill_color: 1, 0, 0, 1
+                        size_hint_y:None
+                        height:"200dp"
+
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "100dp"
+
+
+                        MDRectangleFlatIconButton:
+                            size_hint_x: 1
+                            text: "Enviar"
+                            theme_text_color: "Custom"
+                            icon: "send"
+                            md_bg_color: 0.2, 1, 0.2, 1
+                            text_color: 1, 1, 1, 1
+                            line_color: 0.2, 1, 0.2, 1
+                            icon_color: 1, 1, 1, 1
+                            font_size: "18sp"
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            on_release: root.send_report()
+
+
+                        TooltipMDIconButton:
+                            size_hint_x: 1
+                            icon: "help"
+                            tooltip_text: "Coloque o máximo de informações"
+                            color: 0, 0, 0, 1
+                            pos_hint: {"center_x": .5, "center_y": .5}
+
+
+
+
+
+                BoxLayout:
+
+
+
+# custons components
+
+<Links@Icon+MDLabel>

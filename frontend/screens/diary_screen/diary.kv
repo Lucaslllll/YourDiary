@@ -185,20 +185,33 @@
 
 
 
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                spacing: "-40dp"
 
-                            MDRoundFlatIconButton:
-                                text: "Imagem"
-                                icon: "folder"
-                                pos_hint: {"center_x": .5, "center_y": .5}
-                                on_release: root.file_manager_open()
+                                MDRoundFlatIconButton:
+                                    size_hint_x: 1
+                                    text: "Imagem"
+                                    icon: "folder"
+                                    on_release: root.file_manager_open()
 
+                                TooltipMDIconButton:
+                                    size_hint_x: 1
+                                    icon: "help"
+                                    tooltip_text: "imagens abaixo de 8mb"
+                                    color: 0, 0, 0, 1
 
-                            MDFlatButton:
+                            MDRectangleFlatIconButton:
                                 id: id_note_enviar
-                                text: "Entrar"
+                                text: "Enviar"
                                 theme_text_color: "Custom"
+                                icon: "send"
                                 md_bg_color: 0.2, 1, 0.2, 1
                                 text_color: 1, 1, 1, 1
+                                line_color: 0.2, 1, 0.2, 1
+                                icon_color: 1, 1, 1, 1
+                                font_size: "18sp"
+                                pos_hint: {"center_x": .5, "center_y": .5}
                                 on_release: root.send_annotation()
                                 on_press: root.on_press_spinner()
                                 
@@ -268,7 +281,7 @@
                 DrawerLabelItem:
                     icon: "information-outline"
                     text: "Sobre o app"
-                    on_release: root.see_help()
+                    on_release: root.manager.current = "about_name"
 
                 DrawerLabelItem:
                     icon: "handshake-outline"
