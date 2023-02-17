@@ -28,11 +28,13 @@ class Register(MDScreen):
 
     def do_register(self, *args):
         data = {
-            "username" : self.ids.id_text_username.text,
-            "first_name" : self.ids.id_text_first.text,
-            "last_name" : self.ids.id_text_last.text,
-            "email" : self.ids.id_text_email.text,
-            "password" : self.ids.id_text_password.text
+            "username": self.ids.id_text_username.text,
+            "first_name": self.ids.id_text_first.text,
+            "last_name": self.ids.id_text_last.text,
+            "email": self.ids.id_text_email.text,
+            "password": self.ids.id_text_password.text,
+            "terms_of_use": self.ids.id_text_terms_of_use.active
+
         }
 
         user = AccessDB(name_url="accounts/users/", tag="USERS")
@@ -40,6 +42,8 @@ class Register(MDScreen):
         
         if resposta == True:
             self.pass_of_register()
+        elif not self.ids.id_text_terms_of_use.active:
+            self.alert_error_connection(text="marque os termos de uso")
         elif type(resposta) is dict:
             self.pass_of_register()
         else:

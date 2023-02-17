@@ -7,7 +7,7 @@ from kivy.storage.jsonstore import JsonStore
 class AccessDB(object):
 
     # tag é só enfeitar e para fácil visualização
-    def __init__(self, name_url:str, url:str="http://localhost:8000/", tag:str="None"):
+    def __init__(self, name_url:str, url:str="http://143.198.165.63/", tag:str="None"):
         self.name_url = name_url
         self.url = url
         self.path = App.get_running_app().user_data_dir+"/"

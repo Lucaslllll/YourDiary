@@ -1,6 +1,6 @@
 colocar background customizavel, o usuario upa o background que quer, mas tera um default para todo mundo
-termos de uso para usuários
-colocar uma open animada
+( X ) termos de uso para usuários 
+( X )colocar uma open animada
 tentar implementar cython para melhorar desempenho
 criar versão para android 11 com kivymd inferior
 colocar comentários nas annotations

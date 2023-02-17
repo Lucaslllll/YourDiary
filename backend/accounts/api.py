@@ -13,11 +13,37 @@ from rest_framework.permissions import IsAuthenticated
 from core.utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    http_method_names = ['post', 'get', 'head']
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        # sobreescrever para as infos cadastradas não retornem
+        return Response({}, status=status.HTTP_201_CREATED, headers=headers)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({})
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        new_data = serializer.data
+        del new_data["password"]
+        del new_data["email"]
+        return Response(new_data)
 
 
 class LoginAPI(generics.GenericAPIView):

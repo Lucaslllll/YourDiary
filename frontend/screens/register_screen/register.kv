@@ -1,121 +1,143 @@
 <Register>
-	BoxLayout:
-		orientation: "vertical"
-		spacing: "-30dp"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: "-30dp"
 
 
-		Image:
-	        source: "assets/imagens/yourdiary-logo.png"
-	        size_hint_y: None
-	        height: 100
-	        #size_hint_y: 2
-	        #allow_stretch: True
+        Image:
+            source: "assets/imagens/yourdiary-logo.png"
+            size_hint_y: None
+            height: 100
+            #size_hint_y: 2
+            #allow_stretch: True
 
-		MDLabel:
-        	text: "Preencha os dados"
-        	color: 0, 0, 0, 1
-        	halign: "center"
-        	bold: True
-        	size_hint_y: None
-	        height: "100dp"
+        MDLabel:
+            text: "Preencha os dados"
+            color: 0, 0, 0, 1
+            halign: "center"
+            bold: True
+            size_hint_y: None
+            height: "100dp"
 
 
         ScrollView:
 
-			BoxLayout:
-				orientation: 'vertical'
-				size_hint_y: None
-				height: self.minimum_height
-				spacing: "20dp"
-				pos_hint: {'center_x':  0.5, 'center_y': 0.8}
-				padding: "40dp", "30dp"
-			
-		
-				MDTextField:
-		            id: id_text_username
-		            hint_text: "Username"
-		            line_color_normal: 1, 0, 1, 1
-		            text_color_focus: 0, 0, 0, 1
-		            required: True
-		            # validator: "username"
-				
-				MDTextField:
-		            id: id_text_first
-		            hint_text: "First Name"
-		            line_color_normal: 1, 0, 1, 1
-		            text_color_focus: 0, 0, 0, 1
-		            required: True
-		            # validator: "username"
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: "20dp"
+                pos_hint: {'center_x':  0.5, 'center_y': 0.8}
+                padding: "40dp", "30dp"
+            
+        
+                MDTextField:
+                    id: id_text_username
+                    hint_text: "Username"
+                    line_color_normal: 1, 0, 1, 1
+                    text_color_focus: 0, 0, 0, 1
+                    required: True
+                    # validator: "username"
+                
+                MDTextField:
+                    id: id_text_first
+                    hint_text: "Nome"
+                    line_color_normal: 1, 0, 1, 1
+                    text_color_focus: 0, 0, 0, 1
+                    required: True
+                    # validator: "username"
 
-		        MDTextField:
-		            id: id_text_last
-		            hint_text: "Last Name"
-		            line_color_normal: 1, 0, 1, 1
-		            text_color_focus: 0, 0, 0, 1
-		            required: True
-		            # validator: "username"
+                MDTextField:
+                    id: id_text_last
+                    hint_text: "Sobrenome"
+                    line_color_normal: 1, 0, 1, 1
+                    text_color_focus: 0, 0, 0, 1
+                    required: True
+                    # validator: "username"
 
-		        MDTextField:
-		            id: id_text_email
-		            hint_text: "Email (Not Obrigatory)"
-		            line_color_normal: 0, 0, 0, 1
-		            text_color_focus: 0, 0, 0, 1
-		            # validator: "email"
+                MDTextField:
+                    id: id_text_email
+                    hint_text: "Email (Não Obrigatório)"
+                    line_color_normal: 0, 0, 0, 1
+                    text_color_focus: 0, 0, 0, 1
+                    # validator: "email"
 
-		
-				BoxLayout:
-		            orientation: "horizontal"
-		            size_hint_y: None
-		            height: id_text_password.height
-		
-		            MDTextField:
-		                id: id_text_password
-		                color: 0, 0, 0, 1
-		                hint_text: "Password"
-		                line_color_normal: 1, 0, 1, 1
-		                text_color_focus: 0, 0, 0, 1
-		                required: True
-		                password: True
-		                icon_left: "key-variant"
-		
-		            MDIconButton:
-		                icon: "eye-off"
-		                pos_hint: {"center_y": .5}
-		                pos: id_text_password.width - self.width + dp(8), 0
-		                theme_text_color: "Hint"
-		                text_color: 1, 0, 1, 1
-		
-		                on_release:
-		                    self.icon = "eye" if self.icon == "eye-off" else "eye-off"
-		                    id_text_password.password = False if id_text_password.password is True else True
-		
-				MDCheckbox:
-					id: id_text_terms_of_use
-					
-		        
-		
-	            MDFlatButton:
-	                id: id_button_register
-	                text: "Register"
-	                theme_text_color: "Custom"
-	                md_bg_color: 0.9, 0.7, 0.2, 1
-	                text_color: 1, 1, 1, 1
-	                on_release: root.do_register()
-	                on_press: root.on_press_spinner()
-			
+        
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: id_text_password.height
+        
+                    MDTextField:
+                        id: id_text_password
+                        color: 0, 0, 0, 1
+                        hint_text: "Senha"
+                        line_color_normal: 1, 0, 1, 1
+                        text_color_focus: 0, 0, 0, 1
+                        required: True
+                        password: True
+                        icon_left: "key-variant"
+        
+                    MDIconButton:
+                        icon: "eye-off"
+                        pos_hint: {"center_y": .5}
+                        pos: id_text_password.width - self.width + dp(8), 0
+                        theme_text_color: "Hint"
+                        text_color: 1, 0, 1, 1
+        
+                        on_release:
+                            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                            id_text_password.password = False if id_text_password.password is True else True
+                
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "20dp"
 
-		        BoxLayout:
-		            id: load_spinner_container
-		            orientation: "vertical"
-		            padding: 0, 0
-		            spacing: "30dp"
-		
-		            MDSpinner:
-		                id: load_spinner
-		                size_hint: None, None
-		                size: dp(20), dp(20)
-		                pos_hint: {'center_x': .5, 'center_y': .5}
-		                #active: True if root.load_if == True else False
-		                active: False
-		                determinate_time: 0
-			
+                    Label:
+                        size_hint_x: 3
+                        halign: "justify"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+                        color: 0.3, 0.3, 0.3, 1
+                        markup: True
+                        text: "ao clicar aqui você aceita os termos de uso [ref=https://www.google.com][color=#369ed6]clique aqui para ler[/color][/ref]"
+                        on_ref_press:
+                            import webbrowser
+                            webbrowser.open('http://google.com')
+
+
+                    MDCheckbox:
+                        size_hint_x: 1
+                        id: id_text_terms_of_use
+                        required: True
+                
+                    
+        
+                MDFlatButton:
+                    id: id_button_register
+                    text: "Register"
+                    theme_text_color: "Custom"
+                    md_bg_color: 0.9, 0.7, 0.2, 1
+                    text_color: 1, 1, 1, 1
+                    on_release: root.do_register()
+                    on_press: root.on_press_spinner()
+            
+
+                BoxLayout:
+                    id: load_spinner_container
+                    orientation: "vertical"
+                    padding: 0, 0
+                    spacing: "30dp"
+        
+                    MDSpinner:
+                        id: load_spinner
+                        size_hint: None, None
+                        size: dp(20), dp(20)
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        #active: True if root.load_if == True else False
+                        active: False
+                        determinate_time: 0
+            

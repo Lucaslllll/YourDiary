@@ -50,6 +50,7 @@ class YourDiaryApp(App, MDApp):
         os.path.join(os.getcwd(), "screens/chat_list_screen/chat-list.kv"),
         os.path.join(os.getcwd(), "screens/profile_screen/profile.kv"),
         os.path.join(os.getcwd(), "screens/about_screen/about.kv"),
+        os.path.join(os.getcwd(), "screens/splash_screen/splash.kv"),
 
     
     }
@@ -67,6 +68,7 @@ class YourDiaryApp(App, MDApp):
         "ChatList": "screens.chat_list_screen.chat-list",
         "Profile": "screens.profile_screen.profile",
         "About": "screens.about_screen.about",
+        "Splash": "screens.splash_screen.splash",
 
     }
 

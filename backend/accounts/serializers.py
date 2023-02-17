@@ -15,8 +15,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate_terms_of_use(self, data):
         if not data:
-            serializers.ValidationError("terms of use not marked")
+            raise serializers.ValidationError("terms of use not marked")
         return data
+
+    
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()

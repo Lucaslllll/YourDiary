@@ -19,9 +19,10 @@ class MainScreenManager(ScreenManager):
         super().__init__(**kwargs)
         self.path = App.get_running_app().user_data_dir+"/"
         store = JsonStore(self.path+'data.json')
+        self.current_atual = "login_name"
         if store.exists('login_auth'):
             if store.get('login_auth')['access'] == True:
-                self.current = "diary_name"
+                self.current_atual = "diary_name"
                 self.user_id = store.get("user")["id"]
         
 
