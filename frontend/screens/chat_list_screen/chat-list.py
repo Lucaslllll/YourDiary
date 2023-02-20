@@ -1,21 +1,14 @@
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.properties import ListProperty, NumericProperty, StringProperty, ObjectProperty
-from kivy.storage.jsonstore import JsonStore
 from kivy.metrics import sp
 from kivy.uix.label import Label
+from kivy.properties import NumericProperty, StringProperty, ObjectProperty
+
 
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.button import MDFlatButton
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.snackbar import Snackbar
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.chip import MDChip
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import OneLineAvatarListItem, ImageLeftWidget
 
 from kaki.app import App
-from datetime import datetime
 from components.connection import AccessDB
 
 

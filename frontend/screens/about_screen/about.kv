@@ -15,6 +15,70 @@
                 BoxLayout:
 
 
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "30dp"
+
+                    MDLabel:
+                        text: "Reporte, Denuncie ou Me Mande Uma Sugestão"
+                        bold: True
+                        halign: "center"
+
+
+
+                    MDTextField:
+                        id: id_titulo_report
+                        hint_text: "Título"
+                        max_text_length: 150
+                        multiline: True
+                        line_color_normal: 1, 0, 1, 1
+                        text_color_focus: 0, 0, 0, 1
+                        
+
+                    MDTextFieldRect:
+                        id: id_detalhes_report
+                        hint_text: "Detalhes"
+                        line_color_normal: 1, 0, 1, 1
+                        text_color_focus: 0, 0, 0, 1
+                        multiline: True
+                        mode: "round"
+                        fill_color: 1, 0, 0, 1
+                        size_hint_y:None
+                        height:"200dp"
+
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "100dp"
+
+
+                        MDRectangleFlatIconButton:
+                            size_hint_x: 1
+                            text: "Enviar"
+                            theme_text_color: "Custom"
+                            icon: "send"
+                            md_bg_color: 0.2, 1, 0.2, 1
+                            text_color: 1, 1, 1, 1
+                            line_color: 0.2, 1, 0.2, 1
+                            icon_color: 1, 1, 1, 1
+                            font_size: "18sp"
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            on_release: root.send_report()
+
+
+                        TooltipMDIconButton:
+                            size_hint_x: 1
+                            icon: "help"
+                            tooltip_text: "Coloque o máximo de informações"
+                            color: 0, 0, 0, 1
+                            pos_hint: {"center_x": .5, "center_y": .5}
+
+
+                MDSeparator:
+                
+
                 MDLabel:
                     text: "Sobre o YourDiary"
                     bold: True
@@ -97,68 +161,7 @@
                             import webbrowser
                             webbrowser.open('http://wa.me/5584981245286')
 
-
-                MDSeparator:
-
-                BoxLayout:
-                    orientation: "vertical"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    spacing: "30dp"
-
-                    MDLabel:
-                        text: "Reporte, Denuncie ou Me Mande Uma Sugestão"
-                        bold: True
-                        halign: "center"
-
-
-
-                    MDTextField:
-                        id: id_titulo_report
-                        hint_text: "Título"
-                        max_text_length: 150
-                        multiline: True
-                        line_color_normal: 1, 0, 1, 1
-                        text_color_focus: 0, 0, 0, 1
-                        
-
-                    MDTextFieldRect:
-                        id: id_detalhes_report
-                        hint_text: "Detalhes"
-                        line_color_normal: 1, 0, 1, 1
-                        text_color_focus: 0, 0, 0, 1
-                        multiline: True
-                        mode: "round"
-                        fill_color: 1, 0, 0, 1
-                        size_hint_y:None
-                        height:"200dp"
-
-
-                    BoxLayout:
-                        size_hint_y: None
-                        height: "100dp"
-
-
-                        MDRectangleFlatIconButton:
-                            size_hint_x: 1
-                            text: "Enviar"
-                            theme_text_color: "Custom"
-                            icon: "send"
-                            md_bg_color: 0.2, 1, 0.2, 1
-                            text_color: 1, 1, 1, 1
-                            line_color: 0.2, 1, 0.2, 1
-                            icon_color: 1, 1, 1, 1
-                            font_size: "18sp"
-                            pos_hint: {"center_x": .5, "center_y": .5}
-                            on_release: root.send_report()
-
-
-                        TooltipMDIconButton:
-                            size_hint_x: 1
-                            icon: "help"
-                            tooltip_text: "Coloque o máximo de informações"
-                            color: 0, 0, 0, 1
-                            pos_hint: {"center_x": .5, "center_y": .5}
+                
 
 
 

@@ -1,5 +1,4 @@
 from kivy.uix.screenmanager import ScreenManager
-from kivy.storage.jsonstore import JsonStore
 from kaki.app import App
 
 
@@ -14,16 +13,6 @@ class MainScreenManager(ScreenManager):
     background_annotation = None
     
 
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.path = App.get_running_app().user_data_dir+"/"
-        store = JsonStore(self.path+'data.json')
-        self.current_atual = "login_name"
-        if store.exists('login_auth'):
-            if store.get('login_auth')['access'] == True:
-                self.current_atual = "diary_name"
-                self.user_id = store.get("user")["id"]
         
 
 

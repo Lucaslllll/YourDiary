@@ -6,4 +6,4 @@ criar versão para android 11 com kivymd inferior
 colocar comentários nas annotations
 colocar um hero para quem instalou pela primeira vez
 colocar imagem padrão para quem não mandou imagem
-colocar usuário ler seus diários offline
+( talvez futuramente, foge muito da ideia, mas pode previne alguns erros como falta de internet na hora de enviar ) colocar usuário ler seus diários offline

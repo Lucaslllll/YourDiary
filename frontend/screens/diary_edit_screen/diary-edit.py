@@ -2,13 +2,10 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.properties import ListProperty, NumericProperty, StringProperty, ObjectProperty
 
-from kivymd.uix.snackbar import BaseSnackbar
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.swiper.swiper import MDSwiperItem
-from kivymd.uix.card import MDCardSwipe
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.filemanager import MDFileManager
 

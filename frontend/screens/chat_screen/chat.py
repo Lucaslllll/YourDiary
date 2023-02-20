@@ -1,25 +1,20 @@
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.properties import ListProperty, NumericProperty, StringProperty
-from kivy.storage.jsonstore import JsonStore
 from kivy.metrics import sp
 from kivy.uix.label import Label
 
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.button import MDFlatButton
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.chip import MDChip
 from kivymd.uix.boxlayout import MDBoxLayout
 
 from kaki.app import App
-from datetime import datetime
 from components.connection import AccessDB
 from kivymd.utils import asynckivy
 import requests
 import json
 from components.crypto import USERNAME, PASSWORD
+#use it as follows
+from kivy.clock import mainthread
 
 
 
@@ -90,7 +85,7 @@ class Chat(MDScreen):
 
 
         try:
-            requisicao = requests.post("http://143.198.165.63/token", data=valores)
+            requisicao = requests.post("http://localhost:8000/token", data=valores)
         except:
             return None
 
@@ -101,6 +96,7 @@ class Chat(MDScreen):
 
 
     # function to test optimization of routes
+    # @mainthread
     def optimization_route_chat(self):
         data = {
             "sender": self.sender,
@@ -108,19 +104,28 @@ class Chat(MDScreen):
         }
 
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
+            
+        
 
-        requisicao = requests.post("http://143.198.165.63/accounts/messages/", data=data, headers=head)
-
-        if requisicao.status_code == 201:
-            return True
-        elif requisicao.status_code == 200:
-            return requisicao.json()
-        elif requisicao.status_code == 401:
-            return "Sem Autorização"
-        elif requisicao.status_code == 400:
-            return "Falta ou Dado Já Repetido Por Outros"
+        try:
+            requisicao = requests.post("http://localhost:8000/accounts/messages/", data=data, headers=head)
+        except Exception as e:
+            requisicao = None
+            
+        # print(requisicao.json())
+        if requisicao != None:
+            if requisicao.status_code == 201:
+                return True
+            elif requisicao.status_code == 200:
+                return requisicao.json()
+            elif requisicao.status_code == 401:
+                return "Sem Autorização"
+            elif requisicao.status_code == 400:
+                return "Falta ou Dado Já Repetido Por Outros"
+            else:
+                return "Erro Inesperado"
         else:
-            return "Erro Inesperado"
+            return "Erro Inesperado 2"
 
 
     def update_msgs(self, *args):
