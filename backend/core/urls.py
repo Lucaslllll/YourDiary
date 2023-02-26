@@ -4,7 +4,7 @@ from .api import CategoryViewSet, AnnotationViewSet, AnnotationByAuthor, Annotat
 from .api import FavoriteViewSet, FavoriteAPI, FavoriteCheckAPI, ReportViewSet, LikeViewSet
 from .api import LikeCheckAPI
 from rest_framework.authtoken import views
-from .views import politic_privacy
+from .views import politic_privacy, terms_of_use
 
 # router = routers.DefaultRouter()
 router = routers.SimpleRouter()
@@ -26,5 +26,5 @@ urlpatterns += [
     path('annotations/favorites/check/', FavoriteCheckAPI.as_view(), name='annotations_favorites_check'),
     path('annotations/likes/check/', LikeCheckAPI.as_view(), name='annotations_likes_check'),
     path('sobre/politica/privacidade', politic_privacy, name='politic_privacy'),
-    path('sobre/termos/uso', politic_privacy, name='terms_of_use'),
+    path('sobre/termos/uso', terms_of_use, name='terms_of_use'),
 ]
