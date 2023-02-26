@@ -36,6 +36,7 @@ class YourDiaryApp(App, MDApp):
         Clock.schedule_interval(self.reload, 120)
 
 
+    # apenas na produção, lembrar de tira quando for compilar
     DEBUG = 1
 
     KV_FILES = {
@@ -52,6 +53,7 @@ class YourDiaryApp(App, MDApp):
         os.path.join(os.getcwd(), "screens/about_screen/about.kv"),
         os.path.join(os.getcwd(), "screens/splash_screen/splash.kv"),
         os.path.join(os.getcwd(), "screens/hero_screen/hero.kv"),
+        os.path.join(os.getcwd(), "screens/configuration_screen/configuration.kv"),
 
     
     }
@@ -71,6 +73,7 @@ class YourDiaryApp(App, MDApp):
         "About": "screens.about_screen.about",
         "Splash": "screens.splash_screen.splash",
         "Hero": "screens.hero_screen.hero",
+        "Configuration": "screens.configuration_screen.configuration",
 
     }
 

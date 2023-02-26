@@ -255,19 +255,14 @@
                     on_release: root.manager.current = "chat_list_name"
 
                 MDNavigationDrawerItem:
+                    text: "Configurar"
+                    icon: "cog-outline"
+                    on_release: root.manager.current = "configuration_name"
+
+                MDNavigationDrawerItem:
                     text: "Perfil"
                     icon: "account"
                     on_release: root.go_profile()
-
-
-                MDNavigationDrawerItem:
-                    text: "Configurar"
-                    icon: "cog-outline"
-
-                MDNavigationDrawerItem:
-                    text: "Logout"
-                    icon: "logout"
-                    on_release: root.do_logout()
 
 
 

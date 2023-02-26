@@ -1,12 +1,5 @@
 from kivymd.uix.screen import MDScreen
 from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.relativelayout import MDRelativeLayout
-from kivymd.uix.list import IRightBodyTouch, OneLineAvatarIconListItem, TwoLineAvatarIconListItem
-from kivymd.uix.selectioncontrol import MDCheckbox
-from kivymd.uix.label import MDLabel
-from kivymd.uix.list import OneLineListItem
-from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.filemanager import MDFileManager
@@ -14,8 +7,6 @@ from kivymd.uix.snackbar import Snackbar
 
 from kivymd.toast import toast
 from kivymd.utils import asynckivy
-from kivymd.icon_definitions import md_icons
-
 
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -75,18 +66,6 @@ class Diary(MDScreen):
         self.manager.current_view_user = self.manager.user_id
         self.manager.current = "profile_name"        
 
-    def do_logout(self):
-        self.path = App.get_running_app().user_data_dir+"/"
-        store = JsonStore(self.path+'data.json')
-
-        if store.exists('login_auth'):
-            store.put('login_auth', access=False)
-
-        if store.exists('user'):
-            store.put('user', id=None)
-
-
-        self.manager.current = "login_name"
 
 
 

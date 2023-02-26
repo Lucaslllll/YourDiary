@@ -6,11 +6,11 @@ sm = ScreenManager()
 
 class MainScreenManager(ScreenManager):
     path = ""
-    user_id = None
-    user_id_chat = None
-    current_view_annotation = None
-    current_view_user = None
-    background_annotation = None
+    user_id = 0
+    user_id_chat = 0
+    current_view_annotation = 0
+    current_view_user = 0
+    background_annotation = "None"
     
 
         

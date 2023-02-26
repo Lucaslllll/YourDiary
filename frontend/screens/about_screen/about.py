@@ -3,7 +3,6 @@ from kivy.clock import Clock
 
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
-from kivymd.uix.dialog import MDDialog
 from kivymd.uix.snackbar import Snackbar
 
 from kaki.app import App

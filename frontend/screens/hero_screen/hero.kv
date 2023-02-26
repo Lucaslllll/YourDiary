@@ -20,6 +20,10 @@
                     size: hero_from.size
                     radius: 100
 
+            MDLabel:
+                text: "Olá! seja bem vindo ao YourDiary!"
+                halign: "center"
+
             MDRaisedButton:
                 text: "Próximo >>"
                 pos_hint: {"center_x": .5}
@@ -33,12 +37,27 @@
             hero_to: hero_to
             md_bg_color: "cadetblue"
 
-            MDHeroTo:
-                id: hero_to
-                tag: "hero"
-                size_hint: None, None
-                size: "220dp", "220dp"
-                pos_hint: {"center_x": .5, "center_y": .5}
+            BoxLayout:
+                orientation: "vertical"
+                padding: "20dp"
+                
+                MDHeroTo:
+                    size_hint_y: 2
+                    id: hero_to
+                    tag: "hero"
+                    size_hint: None, None
+                    size: "220dp", "220dp"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+                MDLabel:
+                    size_hint_y: 1
+                    halign: "justify"
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    text: 
+                        "Nesse app você poderá anotar, escrever coisas pessoais na forma de diário digital"\
+                        ", compartilhar essas anotações com outros, além de poder conversar com outros usuários do YourDiary, "\
+                        "tudo isso de uma forma sem se identificar, se não quiser, é claro ;)"
 
             BoxLayout:
                 orientation: "horizontal"
@@ -66,29 +85,44 @@
         MDScreen:
             name: "screen C"
 
-            MDLabel:
-                text: "Screen C"
-                halign: "center"
-
-
             BoxLayout:
-                orientation: "horizontal"
-                spacing: "50dp"
-                padding: "20dp"
+                orientation: "vertical"
+                
+                BoxLayout:
+                    size_hint_y: 1
+                    spacing: "50dp"
+                    padding: "20dp"
 
-                MDRaisedButton:
-                    size_hint_x: 1
-                    text: "<< Voltar"
-                    pos_hint: {"center_x": .5}
-                    y: "36dp"
-                    on_release:
-                        root.ids.manager_hero.current_heroes = ["hero"]
-                        root.ids.manager_hero.current = "screen B"
+                    MDLabel:
+                        halign: "justify"
+                        size_hint_y: None
+                        pos_hint: {"center_y": .5}
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+                        text: 
+                            "Espero que esse app seja útil no seu dia a dia, "\
+                            "além do mais, espero faça um bom uso do app "
 
-                MDRaisedButton:
-                    size_hint_x: 1
-                    text: "Próximo >>"
-                    pos_hint: {"center_x": .5}
-                    y: "8dp"
-                    on_release:
-                        root.go_splash()
+
+                BoxLayout:
+                    size_hint_y: 1
+                    orientation: "horizontal"
+                    spacing: "50dp"
+                    padding: "20dp"
+
+                    MDRaisedButton:
+                        size_hint_x: 1
+                        text: "<< Voltar"
+                        pos_hint: {"center_x": .5}
+                        y: "36dp"
+                        on_release:
+                            root.ids.manager_hero.current_heroes = ["hero"]
+                            root.ids.manager_hero.current = "screen B"
+
+                    MDRaisedButton:
+                        size_hint_x: 1
+                        text: "Próximo >>"
+                        pos_hint: {"center_x": .5}
+                        y: "8dp"
+                        on_release:
+                            root.go_splash()

@@ -4,6 +4,8 @@ colocar background customizavel, o usuario upa o background que quer, mas tera u
 tentar implementar cython para melhorar desempenho
 criar versão para android 11 com kivymd inferior
 colocar comentários nas annotations
-colocar um hero para quem instalou pela primeira vez
+( X )colocar um hero para quem instalou pela primeira vez
 colocar imagem padrão para quem não mandou imagem
 ( talvez futuramente, foge muito da ideia, mas pode previne alguns erros como falta de internet na hora de enviar ) colocar usuário ler seus diários offline
+colocar pesquisa feacture
+colocar pacote para ver emojis

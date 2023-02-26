@@ -13,10 +13,10 @@ from .utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    http_method_names = ['get', 'head']
+    http_method_names = ['get', 'post', 'head']
 
 
 class AnnotationViewSet(viewsets.ModelViewSet):

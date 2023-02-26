@@ -1,0 +1,82 @@
+<Configuration>
+    MDSliverAppbar:
+        # theme_icon_color: "Custom"
+        # background_color: "#2d4a50"
+        max_height: "200dp"
+
+        MDSliverAppbarHeader:
+
+            MDRelativeLayout:
+                md_bg_color: 0.1, 0, 0.1, 1
+
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "20dp"
+                    pos_hint: {"center_y": .9, "center_x": 0.45}
+
+                    Button:
+                        size_hint_x: 1
+                        id: id_icon
+                        icon: "arrow-left"
+                        size_hint: None, None
+                        width: 50
+                        height: 50
+                        theme_icon_color: "Custom"
+                        icon_color: 1, 1, 1, 1
+                        pos_hint: {'center_y': .5}
+                        on_press: root.manager.current = "diary_name"
+                        on_release: root.manager.current = "diary_name"
+
+                    Label:
+                        size_hint_x: 5
+                        text: "Configurações"
+                        bold: True
+                        font_size: "18sp"
+                        halign: "left"
+
+
+
+
+
+
+        MDSliverAppbarContent:
+            id: content
+            orientation: "vertical"
+            padding: "12dp"
+            spacing: "15dp"
+            adaptive_height: True
+
+
+            
+                    
+            
+
+
+<Content>:
+    size_hint_y: None
+    height: "72dp"
+
+    TwoLineIconListItem:
+        text: root.first_text
+        secondary_text: root.secondary_text
+
+        MDCheckbox:
+            pos_hint: {"center_x": 0.9}
+
+        IconLeftWidget:
+            icon: root.icon
+
+
+<ContentLogout>:
+    size_hint_y: None
+    height: "72dp"
+
+    OneLineIconListItem:
+        text: "Logout"
+        on_release: root.do_logout()
+
+
+        IconLeftWidget:
+            icon: "logout"

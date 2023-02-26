@@ -20,7 +20,7 @@ class Hero(MDScreen):
         store = JsonStore(path+'data.json')
         store.put('times', first_time=True)   
         
-        self.manager.current = "diary_name"
+        self.manager.current = "login_name"
 
 
 # testar para ver se esse custom hero está otimizado

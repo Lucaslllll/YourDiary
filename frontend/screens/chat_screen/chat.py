@@ -85,7 +85,7 @@ class Chat(MDScreen):
 
 
         try:
-            requisicao = requests.post("http://localhost:8000/token", data=valores)
+            requisicao = requests.post("http://143.198.165.63/token", data=valores)
         except:
             return None
 
@@ -108,7 +108,7 @@ class Chat(MDScreen):
         
 
         try:
-            requisicao = requests.post("http://localhost:8000/accounts/messages/", data=data, headers=head)
+            requisicao = requests.post("http://143.198.165.63/accounts/messages/", data=data, headers=head)
         except Exception as e:
             requisicao = None
             
