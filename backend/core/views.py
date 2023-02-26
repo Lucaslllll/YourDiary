@@ -5,6 +5,6 @@ def politic_privacy(request):
 
 
 def terms_of_use(request):
-	return render(request, 'politic.html')
+	return render(request, 'terms.html')
 
 
