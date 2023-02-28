@@ -10,11 +10,14 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kaki.app import App
 from components.connection import AccessDB
 from kivymd.utils import asynckivy
-import requests
 import json
 from components.crypto import USERNAME, PASSWORD
 #use it as follows
 from kivy.clock import mainthread
+
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 
@@ -85,7 +88,7 @@ class Chat(MDScreen):
 
 
         try:
-            requisicao = requests.post("http://143.198.165.63/token", data=valores)
+            requisicao = requests.post("https://api.yourdiary.top/token", data=valores, verify=False)
         except:
             return None
 
@@ -108,7 +111,7 @@ class Chat(MDScreen):
         
 
         try:
-            requisicao = requests.post("http://143.198.165.63/accounts/messages/", data=data, headers=head)
+            requisicao = requests.post("https://api.yourdiary.top/accounts/messages/", data=data, headers=head, verify=False)
         except Exception as e:
             requisicao = None
             

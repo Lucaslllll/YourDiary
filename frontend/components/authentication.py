@@ -5,7 +5,7 @@ from components.crypto import USERNAME, PASSWORD
 
 
 class Authenticat(object):
-    def __init__(self, url_token="http://143.198.165.63/token"):
+    def __init__(self, url_token="http://api.yourdiary.top/token"):
         self.token_access = None
         self.token_refresh = None
         self.url_token = url_token
@@ -25,8 +25,9 @@ class Authenticat(object):
         except:
             return None
 
-        dic_content = requisicao.json()
+        
         if requisicao.status_code == 200:
+            dic_content = requisicao.json()
             self.token_access = dic_content["access"]
             self.token_refresh = dic_content["refresh"]
         elif requisicao.status_code == 401:
@@ -37,7 +38,7 @@ class Authenticat(object):
 
         # return token acess if auth is true
 
-    def do_refresh(self, refresh, url_refresh="http://143.198.165.63/token/refresh"):
+    def do_refresh(self, refresh, url_refresh="http://api.yourdiary.top/token/refresh"):
         valores = {
             "refresh":self.token_refresh,
         }

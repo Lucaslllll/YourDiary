@@ -62,6 +62,8 @@ class Login(MDScreen):
             store.put('user', id=resposta['id'])   
             self.manager.user_id = resposta['id'] 
             
+            self.ids.id_text_username.text = ""
+            self.ids.id_text_password.text = ""
             self.pass_of_login()
         else:
             # melhor usar atributo da funcao do que dessa forma abaixo

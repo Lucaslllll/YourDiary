@@ -1,13 +1,17 @@
-import requests
 import json
 from components.authentication import Authenticat
 from kaki.app import App
 from kivy.storage.jsonstore import JsonStore
 
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 class AccessDB(object):
 
     # tag é só enfeitar e para fácil visualização
-    def __init__(self, name_url:str, url:str="http://143.198.165.63/", tag:str="None"):
+    def __init__(self, name_url:str, url:str="http://api.yourdiary.top/", tag:str="None"):
         self.name_url = name_url
         self.url = url
         self.path = App.get_running_app().user_data_dir+"/"
@@ -30,20 +34,20 @@ class AccessDB(object):
             
             if page != None:
                 try:
-                    request = requests.get(self.url+self.name_url+"?page={}".format(page), headers=head)
+                    request = requests.get(self.url+self.name_url+"?page={}".format(page), headers=head, verify=False)
                 except:
                     return "Error ao Fazer Requisição ao Servidor"                
             
             else:
                 if id_object == None:
                     try:
-                        request = requests.get(self.url+self.name_url, headers=head)
+                        request = requests.get(self.url+self.name_url, headers=head, verify=False)
                     except:
                         return "Error ao Fazer Requisição ao Servidor"
                 
                 else:
                     try:
-                        request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head)
+                        request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)
                     except:
                         return "Error ao Fazer Requisição ao Servidor"
 
@@ -67,7 +71,7 @@ class AccessDB(object):
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
             try:
-                request = requests.delete(self.url+self.name_url+"/{}".format(id_object), headers=head)
+                request = requests.delete(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
@@ -95,12 +99,12 @@ class AccessDB(object):
         if files != None:
             try:
                 requisicao = requests.post(self.url+self.name_url, data=data, files=files,
-                                            headers=head)
+                                            headers=head, verify=False)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
         else:
             try:
-                requisicao = requests.post(self.url+self.name_url, data=data, headers=head)
+                requisicao = requests.post(self.url+self.name_url, data=data, headers=head, verify=False)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
@@ -128,12 +132,12 @@ class AccessDB(object):
         if files != None:
             try:
                 requisicao = requests.put(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, files=files,
-                                            headers=head)
+                                            headers=head, verify=False)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
         else:
             try:
-                requisicao = requests.put(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, headers=head)
+                requisicao = requests.put(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, headers=head, verify=False)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
@@ -159,12 +163,12 @@ class AccessDB(object):
         if files != None:
             try:
                 requisicao = requests.patch(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, files=files,
-                                            headers=head)
+                                            headers=head, verify=False)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
         else:
             try:
-                requisicao = requests.patch(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, headers=head)
+                requisicao = requests.patch(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, headers=head, verify=False)
             except:
                 return "Error ao Fazer Requisição ao Servidor"
 
@@ -192,20 +196,20 @@ class AccessDB(object):
             
             if page != None:
                 try:
-                    request = requests.get(self.url+self.name_url+"/"+str(id_object)+"?page={}".format(page), headers=head)
+                    request = requests.get(self.url+self.name_url+"/"+str(id_object)+"?page={}".format(page), headers=head, verify=False)
                 except:
                     return "Error ao Fazer Requisição ao Servidor"                
                     
             else:
                 if id_object == None:
                     try:
-                        request = requests.get(self.url+self.name_url, headers=head)
+                        request = requests.get(self.url+self.name_url, headers=head, verify=False)
                     except:
                         return "Error ao Fazer Requisição ao Servidor"
                 
                 else:
                     try:
-                        request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head)
+                        request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)
                     except:
                         return "Error ao Fazer Requisição ao Servidor"
 

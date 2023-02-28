@@ -19,20 +19,22 @@ import os
 class Configuration(MDScreen):
 
     def on_pre_enter(self):
+        Window.bind(on_keyboard=self.voltar)
+        Window.bind(on_request_close=self.voltar_android)
         Clock.schedule_once(self.on_start, 1)
         
     def on_pre_leave(self):
+        Window.bind(on_keyboard=self.voltar)
+        Window.bind(on_request_close=self.voltar_android)
         self.ids.content.clear_widgets()
 
-    def a(self):
-        print("a")
 
     def on_start(self, *args):
         self.ids.content.add_widget(
                 MDExpansionPanel(
                     # icon=os.path.join(images_path, "logo", "kivymd-icon-128.png"),
                     icon="panorama-variant-outline",
-                    content=Content("ativar", "claro ou escuro", "arrow-right"),
+                    content=Content("função não implementada", "claro ou escuro", "arrow-right"),
                     panel_cls=MDExpansionPanelOneLine(
                         text="Background",
 
@@ -55,7 +57,7 @@ class Configuration(MDScreen):
         )
 
         self.ids.content.add_widget(
-            ContentLogout()
+            ContentLogout(screen=self)
         )
 
     def do_logout(self):
@@ -72,6 +74,20 @@ class Configuration(MDScreen):
         self.manager.current = "login_name"
 
 
+    def voltar_android(self, *args, **kwargs):
+        self.manager.current = "diary_name"
+        return True
+
+    def voltar(self, window, key, *args):
+        # esc tem o codigo 27
+        if key == 27:
+            self.manager.current = "diary_name"
+            # print(self.manager.current)
+            return True
+
+        return False
+
+
 class Content(BoxLayout):
     first_text = StringProperty()
     secondary_text = StringProperty()
@@ -83,4 +99,8 @@ class Content(BoxLayout):
         self.icon = icon
 
 class ContentLogout(BoxLayout):
-    pass
+    screen = ObjectProperty()
+
+    def __init__(self, screen, **kwargs):
+        super(ContentLogout, self).__init__(**kwargs)
+        self.screen = screen

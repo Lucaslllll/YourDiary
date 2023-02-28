@@ -9,3 +9,4 @@ colocar imagem padrão para quem não mandou imagem
 ( talvez futuramente, foge muito da ideia, mas pode previne alguns erros como falta de internet na hora de enviar ) colocar usuário ler seus diários offline
 colocar pesquisa feacture
 colocar pacote para ver emojis
+colocar comunidades (precisarei de bastante recurso)

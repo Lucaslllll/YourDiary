@@ -4,7 +4,7 @@
 
         MDScreen:
             name: "screen A"
-            md_bg_color: "lightblue"
+            md_bg_color: 0.9, 0.7, 0.2, 1
 
             MDHeroFrom:
                 id: hero_from
@@ -20,7 +20,7 @@
                     size: hero_from.size
                     radius: 100
 
-            MDLabel:
+            Label:
                 text: "Olá! seja bem vindo ao YourDiary!"
                 halign: "center"
 
@@ -35,7 +35,7 @@
         MDScreen:
             name: "screen B"
             hero_to: hero_to
-            md_bg_color: "cadetblue"
+            md_bg_color: 0.9, 0.5, 0.2, 1
 
             BoxLayout:
                 orientation: "vertical"
@@ -49,7 +49,7 @@
                     size: "220dp", "220dp"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
-                MDLabel:
+                Label:
                     size_hint_y: 1
                     halign: "justify"
                     height: self.texture_size[1]
@@ -84,6 +84,7 @@
 
         MDScreen:
             name: "screen C"
+            md_bg_color: 0.5, 0.5, 0.7, 1
 
             BoxLayout:
                 orientation: "vertical"
@@ -93,7 +94,7 @@
                     spacing: "50dp"
                     padding: "20dp"
 
-                    MDLabel:
+                    Label:
                         halign: "justify"
                         size_hint_y: None
                         pos_hint: {"center_y": .5}

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 from kivymd.app import MDApp
 from kaki.app import App
 from kivy.factory import Factory
@@ -14,6 +12,13 @@ from kivy.core.window import Window
 from kivy.config import Config
 Window.softinput_mode = 'below_target'
 Config.set('kivy', 'keyboard_mode', 'systemandmulti')
+
+# para imagens https funcionarem
+import os
+import certifi
+import ssl
+ssl.get_default_verify_paths()
+os.environ['SSL_CERT_FILE'] = "/etc/letsencrypt/live/yourdiary.top/fullchain.pem"
 
 
 class YourDiaryApp(App, MDApp):

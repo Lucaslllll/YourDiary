@@ -44,7 +44,7 @@ class Diary(MDScreen):
         
 
     def on_pre_enter(self):
-        Window.bind(on_request_close=self.confirmacao)
+        Window.bind(on_keyboard=self.confirmacao)
         Clock.schedule_once(self.on_start, 1)
         self.var_previous_page = 0 
         self.var_previous_page_global = 0
@@ -56,7 +56,7 @@ class Diary(MDScreen):
         self.manager.background_annotation = "assets/imagens/yourdiary-logo.png"
 
     def on_pre_leave(self):
-        Window.unbind(on_request_close=self.confirmacao)
+        Window.unbind(on_keyboard=self.confirmacao)
         self.ids.box.clear_widgets()
         self.ids.box_global.clear_widgets()
         self.ids.scroll_id.clear_widgets()
@@ -612,10 +612,10 @@ class Diary(MDScreen):
     # options of configurations
 
     def see_donate(self):
-        strin = "\n  Quem puder ajudar com qualquer valor para melhoria da infraestrutura, funcionalidades ou até para pagar um café :) doe"\
-                "\n\n Paypal: "\
-                "\n Pix: "\
-                "\n\n Aplicativo em fase beta. Mais atualizações em breve... "
+        strin = "\nQuem puder ajudar com qualquer valor para melhoria da infraestrutura, funcionalidades ou até para pagar um café :) doe"\
+                "\n\n\n Paypal: lucascosta12367@gmail.com"\
+                "\n\n\n Aplicativo em fase beta. Mais atualizações em breve... "
+                # Pix: 84 99489-7318
 
         self.dialog = MDDialog(
             title="Ajude o App",
@@ -634,35 +634,33 @@ class Diary(MDScreen):
         self.dialog.open()
 
     # sair do app 
-    def confirmacao(self, *args, **kwargs):
-        # self.add_widget(self.dialog)
-
-    
-        self.dialog = MDDialog(
+    def confirmacao(self, window, key, *args):
+        # esc tem o codigo 27
+        if key == 27:
+            self.dialog = MDDialog(
             text="Deseja realmente sair?",
             md_bg_color=(1,1,1,1),
             buttons=[
-                MDFlatButton(
-                    text="Não",
-                    theme_text_color="Custom",
-                    text_color=(0,0,0,1),
-                    on_release=self.closeDialog
-                ),
+                    MDFlatButton(
+                        text="Não",
+                        theme_text_color="Custom",
+                        text_color=(0,0,0,1),
+                        on_release=self.closeDialog
+                    ),
 
-                MDFlatButton(
-                    text="Sair",
-                    theme_text_color="Custom",
-                    text_color=(0,0,0,1),
-                    on_release=App.get_running_app().stop
-                ),
-            ],
-        )
-    
-        self.dialog.open()
+                    MDFlatButton(
+                        text="Sair",
+                        theme_text_color="Custom",
+                        text_color=(0,0,0,1),
+                        on_release=App.get_running_app().stop
+                    ),
+                ],
+            )
+            self.dialog.open()
 
-        # tem que retorna um True para on_request_close
-        # se não não abre o dialog
-        return True
+            return True
+
+        return False
 
 
         
