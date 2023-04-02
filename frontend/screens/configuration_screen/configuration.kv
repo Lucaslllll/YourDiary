@@ -56,6 +56,17 @@
         IconLeftWidget:
             icon: root.icon
 
+<ContentPickerColor>:
+    size_hint_y: None
+    height: "72dp"
+
+    OneLineIconListItem:
+        text: "Mudar Cor Principal"
+        on_release: root.screen.open_color_picker()
+
+
+        IconLeftWidget:
+            icon: "palette"
 
 <ContentLogout>:
     size_hint_y: None

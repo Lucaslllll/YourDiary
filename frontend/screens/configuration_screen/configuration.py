@@ -3,13 +3,16 @@ from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, NumericProperty, ListProperty, ObjectProperty
 from kivy.storage.jsonstore import JsonStore
+from kivy.uix.popup import Popup
 
 from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine, MDExpansionPanelThreeLine
 # from kivymd import images_path
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.pickers import MDColorPicker
 
+from typing import Union
 from kaki.app import App
 from components.connection import AccessDB
 import os
@@ -57,8 +60,42 @@ class Configuration(MDScreen):
         )
 
         self.ids.content.add_widget(
+            ContentPickerColor(screen=self)
+        )
+
+        self.ids.content.add_widget(
             ContentLogout(screen=self)
         )
+
+
+    def open_color_picker(self):
+        self.color_picker = MDColorPicker(size_hint=(0.45, 0.85))
+        self.color_picker.open()
+        self.color_picker.bind(
+            on_select_color=self.on_select_color,
+            on_release=self.get_selected_color
+        )
+
+    def update_color(self, color: list) -> None:
+        self.manager.color_main = color
+        
+
+    def get_selected_color(
+        self,
+        instance_color_picker: MDColorPicker,
+        type_color: str,
+        selected_color: Union[list, str],
+    ):
+        '''Return selected color.'''
+
+        self.update_color(selected_color[:-1] + [1])
+
+        Popup.dismiss(self.color_picker)
+
+
+    def on_select_color(self, instance_gradient_tab, color: list) -> None:
+        '''Called when a gradient image is clicked.'''
+
 
     def do_logout(self):
         self.path = App.get_running_app().user_data_dir+"/"
@@ -97,6 +134,14 @@ class Content(BoxLayout):
         self.first_text = first_text
         self.secondary_text = secondary_text
         self.icon = icon
+
+class ContentPickerColor(BoxLayout):
+    screen = ObjectProperty()
+
+    def __init__(self, screen, **kwargs):
+        super(ContentPickerColor, self).__init__(**kwargs)
+        self.screen = screen
+
 
 class ContentLogout(BoxLayout):
     screen = ObjectProperty()

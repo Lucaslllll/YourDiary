@@ -94,32 +94,32 @@
 
 
                 MDLabel:
-                    text: "Sobre o Autor:"
+                    text: "Contatos:"
                     bold: True
 
 
-                MDSmartTile:
-                    source: "assets/imagens/perfil.png"
-                    radius: 24
-                    box_radius: [0, 0, 24, 24]
-                    box_color: 1, 1, 1, .2
-                    pos_hint: {"center_x": .5, "center_y": .9}
-                    size_hint: None, None
-                    size: "250dp", "250dp"
-                    # pos: 0, 100
+                # MDSmartTile:
+                #     source: "assets/imagens/perfil.png"
+                #     radius: 24
+                #     box_radius: [0, 0, 24, 24]
+                #     box_color: 1, 1, 1, .2
+                #     pos_hint: {"center_x": .5, "center_y": .9}
+                #     size_hint: None, None
+                #     size: "250dp", "250dp"
+                #     # pos: 0, 100
                     
-                    MDIconButton:
-                        icon: "thumb-up-outline"
-                        theme_icon_color: "Custom"
-                        icon_color: 1, 0, 0, 1
-                        pos_hint: {"center_y": .5}
-                        on_release: self.icon = "thumb-up" if self.icon == "thumb-up-outline" else "thumb-up-outline"
+                #     MDIconButton:
+                #         icon: "thumb-up-outline"
+                #         theme_icon_color: "Custom"
+                #         icon_color: 1, 0, 0, 1
+                #         pos_hint: {"center_y": .5}
+                #         on_release: self.icon = "thumb-up" if self.icon == "thumb-up-outline" else "thumb-up-outline"
 
 
-                    MDLabel:
-                        text: "Lucas Duarte"
-                        bold: True
-                        color: 1, 0, 0, 1
+                #     MDLabel:
+                #         text: "Lucas Duarte"
+                #         bold: True
+                #         color: 1, 0, 0, 1
 
                 
                 BoxLayout:

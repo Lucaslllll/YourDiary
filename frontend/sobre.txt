@@ -10,3 +10,11 @@ colocar imagem padrão para quem não mandou imagem
 colocar pesquisa feacture
 colocar pacote para ver emojis
 colocar comunidades (precisarei de bastante recurso)
+
+
+para compilação:
+
+export P4A_RELEASE_KEYSTORE=~/keystores/yourdiary-key.keystore
+export P4A_RELEASE_KEYSTORE_PASSWD="Thompson.1234"
+export P4A_RELEASE_KEYALIAS_PASSWD="Thompson.1234"
+export P4A_RELEASE_KEYALIAS=yourdiary

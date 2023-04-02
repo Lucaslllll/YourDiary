@@ -70,6 +70,9 @@ class Diary(MDScreen):
 
 
     def on_start(self, *args, **kwargs):
+        # color top
+        self.ids.top_diary.md_bg_color = self.manager.color_main
+
         # list of categories of form
         categories = AccessDB(name_url="categories", tag="CATEGORIES")
         categories = categories.get()

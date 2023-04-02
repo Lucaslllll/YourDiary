@@ -4,8 +4,10 @@
         orientation: 'vertical'
 
         MDTopAppBar:
+            id: top_diary
             title: 'YourDiary'
-            md_bg_color: 1, 0.5, 0.5, 1
+            theme_text_color: "Custom"
+            md_bg_color: root.manager.color_main # = 1, 0.5, 0.5, 1
             left_action_items:
                 [['menu', lambda x: nav_drawer.set_state("open")]]
             elevation: 0

@@ -93,6 +93,7 @@
                     size_hint_y: 1
                     spacing: "50dp"
                     padding: "20dp"
+                    orientation: "vertical"
 
                     Label:
                         halign: "justify"
@@ -104,6 +105,11 @@
                             "Espero que esse app seja útil no seu dia a dia, "\
                             "além do mais, espero faça um bom uso do app "
 
+                    MDRaisedButton:
+                        text: "ESCOLHA A COR PRINCIPAL"
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        # md_bg_color: toolbar.md_bg_color
+                        on_release: root.open_color_picker()
 
                 BoxLayout:
                     size_hint_y: 1

@@ -21,6 +21,10 @@ ssl.get_default_verify_paths()
 os.environ['SSL_CERT_FILE'] = "/etc/letsencrypt/live/yourdiary.top/fullchain.pem"
 
 
+# linux package
+from kivymd import hooks_path as kivymd_hooks_path
+
+
 class YourDiaryApp(App, MDApp):
     def __init__(self, **kwargs):
         # herdará de buttonbehavior e label
@@ -42,7 +46,7 @@ class YourDiaryApp(App, MDApp):
 
 
     # apenas na produção, lembrar de tira quando for compilar
-    DEBUG = 1
+    #DEBUG = 1
 
     KV_FILES = {
         os.path.join(os.getcwd(), "screens/screenmanager.kv"),

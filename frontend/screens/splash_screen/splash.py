@@ -34,5 +34,9 @@ class Splash(MDScreen):
         else:
             self.current_atual = "hero_name"
 
+        if self.store.exists('colors'):
+            self.manager.color_main = self.store.get('colors')['color_main']
+            
+
     def change_screen(self, *args):
         self.manager.current = self.current_atual

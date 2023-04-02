@@ -11,6 +11,7 @@ class MainScreenManager(ScreenManager):
     current_view_annotation = 0
     current_view_user = 0
     background_annotation = "None"
+    color_main = "#ff8080"
     
 
         
