@@ -1,12 +1,12 @@
 <Annotation>
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
 
         MDTopAppBar:
             title: ""
             id: toolbarNoticia
-            md_bg_color: 1, 0.5, 0.5, 1
+            theme_text_color: "Custom"
             use_overflow: True
             #overflow_cls: CustomDropMenu()
 
@@ -39,12 +39,13 @@
                     text: "Título Sobrenome"
 
 
-                FitImage:
+
+                MDSwiper:
                     id: image_annotation
                     size_hint_y: None
-                    height: "300dp"
-                    source: "assets/imagens/yourdiary-logo.png"
-                    radius: 10
+                    height: root.height - title_annotation.height - dp(320)
+                    y: root.height - self.height - title_annotation.height - dp(20)
+
 
 
                 MDLabel:
@@ -63,13 +64,13 @@
                     id: edit_annotation
                     halign: "center"
                     valign: "center"
-                    text: "Não Editado"
+                    text: "No Edited"
 
                 MDLabel:
                     id: public_annotation
                     halign: "center"
                     valign: "center"
-                    text: "Não Público"
+                    text: "Private"
 
 
                 GridLayout:
@@ -95,7 +96,7 @@
                     MDLabel:    
                         halign: "left"
                         bold: True
-                        text: "Ações:"
+                        text: "Actions:"
 
                     BoxLayout:
                         orientation: "horizontal"
@@ -143,3 +144,10 @@
 
 
 <Arroba@ButtonBehavior+MDLabel>:
+
+
+<CustomSwiper>:
+
+    FitImage:
+        source: root.image
+        radius: [20,]

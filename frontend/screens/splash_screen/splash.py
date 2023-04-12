@@ -17,7 +17,7 @@ class Splash(MDScreen):
     
     def on_pre_enter(self):
         Clock.schedule_once(self.on_start, 1)
-        Clock.schedule_once(self.change_screen, 20)
+        Clock.schedule_once(self.change_screen, 3)
 
     def on_start(self, *args):
 

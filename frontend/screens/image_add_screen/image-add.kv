@@ -1,0 +1,70 @@
+<ImageAdd>
+	BoxLayout:
+        id: form_diary_edit
+        orientation: "vertical"
+        spacing: "30dp"
+
+        # FitImage:
+            
+            
+
+        ScrollView:
+
+            BoxLayout:
+                orientation: "vertical"
+                padding: "80dp"
+                spacing: "30dp"
+                size_hint_y: None
+                height: self.minimum_height+100
+
+                
+
+				Label:
+					text: "Image 1: "
+					color: 0, 0, 0, 1                
+
+                MDRoundFlatIconButton:
+                    size_hint_x: 1
+                    text: "Image"
+                    icon: "folder"
+                    on_release: root.file_manager_open()
+
+
+                Label:
+					text: "Image 2: "
+					color: 0, 0, 0, 1                
+
+                MDRoundFlatIconButton:
+                    size_hint_x: 1
+                    text: "Image"
+                    icon: "folder"
+                    on_release: root.file_manager_open()
+
+
+                Label:
+					text: "Image 3: "
+					color: 0, 0, 0, 1                
+
+                MDRoundFlatIconButton:
+                    size_hint_x: 1
+                    text: "Image"
+                    icon: "folder"
+                    on_release: root.file_manager_open()
+
+                # TooltipMDIconButton:
+                #     size_hint_x: 1
+                #     icon: "help"
+                #     tooltip_text: "imagens abaixo de 8mb"
+                #     color: 0, 0, 0, 1
+                        
+
+
+                MDFlatButton:
+                    id: id_note_enviar
+                    text: "Enviar"
+                    theme_text_color: "Custom"
+                    md_bg_color: 0.2, 1, 0.2, 1
+                    text_color: 1, 1, 1, 1
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    on_release: root.send_files()
+                    

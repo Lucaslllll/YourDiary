@@ -4,9 +4,10 @@ from rest_framework.permissions import IsAuthenticated
 
 
 from .models import User, Category, Annotation, Like, Comment, Favorite, Report
+from .models import AnnotationImage
 from .serializers import CategorySerializer, AnnotationSerializer, CommentSerializer
 from .serializers import FavoriteSerializer, FavoriteCheckSerializer, ReportSerializer
-from .serializers import LikeSerializer, LikeCheckSerializer
+from .serializers import LikeSerializer, LikeCheckSerializer, AnnotationImageSerializer
 from .utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 
@@ -42,6 +43,25 @@ class AnnotationPublic(generics.ListAPIView):
 
     def get_queryset(self):
         return Annotation.objects.filter(public=True)
+
+
+class AnnotationImageViewSet(viewsets.ModelViewSet):
+    # permission_classes = (IsAuthenticated, )
+    queryset = AnnotationImage.objects.all()
+    serializer_class = AnnotationImageSerializer
+    pagination_class = StandardResultsSetPagination
+    http_method_names = ['post', 'patch', 'get', 'head', 'options']
+
+
+class ImageByAnnotation(generics.ListAPIView):
+    serializer_class = AnnotationImageSerializer
+    # permission_classes = (IsAuthenticated, )
+    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        annotation = self.kwargs['pk']
+        return AnnotationImage.objects.filter(annotation=annotation)
+
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):

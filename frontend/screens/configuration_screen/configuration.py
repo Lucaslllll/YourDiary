@@ -24,6 +24,7 @@ class Configuration(MDScreen):
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
         Window.bind(on_request_close=self.voltar_android)
+        self.path = App.get_running_app().user_data_dir+"/"
         Clock.schedule_once(self.on_start, 1)
         
     def on_pre_leave(self):
@@ -36,10 +37,10 @@ class Configuration(MDScreen):
         self.ids.content.add_widget(
                 MDExpansionPanel(
                     # icon=os.path.join(images_path, "logo", "kivymd-icon-128.png"),
-                    icon="panorama-variant-outline",
+                    icon="lock-reset",
                     content=Content("função não implementada", "claro ou escuro", "arrow-right"),
                     panel_cls=MDExpansionPanelOneLine(
-                        text="Background",
+                        text="Redefinir Senha",
 
                     ),
 
@@ -77,6 +78,9 @@ class Configuration(MDScreen):
         )
 
     def update_color(self, color: list) -> None:
+        store = JsonStore(self.path+'data.json')
+        store.put('colors', color_main=color)
+
         self.manager.color_main = color
         
 

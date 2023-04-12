@@ -46,7 +46,7 @@ class YourDiaryApp(App, MDApp):
 
 
     # apenas na produção, lembrar de tira quando for compilar
-    #DEBUG = 1
+    DEBUG = 1
 
     KV_FILES = {
         os.path.join(os.getcwd(), "screens/screenmanager.kv"),
@@ -63,6 +63,7 @@ class YourDiaryApp(App, MDApp):
         os.path.join(os.getcwd(), "screens/splash_screen/splash.kv"),
         os.path.join(os.getcwd(), "screens/hero_screen/hero.kv"),
         os.path.join(os.getcwd(), "screens/configuration_screen/configuration.kv"),
+        os.path.join(os.getcwd(), "screens/image_add_screen/image-add.kv"),
 
     
     }
@@ -83,6 +84,7 @@ class YourDiaryApp(App, MDApp):
         "Splash": "screens.splash_screen.splash",
         "Hero": "screens.hero_screen.hero",
         "Configuration": "screens.configuration_screen.configuration",
+        "ImageAdd": "screens.image_add_screen.image-add",
 
     }
 

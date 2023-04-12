@@ -1,16 +1,19 @@
-colocar background customizavel, o usuario upa o background que quer, mas tera um default para todo mundo
+
 ( X ) termos de uso para usuários 
-( X )colocar uma open animada
-tentar implementar cython para melhorar desempenho
-criar versão para android 11 com kivymd inferior
-colocar comentários nas annotations
-( X )colocar um hero para quem instalou pela primeira vez
-colocar imagem padrão para quem não mandou imagem
-( talvez futuramente, foge muito da ideia, mas pode previne alguns erros como falta de internet na hora de enviar ) colocar usuário ler seus diários offline
+( X ) colocar uma open animada
+( X ) colocar um hero para quem instalou pela primeira vez
+( X ) colocar imagem padrão para quem não mandou imagem
+colocar usuário ler seus diários offline ( talvez futuramente, foge muito da ideia, mas pode previne alguns erros como falta de internet na hora de enviar )
 colocar pesquisa feacture
 colocar pacote para ver emojis
 colocar comunidades (precisarei de bastante recurso)
-
+colocar o app em inglês mesmo, língua inglesa tem mais falantes
+colocar background customizavel, o usuario upa o background que quer, mas tera um default para todo mundo
+tentar implementar cython para melhorar desempenho
+criar versão para android 11 com kivymd inferior
+colocar comentários nas annotations
+colocar redefinição de senha
+colocar opçãos para adicionar carrousel de imagens
 
 para compilação:
 
@@ -18,3 +21,7 @@ export P4A_RELEASE_KEYSTORE=~/keystores/yourdiary-key.keystore
 export P4A_RELEASE_KEYSTORE_PASSWD="Thompson.1234"
 export P4A_RELEASE_KEYALIAS_PASSWD="Thompson.1234"
 export P4A_RELEASE_KEYALIAS=yourdiary
+
+export PATH=$PATH:~/.local/bin/
+export PATH=~/Android/Sdk/tools/bin:$PATH
+sudo sysctl fs.inotify.max_user_watches=100000

@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework import routers
 from .api import CategoryViewSet, AnnotationViewSet, AnnotationByAuthor, AnnotationPublic
 from .api import FavoriteViewSet, FavoriteAPI, FavoriteCheckAPI, ReportViewSet, LikeViewSet
-from .api import LikeCheckAPI
+from .api import LikeCheckAPI, AnnotationImageViewSet, ImageByAnnotation
 from rest_framework.authtoken import views
 from .views import politic_privacy, terms_of_use
 
@@ -15,6 +15,7 @@ router.register('annotations', AnnotationViewSet, 'annotations')
 router.register('favorites', FavoriteViewSet, 'favorites')
 router.register('reports', ReportViewSet, 'reports')
 router.register('likes', LikeViewSet, 'likes')
+router.register('annotation/image', AnnotationImageViewSet, 'annotation_image')
 
 urlpatterns = router.urls
 
@@ -25,6 +26,7 @@ urlpatterns += [
     path('annotations/favorites/<int:pk>', FavoriteAPI.as_view(), name='annotations_favorites'),
     path('annotations/favorites/check/', FavoriteCheckAPI.as_view(), name='annotations_favorites_check'),
     path('annotations/likes/check/', LikeCheckAPI.as_view(), name='annotations_likes_check'),
+    path('annotation/image/filter/<int:pk>', ImageByAnnotation.as_view(), name='annotation_image_filter'),
     path('sobre/politica/privacidade', politic_privacy, name='politic_privacy'),
     path('sobre/termos/uso', terms_of_use, name='terms_of_use'),
 ]

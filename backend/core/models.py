@@ -12,7 +12,7 @@ class Annotation(models.Model):
 	name = models.CharField(max_length=255)
 	preview = models.CharField(max_length=255, null=True)
 	text = models.TextField()
-	thumb = models.ImageField(upload_to="images/annotations", null=True, blank=True)
+	thumb = models.ImageField(upload_to="images/annotations", default='default.png', null=True, blank=True)
 	date = models.DateTimeField(null=True, blank=True)
 	category = models.ManyToManyField(Category, blank=True)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -24,6 +24,14 @@ class Annotation(models.Model):
 	
 	class Meta:
 		ordering = ['-id']
+
+
+class AnnotationImage(models.Model):
+	annotation = models.OneToOneField(Annotation, on_delete=models.CASCADE, primary_key=True)
+	image1 = models.ImageField(upload_to="images/annotations")
+	image2 = models.ImageField(upload_to="images/annotations", null=True)
+	image3 = models.ImageField(upload_to="images/annotations", null=True)
+
 
 class Like(models.Model):
 	annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE)

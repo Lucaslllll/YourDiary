@@ -52,6 +52,10 @@ class Diary(MDScreen):
         self.var_atual_page_global = 1
         self.var_next_page = 2
         self.var_next_page_global = 2
+        
+        # color toolbar and navrail
+        self.ids.top_diary.md_bg_color = self.manager.color_main
+        self.ids.id_nav_rail.selected_color_background = self.manager.color_main
 
         self.manager.background_annotation = "assets/imagens/yourdiary-logo.png"
 
@@ -70,8 +74,6 @@ class Diary(MDScreen):
 
 
     def on_start(self, *args, **kwargs):
-        # color top
-        self.ids.top_diary.md_bg_color = self.manager.color_main
 
         # list of categories of form
         categories = AccessDB(name_url="categories", tag="CATEGORIES")

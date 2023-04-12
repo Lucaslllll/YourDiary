@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from .models import User, Message, Profile
 from core.models import Annotation
 from .serializers import UserSerializer, LoginSerializer, MessageSerializer, MessageCreateSerializer
-from .serializers import ChatSerializer, ProfileSerializer
+from .serializers import ChatSerializer, ProfileSerializer, RedefineSerializer, ConfirmeSerializer
 from core.serializers import AnnotationSerializer
 from rest_framework.permissions import IsAuthenticated
 
@@ -64,6 +64,76 @@ class LoginAPI(generics.GenericAPIView):
                             "email" : userOb.email,
                         
                         })
+
+
+class RedefinePasswordAPI(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = RedefineSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = RedefineSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            user = User.objects.get(email=serializer.data['email'])  
+        except User.DoesNotExist:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+        token = CodeProcessing(user.username)
+        token = token.create()
+
+        if token == False:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+        elif token == None:
+            return Response({"error": "email already send, wait 15 minutes"}, status=status.HTTP_400_BAD_REQUEST)
+
+        msg_html = render_to_string('email.html', 
+            {
+                'token':token
+            }
+        )
+        connection = mail.get_connection()
+        connection.open()
+
+        email = mail.EmailMessage(
+            'Suporte - EngenhariaRevista',
+            msg_html,   
+            'techay.oficial@gmail.com', # 'from'
+            [user.email,], # 'to'
+            connection=connection
+        )
+
+        email.send()
+
+        return Response({}, status=status.HTTP_200_OK)
+
+
+class ConfirmePasswordAPI(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = ConfirmeSerializer
+
+    def put(self, request, *args, **kwargs):
+        serializer = ConfirmeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        token = CodeProcessing(serializer.data['username'])
+        token = token.verify(kwargs['token'])
+            
+        if not token:
+            return Response({"error": "token is invalid"}, status=status.HTTP_400_BAD_REQUEST)
+        elif token == None:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.get(username=serializer.data['username'])
+        # fazer make_password resultará em hash da hash
+        # porquanto meu custom user herda User do django que já
+        # usa make_password
+        #   new_password = make_password(password=serializer.data['password'])
+        user.set_password(serializer.data['password'])
+        user.save()
+
+        return Response({}, status=status.HTTP_200_OK)
+
 
 class MessagesAPI(generics.GenericAPIView):
     # permission_classes = (IsAuthenticated, )
@@ -226,3 +296,5 @@ class FollowingAPI(generics.ListAPIView):
             lista.append(following)
 
         return Annotation.objects.filter(author__in=lista, public=True).order_by("-date")
+
+

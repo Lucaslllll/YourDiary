@@ -1,6 +1,6 @@
 <DiaryList>
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: "vertical"
 
         MDTopAppBar:
@@ -63,9 +63,18 @@
     MDCardSwipeLayerBox:
         padding: "8dp"
 
-        MDBoxLayout:
+        BoxLayout:
             orientation: "vertical"
+            spacing: "10dp"
             
+            MDIconButton:
+                icon: "plus"
+                md_bg_color: 0, .7, .1, 1
+                theme_text_color: "Custom"
+                icon_color: 1, 1, 1, 1
+                # pos_hint: {"center_y": .9}
+                on_release: root.add_image()
+
             MDIconButton:
                 icon: "trash-can"
                 md_bg_color: 1, 0, 0, 1
@@ -91,11 +100,11 @@
             text: root.text
             bold: True
 
-            MDBoxLayout:
+            BoxLayout:
                 orientation: "horizontal"
 
                 # qualquer widget serve
-                MDLabel:
+                Label:
                     text: "" 
                     
                 FitImage:

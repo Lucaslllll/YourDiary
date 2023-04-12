@@ -1,6 +1,6 @@
 <Login>
 	
-	MDBoxLayout:
+	BoxLayout:
 		orientation: "vertical"
 		spacing: "-30dp"
 
@@ -12,7 +12,7 @@
 	        #allow_stretch: True
 	
 
-		MDBoxLayout:
+		BoxLayout:
 			orientation: 'vertical'
 			size_hint_y: None
 			height: self.minimum_height
@@ -35,7 +35,7 @@
 	            # validator: "username"
 	
 	
-			MDBoxLayout:
+			BoxLayout:
 	            orientation: "horizontal"
 	            size_hint_y: None
 	            height: id_text_password.height
@@ -62,7 +62,7 @@
 	                    id_text_password.password = False if id_text_password.password is True else True
 	
 	
-	        MDBoxLayout:
+	        BoxLayout:
 	            id: box_entrar_cadastrar
 	            orientation: "horizontal"
 	            padding: 0, 0
@@ -88,7 +88,7 @@
 	                on_press: root.on_press_spinner()
 			
 
-	        MDBoxLayout:
+	        BoxLayout:
 	            id: load_spinner_container
 	            orientation: "vertical"
 	            padding: 0, 0

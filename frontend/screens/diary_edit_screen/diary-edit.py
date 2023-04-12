@@ -1,6 +1,7 @@
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.properties import ListProperty, NumericProperty, StringProperty, ObjectProperty
+from kivy.uix.boxlayout import BoxLayout
 
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.screen import MDScreen
@@ -79,7 +80,7 @@ class DiaryEdit(MDScreen):
             ext_path = primary_external_storage_path()
 
 
-            print(ext_path)
+            # print(ext_path)
             self.file_manager.show(ext_path)
             self.manager_open = True  
 
@@ -171,7 +172,7 @@ class DiaryEdit(MDScreen):
         return False
         
 
-class CheckEditCategory(MDBoxLayout):
+class CheckEditCategory(BoxLayout):
     text = StringProperty()
     id_category = NumericProperty()
     managerer = ObjectProperty()

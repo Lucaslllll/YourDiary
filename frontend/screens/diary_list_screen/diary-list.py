@@ -163,5 +163,9 @@ class SwipeToDeleteItem(MDCardSwipe):
         self.diary_list_screen.manager.current_view_annotation = self.id_annotation
         self.diary_list_screen.manager.current = "diary_edit_name"
 
+    def add_image(self):
+        self.diary_list_screen.manager.current_view_annotation = self.id_annotation
+        self.diary_list_screen.manager.current = "image_add_name"
+
 
 

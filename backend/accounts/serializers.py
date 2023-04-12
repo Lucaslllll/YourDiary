@@ -74,3 +74,39 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+
+
+
+class GetUserSerializer(serializers.Serializer):
+    token = serializers.CharField()
+
+
+class RedefineSerializer(serializers.Serializer):
+    email = serializers.CharField()
+
+    def validate(self, data):
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+        if re.search(regex, data['email']):
+            return data
+        else:
+            raise serializers.ValidationError("Email is Invalid")
+
+class ConfirmeSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+    confirme_password = serializers.CharField()
+
+    def validate(self, data):
+        password1 = data['password']
+        password2 = data['confirme_password']
+
+        if password1 == password2:
+            try:
+                userOb = User.objects.get(username=data['username'])
+            except User.DoesNotExist:
+                raise serializers.ValidationError("User Does Not Exist")
+
+            return data
+
+        else:
+            raise serializers.ValidationError("Passwords not match")

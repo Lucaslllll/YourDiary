@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g5kjc0j(_v#_w*@6hch9xq7cv!e65%_vdsujy3y4vuxk%61$ws'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['143.198.165.63', 'localhost', 'yourdiary.top', 'api.yourdiary.top', 'www.yourdiary.top']
 
@@ -45,12 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
-    'core',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'django_cleanup'
+    'django_cleanup',
+    'accounts',
+    'core',
 ]
 
 
@@ -81,6 +81,7 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # cors
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -188,9 +189,12 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+EMAIL_FILE_PATH = '/tmp/app-messages'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp-relay.sendinblue.com"
+EMAIL_HOST_USER = 'techay.oficial@gmail.com'
+EMAIL_HOST_PASSWORD = '4MDhq2ZpEJfxQmRC'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ""
-EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_TLS = True
+PASSWORD_RESET_TIMEOUT_DAYS = 1
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

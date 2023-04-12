@@ -7,7 +7,6 @@
             id: top_diary
             title: 'YourDiary'
             theme_text_color: "Custom"
-            md_bg_color: root.manager.color_main # = 1, 0.5, 0.5, 1
             left_action_items:
                 [['menu', lambda x: nav_drawer.set_state("open")]]
             elevation: 0
@@ -35,23 +34,24 @@
                         id: id_nav_rail
                         md_bg_color: "#fed8b1"
                         badge_bg_color: "#ffb11b"
-                        
+                        text_color_item_active: "white"
+                        icon_color_item_active: "white"
 
                         MDNavigationRailItem:
                             id: id_filter_todos
-                            text: "Todos"
+                            text: "Global"
                             icon: "search-web"
                             on_release: root.refresh_callback_global()
 
 
                         MDNavigationRailItem:
-                            text: "Seguidos"
+                            text: "Following"
                             icon: "book-heart"
                             on_release: root.following_area()
 
 
                         MDNavigationRailItem:
-                            text: "Favoritos"
+                            text: "Favorites"
                             icon: "star"
                             on_release: root.star_area()
 
@@ -85,7 +85,7 @@
 
             MDBottomNavigationItem:
                 name: 'screen 2'
-                text: 'Pessoal'
+                text: 'Personal'
                 icon: 'bag-personal'
                 # badge_icon: "numeric-5"
 
@@ -111,7 +111,7 @@
 
             MDBottomNavigationItem:
                 name: 'screen 3'
-                text: 'Nova Anotação'
+                text: 'New Annotation'
                 icon: 'note'
 
                 BoxLayout:
