@@ -25,3 +25,13 @@ export P4A_RELEASE_KEYALIAS=yourdiary
 export PATH=$PATH:~/.local/bin/
 export PATH=~/Android/Sdk/tools/bin:$PATH
 sudo sysctl fs.inotify.max_user_watches=100000
+
+
+
+para resolver
+- targets = avdmanager('list', 'target').stdout.decode('utf-8').split('\n')
+AttributeError: 'str' object has no attribute 'stdout'
+
+---> pip install python-for-android==v2023.02.10
+---> sudo apt-get install libltdl-dev
+---> change api=31 to api=27 to download packages
