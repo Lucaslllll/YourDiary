@@ -4,13 +4,13 @@
         orientation: "vertical"
 
 
-
-        MDTopAppBar:
-            title: ""
-            id: toolbarProfile
-            md_bg_color: 0.9, 0.7, 0.2, 1
-            use_overflow: True
-            #overflow_cls: CustomDropMenu()
+        # desnecessário, menos pode ser mais, principalmente tratando de kivymd :(
+        # MDTopAppBar:
+        #     title: ""
+        #     id: toolbarProfile
+        #     md_bg_color: 0.9, 0.7, 0.2, 1
+        #     use_overflow: True
+        #     #overflow_cls: CustomDropMenu()
 
 
 
@@ -63,12 +63,12 @@
 
                     MDLabel:
                         id: idFollowerLabel
-                        text: "0 Seguidores"
+                        text: "0 Followers"
                         halign: "center"
 
                     MDLabel:
                         id: idFollowingLabel
-                        text: "0 Seguindo"
+                        text: "0 Following"
                         halign: "center"
 
 
@@ -94,6 +94,7 @@
                     size_hint_x: 1
                     disabled: True
                     opacity: 0
+                    on_release: root.manager.current = 'configuration_name'
 
                 MDIconButton:
                     id: idButtonChat
@@ -121,14 +122,15 @@
                 size_hint_y: None
                 height: self.minimum_height
                 padding: "40dp"
-                disabled: True
-                opacity: 0                
+                
+                               
                 
                 MDLabel:
+                    id: idAlertField
                     size_hint_y: None
                     height: "100dp"
                     halign: "justify"
-                    text: "Parece que você ainda não tem email cadastrado, caso queira, cadastre!"
+                    text: "It seems that you still don't have an email registered, if you want, register!"
 
 
                 BoxLayout:
@@ -138,10 +140,13 @@
                     pos_hint: {"center_y": 0.9}
 
                     MDTextField:
+                        id: idEmailField
                         validator: "email"
 
                     MDFlatButton:
+                        id: idSendField
                         text: "enviar"
+                        on_release: root.validar_password()
 
         BoxLayout:
 

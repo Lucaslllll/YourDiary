@@ -40,25 +40,25 @@ class Configuration(MDScreen):
                     icon="lock-reset",
                     content=Content("função não implementada", "claro ou escuro", "arrow-right"),
                     panel_cls=MDExpansionPanelOneLine(
-                        text="Redefinir Senha",
+                        text="Reset Senha",
 
                     ),
 
                 )
         )
 
-        self.ids.content.add_widget(
-                MDExpansionPanel(
-                    # icon=os.path.join(images_path, "logo", "kivymd-icon-128.png"),
-                    icon="shield-airplane",
-                    content=Content("função não implementada", "usar app offline", "arrow-right"),
-                    panel_cls=MDExpansionPanelOneLine(
-                        text="Offline",
+        # self.ids.content.add_widget(
+        #         MDExpansionPanel(
+        #             # icon=os.path.join(images_path, "logo", "kivymd-icon-128.png"),
+        #             icon="shield-airplane",
+        #             content=Content("função não implementada", "usar app offline", "arrow-right"),
+        #             panel_cls=MDExpansionPanelOneLine(
+        #                 text="Offline",
 
-                    ),
+        #             ),
 
-                )
-        )
+        #         )
+        # )
 
         self.ids.content.add_widget(
             ContentPickerColor(screen=self)
@@ -68,6 +68,9 @@ class Configuration(MDScreen):
             ContentLogout(screen=self)
         )
 
+
+    def confirme_in_email(self):
+        pass
 
     def open_color_picker(self):
         self.color_picker = MDColorPicker(size_hint=(0.45, 0.85))

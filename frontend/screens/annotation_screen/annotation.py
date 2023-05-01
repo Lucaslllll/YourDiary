@@ -7,6 +7,8 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.chip import MDChip
 from kivymd.uix.swiper.swiper import MDSwiperItem
 from kivymd.uix.fitimage.fitimage import FitImage
+from kivymd.uix.tab import MDTabsBase
+from kivymd.uix.floatlayout import MDFloatLayout
 
 from kaki.app import App
 from components.connection import AccessDB
@@ -48,6 +50,7 @@ class Annotation(MDScreen):
         
         # set color toolbar 
         self.ids.toolbarNoticia.md_bg_color = self.manager.color_main
+        self.ids.toolbarNoticia.back_layer_color = self.manager.color_main
 
         self.start_image()
         self.start_content()
@@ -222,3 +225,7 @@ class Annotation(MDScreen):
 
 class CustomSwiper(MDSwiperItem):
     image = StringProperty()
+
+
+class Tab(MDFloatLayout, MDTabsBase):
+    '''Class implementing content for a tab.'''

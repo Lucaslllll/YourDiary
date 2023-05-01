@@ -349,7 +349,7 @@ class Diary(MDScreen):
             if type(annotations) is dict:
 
                 for i_annotations in annotations["results"]:
-                    await asynckivy.sleep(1)
+                    await asynckivy.sleep(0.1)
                     self.ids.box_global.add_widget(
                         MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
                                 image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
@@ -367,9 +367,10 @@ class Diary(MDScreen):
     def refresh_callback_global(self, *args):
         # self.ids.idNavRail.switch_tab(0)
         # self.ids.id_filter_todos.active = True
+        self.ids.box_global.clear_widgets()
 
         def refresh_callback_global(interval):
-            self.ids.box_global.clear_widgets()
+            
             self.var_previous_page_global = 0
             self.var_atual_page_global = 1
             self.var_next_page_global = 2
@@ -382,7 +383,7 @@ class Diary(MDScreen):
             self.ids.refresh_layout_global.refresh_done()
             self.tick = 0
 
-        Clock.schedule_once(refresh_callback_global, 1)
+        Clock.schedule_once(refresh_callback_global, 0.5)
         
 
 
@@ -483,7 +484,7 @@ class Diary(MDScreen):
             if type(annotations) is dict:
 
                 for i_annotations in annotations["results"]:
-                    await asynckivy.sleep(1)
+                    await asynckivy.sleep(0.1)
                     self.ids.box.add_widget(
                         MDCardDiary(diary_screen=self, date_annotation=i_annotations['date'], id_annotation=i_annotations["id"], 
                                 image_thumb=i_annotations["thumb"] if i_annotations["thumb"] != None else self.image_thumb_none, 
@@ -499,10 +500,10 @@ class Diary(MDScreen):
 
 
     def refresh_callback(self, *args):
-        
+        self.ids.box.clear_widgets()
 
         def refresh_callback(interval):
-            self.ids.box.clear_widgets()
+            
             self.var_previous_page = 0
             self.var_atual_page = 1
             self.var_next_page = 2
@@ -515,7 +516,7 @@ class Diary(MDScreen):
             self.ids.refresh_layout.refresh_done()
             self.tick = 0
 
-        Clock.schedule_once(refresh_callback, 1)
+        Clock.schedule_once(refresh_callback, 0.5)
 
 
 
@@ -617,13 +618,13 @@ class Diary(MDScreen):
     # options of configurations
 
     def see_donate(self):
-        strin = "\nQuem puder ajudar com qualquer valor para melhoria da infraestrutura, funcionalidades ou até para pagar um café :) doe"\
+        strin = "\nAnyone who can help with any amount to improve the infrastructure, features or even to pay for a coffee :) donate"\
                 "\n\n\n Paypal: lucascosta12367@gmail.com"\
-                "\n\n\n Aplicativo em fase beta. Mais atualizações em breve... "
+                "\n\n\n Application in beta phase. More updates coming soon... "
                 # Pix: 84 99489-7318
 
         self.dialog = MDDialog(
-            title="Ajude o App",
+            title="Help The App",
             text=strin,
             md_bg_color=(1,1,1,1),
             buttons=[
@@ -643,18 +644,18 @@ class Diary(MDScreen):
         # esc tem o codigo 27
         if key == 27:
             self.dialog = MDDialog(
-            text="Deseja realmente sair?",
+            text="Do you really want to leave?",
             md_bg_color=(1,1,1,1),
             buttons=[
                     MDFlatButton(
-                        text="Não",
+                        text="No",
                         theme_text_color="Custom",
                         text_color=(0,0,0,1),
                         on_release=self.closeDialog
                     ),
 
                     MDFlatButton(
-                        text="Sair",
+                        text="Exit",
                         theme_text_color="Custom",
                         text_color=(0,0,0,1),
                         on_release=App.get_running_app().stop

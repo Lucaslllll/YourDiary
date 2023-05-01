@@ -7,13 +7,14 @@ from .models import User, Message, Profile
 from core.models import Annotation
 from .serializers import UserSerializer, LoginSerializer, MessageSerializer, MessageCreateSerializer
 from .serializers import ChatSerializer, ProfileSerializer, RedefineSerializer, ConfirmeSerializer
+from .serializers import SendEmailSerializer
 from core.serializers import AnnotationSerializer
 from rest_framework.permissions import IsAuthenticated
 
 from core.utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 class UserViewSet(viewsets.ModelViewSet):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     queryset = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ['post', 'patch', 'get', 'head']
@@ -42,7 +43,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         new_data = serializer.data
         del new_data["password"]
-        del new_data["email"]
+        # del new_data["email"]
         return Response(new_data)
 
 
@@ -64,6 +65,30 @@ class LoginAPI(generics.GenericAPIView):
                             "email" : userOb.email,
                         
                         })
+
+
+
+
+class SendEmailAPI(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = SendEmailSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = SendEmailSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            user = User.objects.get(pk=serializer.data['id'])  
+        except User.DoesNotExist:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        user.email = serializer.data['email']
+        user.save()
+
+
+        return Response({}, status=status.HTTP_200_OK)
+
 
 
 class RedefinePasswordAPI(generics.GenericAPIView):

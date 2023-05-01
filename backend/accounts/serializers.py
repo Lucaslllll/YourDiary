@@ -81,6 +81,13 @@ class GetUserSerializer(serializers.Serializer):
     token = serializers.CharField()
 
 
+
+class SendEmailSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    email = serializers.CharField()
+
+
+
 class RedefineSerializer(serializers.Serializer):
     email = serializers.CharField()
 

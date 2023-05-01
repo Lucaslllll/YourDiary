@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 from .api import UserViewSet, LoginAPI, MessagesAPI, MessagesCreateAPI, ChatAPI
-from .api import ProfileViewSet, ProfileAPI, FollowingAPI
+from .api import ProfileViewSet, ProfileAPI, FollowingAPI, SendEmailAPI
 from rest_framework.authtoken import views
     
 
@@ -21,6 +21,7 @@ urlpatterns += [
     path('chat/', ChatAPI.as_view(), name='chat'),
     path('profiles/check/<int:pk>', ProfileAPI.as_view(), name='profiles_check'),
     path('followings/<int:pk>', FollowingAPI.as_view(), name='followings'),
+    path('email/send/', SendEmailAPI.as_view(), name='send email'),
 
 
 ]

@@ -16,6 +16,7 @@ from components.connection import AccessDB
 import os
 from kivy.utils import platform
 from kivymd.toast import toast
+import re
 
 
 class Profile(MDScreen):
@@ -28,24 +29,24 @@ class Profile(MDScreen):
         self.user_db = AccessDB(name_url="accounts/users", tag="USERS")
         self.profile_followers = ""
         self.profile_following = ""
-        
+
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
         Window.bind(on_request_close=self.voltar_android)
         self.files = {}
         self.texto_alert = ""
-        Clock.schedule_once(self.on_start, 1)
-       
+        Clock.schedule_once(self.on_start, 0.8)
+
 
     def on_start(self, *args):
         if self.manager.current_view_user == self.manager.user_id:
             self.user_ob = self.user_db.get(id_object=self.manager.user_id)
             self.ids.idImageProfile.disabled = False
-            
+
             self.ids.idValidationEmail.opacity = 1
             self.ids.idValidationEmail.disabled = False
- 
+
             self.ids.idButtonConfig.disabled = False
             self.ids.idButtonConfig.opacity = 1
             self.ids.idButtonChat.disabled = True
@@ -65,17 +66,17 @@ class Profile(MDScreen):
             self.ids.idButtonChat.opacity = 1
             self.ids.idButtonFollow.disabled = False
             self.ids.idButtonFollow.opacity = 1
-            
+
             # print("else " +str(self.manager.current_view_user))
 
-        
+
 
 
         if type(self.user_ob) is dict:
             if self.user_ob["image"] != None:
                 self.ids.idImageProfile.source = self.user_ob["image"]
 
-            self.ids.idNamePerfil.text = "".join([self.user_ob["first_name"], " ", self.user_ob["last_name"] ]) 
+            self.ids.idNamePerfil.text = "".join([self.user_ob["first_name"], " ", self.user_ob["last_name"] ])
 
             profile_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
             profile_ob = profile_ob.get(id_object=self.manager.current_view_user)
@@ -86,17 +87,26 @@ class Profile(MDScreen):
                     self.ids.idButtonFollow.icon = "account-check"
                     self.ids.idButtonFollow.on_release = self.do_unfollow
                 else:
-                    self.ids.idButtonFollow.on_release = self.do_follow    
+                    self.ids.idButtonFollow.on_release = self.do_follow
 
-                self.ids.idFollowerLabel.text = "".join([str(len(profile_ob[0]["followers"])), " Seguidores"])
-                self.ids.idFollowingLabel.text = "".join([ str(len(profile_ob[0]["following"])), " Seguindo"])                
+                self.ids.idFollowerLabel.text = "".join([str(len(profile_ob[0]["followers"])), " Followers"])
+                self.ids.idFollowingLabel.text = "".join([ str(len(profile_ob[0]["following"])), " Following"])
 
             else:
                 self.ids.idButtonFollow.on_release = self.do_follow
-            
 
-            
-            
+
+            if self.user_ob["email"] == None:
+                self.ids.idValidationEmail.disabled = False
+                self.ids.idValidationEmail.opacity = 1
+            else:
+                self.ids.idValidationEmail.disabled = True
+                self.ids.idValidationEmail.opacity = 0
+        else:
+            # caso sem conexão, então oculta ;)
+            self.ids.idValidationEmail.disabled = True
+            self.ids.idValidationEmail.opacity = 0
+
 
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.voltar)
@@ -105,7 +115,7 @@ class Profile(MDScreen):
         self.ids.idButtonProfile.disabled = True
 
         self.ids.idValidationEmail.opacity = 0
-        self.ids.idValidationEmail.disabled = True        
+        self.ids.idValidationEmail.disabled = True
 
         self.ids.idButtonConfig.opacity = 0
         self.ids.idButtonConfig.disabled = True
@@ -126,12 +136,12 @@ class Profile(MDScreen):
             import android
             from android.storage import primary_external_storage_path
             from android.permissions import request_permissions, Permission
-            
+
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
             ext_path = primary_external_storage_path()
 
             self.file_manager.show(ext_path)
-            self.manager_open = True  
+            self.manager_open = True
 
     def select_path(self, path: str):
         self.exit_manager()
@@ -173,7 +183,7 @@ class Profile(MDScreen):
 
     def timeout_spinner(self, *args):
         self.ids.load_spinner_note.active = False
-      
+
     def on_press_spinner(self, *args):
         self.ids.load_spinner_note.active = True
         self.ids.load_spinner_note.determinate = False
@@ -185,7 +195,7 @@ class Profile(MDScreen):
 
     # ações
     def send_photo(self):
-        
+
         user_ob = self.user_db.patch(id_object=self.manager.user_id, data={}, files=self.files)
 
         if type(user_ob) is dict:
@@ -216,21 +226,21 @@ class Profile(MDScreen):
             profile_ob =  AccessDB(name_url="accounts/profiles/", tag="PROFILES")
             profile_ob = profile_ob.post(data=data)
 
-        else:   
+        else:
             followers = profile_ob[0]["followers"]
             data["followers"] = list(set(followers) | set(data["followers"]))
-            
+
             profile_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
             profile_ob = profile_ob.patch(id_object=self.manager.current_view_user, data=data)
-        
+
         self.update_profiles(unfollow=False)
 
-            
+
 
 
         profile_user_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
         profile_user_ob = profile_user_ob.get(id_object=self.manager.user_id)
-        
+
         if len(profile_user_ob) == 0:
             profile_user_ob =  AccessDB(name_url="accounts/profiles/", tag="PROFILES")
             profile_user_ob = profile_user_ob.post(data=dataUser)
@@ -241,7 +251,7 @@ class Profile(MDScreen):
 
             profile_user_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
             profile_user_ob = profile_user_ob.patch(id_object=self.manager.user_id, data=dataUser)
-            
+
 
 
 
@@ -250,25 +260,25 @@ class Profile(MDScreen):
         profile_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
         profile_ob = profile_ob.get(id_object=self.manager.current_view_user)
         if len(profile_ob) != 0:
-            
+
             if self.manager.user_id in profile_ob[0]["followers"]:
                 profile_ob[0]["followers"].remove(self.manager.user_id)
                 data = profile_ob[0]
                 profile_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
                 profile_ob = profile_ob.put(id_object=self.manager.current_view_user, data=data)
 
-            
+
 
         profile_user_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
-        profile_user_ob = profile_user_ob.get(id_object=self.manager.user_id)        
+        profile_user_ob = profile_user_ob.get(id_object=self.manager.user_id)
         if len(profile_user_ob) != 0:
-            
+
             if self.manager.current_view_user in profile_user_ob[0]["following"]:
                 profile_user_ob[0]["following"].remove(self.manager.current_view_user)
                 data = profile_user_ob[0]
                 profile_user_ob =  AccessDB(name_url="accounts/profiles", tag="PROFILES")
                 profile_user_ob = profile_user_ob.put(id_object=self.manager.user_id, data=data)
-                self.update_profiles(unfollow=True)            
+                self.update_profiles(unfollow=True)
 
 
 
@@ -282,12 +292,48 @@ class Profile(MDScreen):
             self.ids.idButtonFollow.on_release = self.do_unfollow
 
         profile_ob =  AccessDB(name_url="accounts/profiles/check", tag="PROFILES")
-        profile_ob = profile_ob.get(id_object=self.manager.current_view_user)        
-        self.ids.idFollowerLabel.text = "".join([str(len(profile_ob[0]["followers"])), " Seguidores"])
-        self.ids.idFollowingLabel.text = "".join([ str(len(profile_ob[0]["following"])), " Seguindo"])
+        profile_ob = profile_ob.get(id_object=self.manager.current_view_user)
+        self.ids.idFollowerLabel.text = "".join([str(len(profile_ob[0]["followers"])), " Followers"])
+        self.ids.idFollowingLabel.text = "".join([ str(len(profile_ob[0]["following"])), " Following"])
 
     # fim de ações
 
+
+    def validar_password(self):
+        emailText = self.ids.idEmailField.text
+
+        if  emailText == "":
+            self.texto_alert = "Empty Field"
+            Clock.schedule_once(self.alert_error_connection, 2)
+        else:
+            regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
+
+            if re.search(regex, emailText):
+
+                data = {
+                    "id": self.manager.current_view_user,
+                    "email": emailText
+                }
+
+                email_ob =  AccessDB(name_url="accounts/email/send/", tag="SEND_EMAIL")
+                email_ob = email_ob.post(data=data)
+
+
+
+                if type(email_ob) is dict:
+                    self.texto_alert = "Successfully Sent"
+                    Clock.schedule_once(self.alert_error_connection, 2)
+                    self.ids.idValidationEmail.disabled = True
+                    self.ids.idValidationEmail.opacity = 0
+
+                else:
+                    self.texto_alert = "An Error Occurred, Please Check Your Connection"
+                    Clock.schedule_once(self.alert_error_connection, 2)
+
+            else:
+                self.texto_alert = "Email Invalid"
+                Clock.schedule_once(self.alert_error_connection, 2)
 
 
     def voltar_android(self, *args, **kwargs):
@@ -302,4 +348,3 @@ class Profile(MDScreen):
             return True
 
         return False
-

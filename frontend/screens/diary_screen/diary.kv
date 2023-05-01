@@ -132,14 +132,14 @@
 
                             MDTextField:
                                 id: id_note_name
-                                hint_text: "Título"
+                                hint_text: "Title"
                                 max_text_length: 150
                                 line_color_normal: 1, 0, 1, 1
                                 text_color_focus: 0, 0, 0, 1
                                 
                             MDTextField:
                                 id: id_note_preview
-                                hint_text: "prévia"
+                                hint_text: "Preview"
                                 max_text_length: 150
                                 multiline: True
                                 line_color_normal: 1, 0, 1, 1
@@ -148,7 +148,7 @@
 
                             MDTextFieldRect:
                                 id: id_note_text
-                                hint_text: "Texto"
+                                hint_text: "Text"
                                 line_color_normal: 1, 0, 1, 1
                                 text_color_focus: 0, 0, 0, 1
                                 multiline: True
@@ -163,7 +163,7 @@
                                 orientation: "horizontal"
 
                                 MDLabel:
-                                    text: "Público"
+                                    text: "Public"
 
 
                                 MDSwitch:
@@ -175,7 +175,7 @@
                                     track_color_inactive: "grey"
 
                             MDLabel:
-                                text: "Categoria"
+                                text: "Categories"
 
 
                             ScrollView:
@@ -193,19 +193,19 @@
 
                                 MDRoundFlatIconButton:
                                     size_hint_x: 1
-                                    text: "Imagem"
+                                    text: "Image"
                                     icon: "folder"
                                     on_release: root.file_manager_open()
 
                                 TooltipMDIconButton:
                                     size_hint_x: 1
                                     icon: "help"
-                                    tooltip_text: "imagens abaixo de 8mb"
+                                    tooltip_text: "send image below 8mb"
                                     color: 0, 0, 0, 1
 
                             MDRectangleFlatIconButton:
                                 id: id_note_enviar
-                                text: "Enviar"
+                                text: "Send"
                                 theme_text_color: "Custom"
                                 icon: "send"
                                 md_bg_color: 0.2, 1, 0.2, 1
@@ -247,22 +247,22 @@
 
         
                 MDNavigationDrawerItem:
-                    text: "Organizar Notas"
+                    text: "Edit Notes"
                     icon: "playlist-edit"
                     on_release: root.manager.current = "diary_list_name"
 
                 MDNavigationDrawerItem:
-                    text: "Seus Chats"
+                    text: "Yours Chats"
                     icon: "chat"
                     on_release: root.manager.current = "chat_list_name"
 
                 MDNavigationDrawerItem:
-                    text: "Configurar"
+                    text: "Settings"
                     icon: "cog-outline"
                     on_release: root.manager.current = "configuration_name"
 
                 MDNavigationDrawerItem:
-                    text: "Perfil"
+                    text: "Profile"
                     icon: "account"
                     on_release: root.go_profile()
 
@@ -273,16 +273,16 @@
 
 
                 MDNavigationDrawerLabel:
-                    text: "Sobre"
+                    text: "About"
 
                 DrawerLabelItem:
                     icon: "information-outline"
-                    text: "Sobre o app"
+                    text: "About App"
                     on_release: root.manager.current = "about_name"
 
                 DrawerLabelItem:
                     icon: "handshake-outline"
-                    text: "Ajude o app"
+                    text: "Help App"
                     on_release: root.see_donate()
 
 
@@ -346,7 +346,7 @@
 
         MDRoundFlatIconButton:
             pos_hint: {"center_x":  0.7, "center_y": 0.5}
-            text: "Observar"
+            text: "Read"
             md_bg_color: 0.2, 0.6, 0.7, 1
             line_color: "#45d8cf"
             text_color: 1, 1, 1, 1
@@ -366,7 +366,7 @@
 
         MDFlatButton:
             id: previous_diary_id
-            text: "<< antes"
+            text: "<< previus"
             theme_text_color: "Custom"
             text_color: "#E2F14F"
             pos_hint: {'center_x': .4}
@@ -389,7 +389,7 @@
 
         MDFlatButton:
             id: next_diary_id
-            text: "próximo >>"
+            text: "next >>"
             theme_text_color: "Custom"
             text_color: "#0BD126"
             pos_hint: {'center_x': .6}                
@@ -409,7 +409,7 @@
 
         MDFlatButton:
             id: previous_diary_id
-            text: "<< antes"
+            text: "<< previous"
             theme_text_color: "Custom"
             text_color: "#E2F14F"
             pos_hint: {'center_x': .4}
@@ -432,7 +432,7 @@
 
         MDFlatButton:
             id: next_diary_id
-            text: "próximo >>"
+            text: "next >>"
             theme_text_color: "Custom"
             text_color: "#0BD126"
             pos_hint: {'center_x': .6}                
@@ -453,7 +453,7 @@
 
         MDFlatButton:
             id: previous_diary_id
-            text: "<< antes"
+            text: "<< previous"
             theme_text_color: "Custom"
             text_color: "#E2F14F"
             pos_hint: {'center_x': .4}
@@ -476,7 +476,7 @@
 
         MDFlatButton:
             id: next_diary_id
-            text: "próximo >>"
+            text: "next >>"
             theme_text_color: "Custom"
             text_color: "#0BD126"
             pos_hint: {'center_x': .6}                
@@ -496,7 +496,7 @@
 
         MDFlatButton:
             id: previous_diary_id
-            text: "<< antes"
+            text: "<< previous"
             theme_text_color: "Custom"
             text_color: "#E2F14F"
             pos_hint: {'center_x': .4}
@@ -519,7 +519,7 @@
 
         MDFlatButton:
             id: next_diary_id
-            text: "próximo >>"
+            text: "next >>"
             theme_text_color: "Custom"
             text_color: "#0BD126"
             pos_hint: {'center_x': .6}                

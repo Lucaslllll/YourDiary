@@ -21,11 +21,11 @@
                     radius: 100
 
             Label:
-                text: "Olá! seja bem vindo ao YourDiary!"
+                text: "Hello! Welcome to YourDiary!"
                 halign: "center"
 
             MDRaisedButton:
-                text: "Próximo >>"
+                text: "Next >>"
                 pos_hint: {"center_x": .5}
                 y: "36dp"
                 on_release:
@@ -55,9 +55,9 @@
                     height: self.texture_size[1]
                     text_size: self.width, None
                     text: 
-                        "Nesse app você poderá anotar, escrever coisas pessoais na forma de diário digital"\
-                        ", compartilhar essas anotações com outros, além de poder conversar com outros usuários do YourDiary, "\
-                        "tudo isso de uma forma sem se identificar, se não quiser, é claro ;)"
+                        "In this app you can take notes, write personal things in the form of a digital diary"\
+                        ", share these notes with others, as well as being able to chat with other YourDiary users, "\
+                        "all this without identifying yourself, if you don't want to, of course ;)"
 
             BoxLayout:
                 orientation: "horizontal"
@@ -66,7 +66,7 @@
 
                 MDRaisedButton:
                     size_hint_x: 1
-                    text: "<< Voltar"
+                    text: "<< Previous"
                     pos_hint: {"center_x": .5}
                     y: "52dp"
                     on_release:
@@ -75,7 +75,7 @@
 
                 MDRaisedButton:
                     size_hint_x: 1
-                    text: "Próximo >>"
+                    text: "Next >>"
                     pos_hint: {"center_x": .5}
                     y: "8dp"
                     on_release:
@@ -102,11 +102,11 @@
                         height: self.texture_size[1]
                         text_size: self.width, None
                         text: 
-                            "Espero que esse app seja útil no seu dia a dia, "\
-                            "além do mais, espero faça um bom uso do app "
+                            "Hope this app is useful in some way "\
+                            "And I hope you guys make proper use of the app. "
 
                     MDRaisedButton:
-                        text: "ESCOLHA A COR PRINCIPAL"
+                        text: "Select Main Color"
                         pos_hint: {"center_x": .5, "center_y": .5}
                         theme_text_color: "Custom"
                         md_bg_color: 1.0, 0.30196078431372547, 0.13725490196078433, 1
@@ -120,7 +120,7 @@
 
                     MDRaisedButton:
                         size_hint_x: 1
-                        text: "<< Voltar"
+                        text: "<< Previous"
                         pos_hint: {"center_x": .5}
                         y: "36dp"
                         on_release:
@@ -129,7 +129,7 @@
 
                     MDRaisedButton:
                         size_hint_x: 1
-                        text: "Próximo >>"
+                        text: "Next >>"
                         pos_hint: {"center_x": .5}
                         y: "8dp"
                         on_release:

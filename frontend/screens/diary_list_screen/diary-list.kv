@@ -3,46 +3,45 @@
     BoxLayout:
         orientation: "vertical"
 
+
         MDTopAppBar:
             elevation: 4
-            title: "Arraste Para Editar"
+            title: "Swipe To Edit"
             md_bg_color: 0.1, 0, 0.1, 1
 
-        MDScrollView:
+        ScrollView:
             scroll_timeout : 100
 
             MDList:
                 id: idlist
                 padding: 0
                 
-        MDBoxLayout:
+        BoxLayout:
             orientation: "horizontal"
             size_hint: None, None
             width: root.width
-            height: self.minimum_height
-            md_bg_color: "blue"
+            height: "60dp"
             halign: "center"
 
-            MDBoxLayout:
+            BoxLayout:
                 orientation: "vertical"
-                md_bg_color: 1, 0.5, 1, 1
-
+                    
 
                 MDFlatButton:
                     id: previous_list_id
-                    text: "<< antes"
+                    text: "<< previous"
                     theme_text_color: "Custom"
                     text_color: "orange"
                     pos_hint: {'center_x': .6}
                     on_release: root.next_page(root.var_previous_page, voltar=True)
 
-            MDBoxLayout:
+            BoxLayout:
                 orientation: "vertical"
-                md_bg_color: 1, 1, 0.5, 1
+
 
                 MDFlatButton:
                     id: next_list_id
-                    text: "próximo >>"
+                    text: "next >>"
                     theme_text_color: "Custom"
                     text_color: "green"
                     pos_hint: {'center_x': .4}                

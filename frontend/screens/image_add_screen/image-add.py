@@ -25,7 +25,19 @@ class ImageAdd(MDScreen):
         super().__init__(**kwargs)
         self.files = {}
         self.paths = []
-        
+    
+
+    # def on_pre_enter(self):
+        # self.files = {}
+        # self.paths = []
+        # annotation = AccessDB(name_url="annotation/image/", tag="ANNOTATIONS IMAGES")
+    #     annotation = annotation.get(self.manager.current_view_annotation)
+
+    #     if type(annotation) is dict:
+    #         self.ids.image1.text += annotation['results'][0]['image1']
+    #     else:
+    #         pass
+
 
 
     # form more simple of manager file
@@ -55,3 +67,9 @@ class ImageAdd(MDScreen):
         
         annotation = AccessDB(name_url="annotation/image/", tag="ANNOTATIONS IMAGES")
         annotation = annotation.post(data=data, files=self.files)
+        
+        if type(annotation) is bool:
+            self.manager.current = "diary_list_name"
+        else:
+            pass
+

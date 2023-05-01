@@ -19,7 +19,7 @@
 
                     Label:
                         # size_hint_x: 5
-                        text: "Configurações"
+                        text: "Settings"
                         bold: True
                         font_size: "18sp"
                         halign: "center"
@@ -38,35 +38,45 @@
 
 
             
-                    
-            
+                              
 
 
 <Content>:
+    orientation: "vertical"
     size_hint_y: None
-    height: "72dp"
+    height: "150dp"
+    padding: "10dp"
+    pos_hint: {"center_y": 0.3}
 
-    TwoLineIconListItem:
-        text: root.first_text
-        secondary_text: root.secondary_text
+    MDTextField:
+        padding: "20dp"
+        hint_text: "new password"
 
-        MDCheckbox:
-            pos_hint: {"center_x": 0.9}
+    MDTextField:
+        padding: "20dp"
+        hint_text: "repet new passowrd"
 
-        IconLeftWidget:
-            icon: root.icon
+    MDFlatButton:
+        pos_hint: {"center_x": 0.5}
+        theme_text_color: "Custom"
+        md_bg_color: 0.9, 0.7, 0.2, 1
+        text_color: 1, 1, 1, 1
+        text: "Confirme In Email"
+        on_release: root.screen.confirme_in_email()
+
 
 <ContentPickerColor>:
     size_hint_y: None
     height: "72dp"
 
     OneLineIconListItem:
-        text: "Mudar Cor Principal"
+        text: "Change Main Color"
         on_release: root.screen.open_color_picker()
 
 
         IconLeftWidget:
             icon: "palette"
+
 
 <ContentLogout>:
     size_hint_y: None

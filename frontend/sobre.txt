@@ -10,10 +10,11 @@ colocar comunidades (precisarei de bastante recurso)
 colocar o app em inglês mesmo, língua inglesa tem mais falantes
 colocar background customizavel, o usuario upa o background que quer, mas tera um default para todo mundo
 tentar implementar cython para melhorar desempenho
-criar versão para android 11 com kivymd inferior
+(x )criar versão para android 11 com kivymd inferior
 colocar comentários nas annotations
 colocar redefinição de senha
 colocar opçãos para adicionar carrousel de imagens
+criar identificador uuid ou coisa parecida e criptografar textos
 
 para compilação:
 
@@ -28,10 +29,12 @@ sudo sysctl fs.inotify.max_user_watches=100000
 
 
 
-para resolver
-- targets = avdmanager('list', 'target').stdout.decode('utf-8').split('\n')
-AttributeError: 'str' object has no attribute 'stdout'
+PROBLEMAS E SUAS SOLUÇÕES
 
----> pip install python-for-android==v2023.02.10
----> sudo apt-get install libltdl-dev
----> change api=31 to api=27 to download packages
+<-> targets = avdmanager('list', 'target').stdout.decode('utf-8').split('\n')
+	AttributeError: 'str' object has no attribute 'stdout'
+
+-----> pip install python-for-android==v2023.02.10
+-----> sudo apt-get install libltdl-dev
+-----> change api=31 to api=27 to download packages
+-----> coloquei o jdk-17 e eu acho que foi isso mesmo

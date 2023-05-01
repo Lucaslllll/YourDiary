@@ -10,20 +10,22 @@ from components.connection import AccessDB
 
 
 
+
+
 class About(MDScreen):
     def __init__(self, **kwargs):
         super(About, self).__init__(**kwargs)
         self.texto_alert = None
-        self.about_1 = "O intuito é criar um espaço para anotações como na forma de um diário digital "\
-                       "que pode ser pessoal ou compartilhado globalmente com outras pessoas. "\
-                       "Eu acredito que poderá ser usado para desabafar, colocar as situações "\
-                       "do dia a dia aqui ou talvez até servir como uma terapia para angustias e coisas " \
-                       "que não podemos falar para qualquer um, seja por ser besta demais para incomodar terceiros "\
-                       "ou por ser íntimo demais, até para os mais próximos. "\
-                       "O app ainda está na versão beta e eu pretendo ir melhorando com as sugestões, que vocês usuários, "\
-                       "me mandarem. O app tentará focar no anonimato do usuário, mas caso eu tenha problemas em relação "\
-                       "a isso, irei repensar, espero que alguém consiga fazer bom proveito dessa ideia. \n\n lembre-se: O que é pessoal somente você poderá ler, "\
-                       "mas o que está público outras pessoas poderão também ler ;)"                      
+        self.about_1 = "The intention is to create a space for notes as in the form of a digital diary "\
+                       "which can be personal or shared globally with other people. "\
+                       "I believe it can be used to put poetry, poems, stories, tales, reports, narratives, wishlist, to vent or even the situations "\
+                       "of everyday life here or maybe even serve as a therapy for anxieties and things " \
+                       "that we can't tell anyone, either because it's too much of a beast to bother others "\
+                       "Or for being too intimate, even for those closest to you. " \
+                       "The app is still in beta and I intend to improve with the suggestions, that you users, "\
+                       "Send me. The app will try to focus on the anonymity of the user, but in case I have problems regarding "\
+                       "To that, I'm going to rethink, I hope someone can make good use of this idea. \n\n remember: What is personal only you can read, "\
+                       "But what is public other people will also be able to read ;)"                      
 
 
 
