@@ -8,10 +8,16 @@ from core.models import Annotation
 from .serializers import UserSerializer, LoginSerializer, MessageSerializer, MessageCreateSerializer
 from .serializers import ChatSerializer, ProfileSerializer, RedefineSerializer, ConfirmeSerializer
 from .serializers import SendEmailSerializer
+from .utils import CodeProcessing
 from core.serializers import AnnotationSerializer
 from rest_framework.permissions import IsAuthenticated
 
 from core.utils import LargeResultsSetPagination, StandardResultsSetPagination
+from django.core.mail import send_mail
+from django.core import mail
+from django.template.loader import render_to_string
+
+
 
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
@@ -92,7 +98,7 @@ class SendEmailAPI(generics.GenericAPIView):
 
 
 class RedefinePasswordAPI(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     serializer_class = RedefineSerializer
 
     def post(self, request, *args, **kwargs):
@@ -121,9 +127,9 @@ class RedefinePasswordAPI(generics.GenericAPIView):
         connection.open()
 
         email = mail.EmailMessage(
-            'Suporte - EngenhariaRevista',
+            'Suporte - YourDiary',
             msg_html,   
-            'techay.oficial@gmail.com', # 'from'
+            'yourdiary.oficial@gmail.com', # 'from'
             [user.email,], # 'to'
             connection=connection
         )
@@ -134,7 +140,7 @@ class RedefinePasswordAPI(generics.GenericAPIView):
 
 
 class ConfirmePasswordAPI(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     serializer_class = ConfirmeSerializer
 
     def put(self, request, *args, **kwargs):
@@ -150,11 +156,8 @@ class ConfirmePasswordAPI(generics.GenericAPIView):
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.get(username=serializer.data['username'])
-        # fazer make_password resultará em hash da hash
-        # porquanto meu custom user herda User do django que já
-        # usa make_password
-        #   new_password = make_password(password=serializer.data['password'])
-        user.set_password(serializer.data['password'])
+        
+        user.password = make_password(password=serializer.data['password'], salt=None, hasher='pbkdf2_sha256')
         user.save()
 
         return Response({}, status=status.HTTP_200_OK)

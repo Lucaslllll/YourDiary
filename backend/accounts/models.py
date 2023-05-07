@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 
 class User(models.Model):
@@ -32,3 +34,19 @@ class Profile(models.Model):
 
 
 
+class CodeManager(models.Manager):
+
+    def get_queryset(self):
+        super().get_queryset().filter(
+            created__lt=timezone.now()-timezone.timedelta(minutes=15)
+        ).delete()
+        return super().get_queryset().filter(
+            created__gte=timezone.now()-timezone.timedelta(minutes=15)
+        )
+
+
+class Code(models.Model):
+    value = models.CharField(max_length=255, unique=True)
+    created = models.DateTimeField(default=timezone.now)
+
+    objects = CodeManager()

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
 from .models import User, Message, Profile
-
+import re
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -86,34 +86,29 @@ class SendEmailSerializer(serializers.Serializer):
     id = serializers.CharField()
     email = serializers.CharField()
 
-
-
-class RedefineSerializer(serializers.Serializer):
-    email = serializers.CharField()
-
     def validate(self, data):
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
         if re.search(regex, data['email']):
             return data
         else:
             raise serializers.ValidationError("Email is Invalid")
+            
+
+class RedefineSerializer(serializers.Serializer):
+    email = serializers.CharField()
+
+    
 
 class ConfirmeSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
-    confirme_password = serializers.CharField()
 
     def validate(self, data):
-        password1 = data['password']
-        password2 = data['confirme_password']
+        
+        try:
+            userOb = User.objects.get(username=data['username'])
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User Does Not Exist")
 
-        if password1 == password2:
-            try:
-                userOb = User.objects.get(username=data['username'])
-            except User.DoesNotExist:
-                raise serializers.ValidationError("User Does Not Exist")
+        return data
 
-            return data
-
-        else:
-            raise serializers.ValidationError("Passwords not match")

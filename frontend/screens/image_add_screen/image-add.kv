@@ -20,39 +20,45 @@
                 
 
 				Label:
-                    id: image1Id
 					text: "Image 1: "
 					color: 0, 0, 0, 1                
+                Label:
+                    id: image1Id
+                    color: 0, 0, 0, 1
 
                 MDRoundFlatIconButton:
                     size_hint_x: 1
                     text: "Image"
                     icon: "folder"
-                    on_release: root.file_manager_open()
+                    on_release: root.file_manager_open(0)
 
 
                 Label:
-                    id: image2Id
 					text: "Image 2: "
 					color: 0, 0, 0, 1                
+                Label:
+                    id: image2Id
+                    color: 0, 0, 0, 1
 
                 MDRoundFlatIconButton:
                     size_hint_x: 1
                     text: "Image"
                     icon: "folder"
-                    on_release: root.file_manager_open()
+                    on_release: root.file_manager_open(1)
 
 
                 Label:
-                    id: image3Id
 					text: "Image 3: "
 					color: 0, 0, 0, 1                
+                Label:
+                    id: image3Id
+                    color: 0, 0, 0, 1
 
                 MDRoundFlatIconButton:
                     size_hint_x: 1
                     text: "Image"
                     icon: "folder"
-                    on_release: root.file_manager_open()
+                    on_release: root.file_manager_open(2)
 
                 # TooltipMDIconButton:
                 #     size_hint_x: 1
