@@ -96,7 +96,7 @@ class Profile(MDScreen):
                 self.ids.idButtonFollow.on_release = self.do_follow
 
 
-            if self.user_ob["email"] == None:
+            if self.user_ob["email"] == "" or self.user_ob["email"] == None:
                 self.ids.idValidationEmail.disabled = False
                 self.ids.idValidationEmail.opacity = 1
             else:

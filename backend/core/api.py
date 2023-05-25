@@ -8,6 +8,8 @@ from .models import AnnotationImage
 from .serializers import CategorySerializer, AnnotationSerializer, CommentSerializer
 from .serializers import FavoriteSerializer, FavoriteCheckSerializer, ReportSerializer
 from .serializers import LikeSerializer, LikeCheckSerializer, AnnotationImageSerializer
+from .serializers import AnnotationCryptSerializer
+
 from .utils import LargeResultsSetPagination, StandardResultsSetPagination
 
 

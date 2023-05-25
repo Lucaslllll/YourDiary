@@ -18,6 +18,7 @@ class Annotation(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
 	public = models.BooleanField(default=False)
 	edit = models.BooleanField(default=False)
+	encript = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name

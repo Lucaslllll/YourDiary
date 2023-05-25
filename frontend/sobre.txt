@@ -3,18 +3,18 @@
 ( X ) colocar uma open animada
 ( X ) colocar um hero para quem instalou pela primeira vez
 ( X ) colocar imagem padrão para quem não mandou imagem
-colocar usuário ler seus diários offline ( talvez futuramente, foge muito da ideia, mas pode previne alguns erros como falta de internet na hora de enviar )
+colocar usuário ler seus diários offline ( talvez futuramente, foge muito da ideia, mas pode previnir alguns erros como falta de internet na hora de enviar )
 colocar pesquisa feacture
 colocar pacote para ver emojis
 colocar comunidades (precisarei de bastante recurso)
-colocar o app em inglês mesmo, língua inglesa tem mais falantes
+( X ) colocar o app em inglês mesmo, língua inglesa tem mais falantes
 colocar background customizavel, o usuario upa o background que quer, mas tera um default para todo mundo
 tentar implementar cython para melhorar desempenho
-(x )criar versão para android 11 com kivymd inferior
+( X ) criar versão para android 11 com kivymd inferior
 colocar comentários nas annotations
-colocar redefinição de senha
-colocar opçãos para adicionar carrousel de imagens
-criar identificador uuid ou coisa parecida e criptografar textos
+( X ) colocar redefinição de senha
+( X ) colocar opçãos para adicionar carrousel de imagens
+criar identificador uuid ou coisa parecida e criptografar textos privados, somente aquele que tiver a chave poderá ler
 
 para compilação:
 
@@ -38,3 +38,12 @@ PROBLEMAS E SUAS SOLUÇÕES
 -----> sudo apt-get install libltdl-dev
 -----> change api=31 to api=27 to download packages
 -----> coloquei o jdk-17 e eu acho que foi isso mesmo
+
+
+<-> caso tenha algum erro de cython
+
+-----> sempre deixar o cython mais alto de acordo com a página do buildozer
+-----> libs que pode ser uma solução:
+		---> https://github.com/kivy/buildozer/issues/150
+		---> https://github.com/kivy/buildozer/issues/829
+		---> e só talvez: https://github.com/kivy/python-for-android/issues/2247

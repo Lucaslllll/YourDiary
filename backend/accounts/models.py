@@ -30,7 +30,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     following = models.ManyToManyField(User, related_name='followers', blank=True)
     followers = models.ManyToManyField(User, related_name='following', blank=True)
-    
 
 
 

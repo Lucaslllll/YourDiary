@@ -12,7 +12,7 @@ from kivymd.uix.floatlayout import MDFloatLayout
 
 from kaki.app import App
 from components.connection import AccessDB
-
+from kivy.metrics import sp, dp
 
 
 class Annotation(MDScreen):
@@ -39,6 +39,7 @@ class Annotation(MDScreen):
         self.menu = MDDropdownMenu(
             items=menu_items,
             width_mult=4,
+
         )
         self.title_example = "example title"
         self.text_example = "Lorem ipsum dolor"

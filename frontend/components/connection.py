@@ -11,7 +11,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 class AccessDB(object):
 
     # tag é só enfeitar e para fácil visualização
-    def __init__(self, name_url:str, url:str="http://localhost:8000/", tag:str="None"):
+    def __init__(self, name_url:str, url:str="http://api.yourdiary.top/", tag:str="None"):
         self.name_url = name_url
         self.url = url
         self.path = App.get_running_app().user_data_dir+"/"

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Category, Annotation, Comment, Report, Favorite, Like
 from .models import AnnotationImage
-
+from crypt.encrypt import encrypt_text
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -16,6 +16,25 @@ class AnnotationSerializer(serializers.ModelSerializer):
         model = Annotation
         fields = '__all__'
 
+    
+
+
+class AnnotationCryptSerializer(serializers.ModelSerializer):
+    annotation = AnnotationSerializer()
+    key = serializers.CharField(required=True)
+    class Meta:
+        model = Annotation
+        fields = ['annotation', 'key']
+
+    def validate(self, data):
+
+        if data['key'] == True:
+            key = data['key']
+            key = key.encode()
+            # bytes encriptados
+            data['annotation']['text'] = encrypt_c.encrypt_text(key, bytes(data['annotation']['text']))
+
+        return data
 
 class AnnotationAuthorSerializer(serializers.ModelSerializer):
     class Meta:

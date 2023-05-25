@@ -149,11 +149,52 @@
                                     on_release: root.go_profile()
 
 
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+
+                            CommentButton:
+                                color: 0,0,0,1
+                                text: "LOAD COMMENTS"
+                                font_size: "22sp"
+                                pos_hint: {"center_x": 0.5}
+                                on_release: pass
+
+
+                            
+                            BoxLayout:
+                                orientation: "horizontal"
+                                size_hint_y: None
+                                height: self.minimum_height
+                                padding: "10dp"
+
+                                MDTextField:
+                                    size_hint_x: 4
+                                    hint_text: "comment"
+                                    pos_hint: {"center_y": 0.5}
+                                    multiline: True
+
+                                MDIconButton:
+                                    size_hint_x: 1
+                                    pos_hint: {"center_y": 0.5}
+                                    icon: "send"
+
+
+                            ScrollView:
+                                size_hint_y: None
+                                height: "350dp"
+
+                                MDList:
+                                    id: idComments
+
+                                    SessionComment:
+
 
                         BoxLayout:
 
 
-        
+                            
 
         
 
@@ -166,3 +207,41 @@
     FitImage:
         source: root.image
         radius: [20,]
+
+
+# <SessionComment@DropDown>
+
+
+<CommentButton@Label+ButtonBehavior>:
+
+
+<SessionComment@BoxLayout>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: self.minimum_height
+    padding: "5dp"
+    
+    canvas:
+        Color: 
+            rgba: .3, .7, .7, 1 
+
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
+
+    Label:
+        halign: "justify"
+        size_hint_y: None
+        height: self.texture_size[1]
+        text_size: self.width, None
+        color: 0, 0, 0, 1
+        text: 
+            "typesetting, remaining essentially unchanged. It was popularised"\
+            "in the 1960s with the release of Letraset sheets containing Lorem"\
+            "Ipsum passages, and more recently with desktop publishing software like"\
+            "Aldus PageMaker including versions of Lorem Ipsum."
+
+
+
+

@@ -11,7 +11,7 @@ from kaki.app import App
 from components.connection import AccessDB
 from kivymd.utils import asynckivy
 import json
-from components.crypto import USERNAME, PASSWORD
+from components.credentials import USERNAME, PASSWORD
 #use it as follows
 from kivy.clock import mainthread
 
