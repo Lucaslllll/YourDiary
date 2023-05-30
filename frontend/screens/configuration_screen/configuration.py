@@ -10,7 +10,7 @@ from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine,
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.snackbar import Snackbar
-from kivymd.uix.pickers import MDColorPicker
+from kivymd.uix.pickers.colorpicker.colorpicker import MDColorPicker
 
 from typing import Union
 from kaki.app import App
@@ -182,7 +182,7 @@ class Configuration(MDScreen):
 
         self.update_color(selected_color[:-1] + [1])
 
-        Popup.dismiss(self.color_picker)
+        # Popup.dismiss(self.color_picker)
 
 
     def on_select_color(self, instance_gradient_tab, color: list) -> None:

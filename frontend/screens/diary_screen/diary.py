@@ -4,6 +4,9 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.snackbar.snackbar import MDSnackbarActionButton
+from kivymd.uix.label import MDLabel
+from kivy.metrics import dp
 
 from kivymd.toast import toast
 from kivymd.utils import asynckivy
@@ -581,19 +584,22 @@ class Diary(MDScreen):
             Clock.schedule_once(self.alert_error_connection, 3)
 
     def alert_error_connection(self, *args):
-        snackbar = Snackbar(
+        Snackbar(
+            MDLabel(
                 text=self.texto_alert,
-                snackbar_x="10dp",
-                snackbar_y="10dp",
-                buttons=[
-                    MDFlatButton(text="Fechar", text_color=(1, 1, 1, 1),
-                                theme_text_color='Custom')
-                ]
-            )
-        snackbar.size_hint_x = (
-            Window.width - (snackbar.snackbar_x * 2)
-        ) / Window.width
-        snackbar.open()
+                theme_text_color="Custom",
+                text_color="#393231",
+            ),
+            MDSnackbarActionButton(
+                text="close",
+                theme_text_color="Custom",
+                text_color="#8E353C",
+            ),
+            y=dp(24),
+            pos_hint={"center_x": 0.5},
+            size_hint_x=0.5,
+            md_bg_color="#E8D8D7",
+        ).open()
 
     def timeout_spinner(self, *args):
         self.ids.load_spinner_note.active = False

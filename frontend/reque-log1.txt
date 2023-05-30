@@ -1,16 +1,21 @@
 certifi==2023.5.7
 charset-normalizer==3.1.0
-Cython==0.29.34
+Cython==3.0.0b3
+distlib==0.3.6
 docutils==0.20.1
+filelock==3.12.0
 idna==3.4
-kaki==0.1.9.dev0
+kaki
 Kivy==2.2.0
 Kivy-Garden==0.1.5
 kivymd @ https://github.com/kivymd/KivyMD/archive/master.zip
 materialyoucolor==1.2.0
 Pillow==9.5.0
+platformdirs==3.5.1
 plyer==2.1.0
 Pygments==2.15.1
 requests==2.31.0
+six==1.16.0
 urllib3==2.0.2
+virtualenv==20.23.0
 watchdog==3.0.0

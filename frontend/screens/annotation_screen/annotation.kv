@@ -149,46 +149,46 @@
                                     on_release: root.go_profile()
 
 
-                        BoxLayout:
-                            orientation: "vertical"
-                            size_hint_y: None
-                            height: self.minimum_height
+                        # BoxLayout:
+                        #     orientation: "vertical"
+                        #     size_hint_y: None
+                        #     height: self.minimum_height
 
-                            CommentButton:
-                                color: 0,0,0,1
-                                text: "LOAD COMMENTS"
-                                font_size: "22sp"
-                                pos_hint: {"center_x": 0.5}
-                                on_release: pass
+                        #     CommentButton:
+                        #         color: 0,0,0,1
+                        #         text: "LOAD COMMENTS"
+                        #         font_size: "22sp"
+                        #         pos_hint: {"center_x": 0.5}
+                        #         on_release: pass
 
 
                             
-                            BoxLayout:
-                                orientation: "horizontal"
-                                size_hint_y: None
-                                height: self.minimum_height
-                                padding: "10dp"
+                        #     BoxLayout:
+                        #         orientation: "horizontal"
+                        #         size_hint_y: None
+                        #         height: self.minimum_height
+                        #         padding: "10dp"
 
-                                MDTextField:
-                                    size_hint_x: 4
-                                    hint_text: "comment"
-                                    pos_hint: {"center_y": 0.5}
-                                    multiline: True
+                        #         MDTextField:
+                        #             size_hint_x: 4
+                        #             hint_text: "comment"
+                        #             pos_hint: {"center_y": 0.5}
+                        #             multiline: True
 
-                                MDIconButton:
-                                    size_hint_x: 1
-                                    pos_hint: {"center_y": 0.5}
-                                    icon: "send"
+                        #         MDIconButton:
+                        #             size_hint_x: 1
+                        #             pos_hint: {"center_y": 0.5}
+                        #             icon: "send"
 
 
-                            ScrollView:
-                                size_hint_y: None
-                                height: "350dp"
+                        #     ScrollView:
+                        #         size_hint_y: None
+                        #         height: "350dp"
 
-                                MDList:
-                                    id: idComments
+                        #         MDList:
+                        #             id: idComments
 
-                                    SessionComment:
+                        #             SessionComment:
 
 
                         BoxLayout:

@@ -20,7 +20,7 @@ class Hero(MDScreen):
     def on_pre_enter(self):
         self.path = App.get_running_app().user_data_dir+"/"
         store = JsonStore(self.path+'data.json')
-        store.put('colors', color_main="#ff8080")
+        store.put('colors', color_main="#a64dff")
     
     def go_splash(self):
         store = JsonStore(self.path+'data.json')

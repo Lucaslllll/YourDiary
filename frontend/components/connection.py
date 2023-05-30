@@ -36,33 +36,33 @@ class AccessDB(object):
                 try:
                     request = requests.get(self.url+self.name_url+"?page={}".format(page), headers=head, verify=False)
                 except:
-                    return "Error ao Fazer Requisição ao Servidor"                
+                    return "Error when making a request to the server"                
             
             else:
                 if id_object == None:
                     try:
                         request = requests.get(self.url+self.name_url, headers=head, verify=False)
                     except:
-                        return "Error ao Fazer Requisição ao Servidor"
+                        return "Error when making a request to the server"
                 
                 else:
                     try:
                         request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)
                     except:
-                        return "Error ao Fazer Requisição ao Servidor"
+                        return "Error when making a request to the server"
 
 
 
             if request.status_code == 200:
                 return request.json()
             elif request.status_code == 401:
-                return "Sem Autorização"
+                return "Without authorization"
             else:
-                return "Erro Inesperado"
+                return "Unexpected error"
         elif self.resposta == False:
-            return "Credencias Inválidas"
+            return "Invalid Credentials"
         else:
-            return "Problemas em contatar o servidor!"
+            return "Problems contacting the server!"
 
 
     def delete(self, id_object=None):
@@ -73,23 +73,23 @@ class AccessDB(object):
             try:
                 request = requests.delete(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)
             except:
-                return "Error ao Fazer Requisição ao Servidor"
+                return "Error when making a request to the server"
 
             if request.status_code == 204:
                 return {}
             elif request.status_code == 200:
                 return {}
             elif request.status_code == 401:
-                return "Sem Autorização"
+                return "Without authorization"
             else:
-                return "Erro Inesperado"
+                return "Unexpected error"
 
         
         elif self.resposta == False:
-            return "Credencias Inválidas"
+            return "Invalid Credentials"
 
         else:
-            return "Problemas em contatar o servidor!"
+            return "Problems contacting the server!"
 
 
     def post(self, data, files=None, *args, **kwargs):
@@ -101,12 +101,12 @@ class AccessDB(object):
                 requisicao = requests.post(self.url+self.name_url, data=data, files=files,
                                             headers=head, verify=False)
             except:
-                return "Error ao Fazer Requisição ao Servidor"
+                return "Error when making a request to the server"
         else:
             try:
                 requisicao = requests.post(self.url+self.name_url, data=data, headers=head, verify=False)
             except:
-                return "Error ao Fazer Requisição ao Servidor"
+                return "Error when making a request to the server"
 
         # print((requisicao.text, requisicao.json))
         # codigo 201 é para create
@@ -115,11 +115,11 @@ class AccessDB(object):
         elif requisicao.status_code == 200:
             return requisicao.json()
         elif requisicao.status_code == 401:
-            return "Sem Autorização"
+            return "Without authorization"
         elif requisicao.status_code == 400:
-            return "Falta ou Dado Já Repetido Por Outros"
+            return "Missing or Data Already Repeated by Others"
         else:
-            return "Erro Inesperado"
+            return "Unexpected error"
 
 
         # print(requisicao.content)
@@ -134,12 +134,12 @@ class AccessDB(object):
                 requisicao = requests.put(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, files=files,
                                             headers=head, verify=False)
             except:
-                return "Error ao Fazer Requisição ao Servidor"
+                return "Error when making a request to the server"
         else:
             try:
                 requisicao = requests.put(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, headers=head, verify=False)
             except:
-                return "Error ao Fazer Requisição ao Servidor"
+                return "Error when making a request to the server"
 
 
 
@@ -148,9 +148,9 @@ class AccessDB(object):
         elif requisicao.status_code == 200:
             return requisicao.json()
         elif requisicao.status_code == 401:
-            return "Sem Autorização"
+            return "Without authorization"
         else:
-            return "Erro Inesperado"
+            return "Unexpected error"
 
 
         # print(requisicao.content)
@@ -165,12 +165,12 @@ class AccessDB(object):
                 requisicao = requests.patch(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, files=files,
                                             headers=head, verify=False)
             except:
-                return "Error ao Fazer Requisição ao Servidor"
+                return "Error when making a request to the server"
         else:
             try:
                 requisicao = requests.patch(self.url+self.name_url+"/{}".format(id_object)+"/", data=data, headers=head, verify=False)
             except:
-                return "Error ao Fazer Requisição ao Servidor"
+                return "Error when making a request to the server"
 
 
 
@@ -179,9 +179,9 @@ class AccessDB(object):
         elif requisicao.status_code == 200:
             return requisicao.json()
         elif requisicao.status_code == 401:
-            return "Sem Autorização"
+            return "Without authorization"
         else:
-            return "Erro Inesperado"
+            return "Unexpected error"
 
 
         # print(requisicao.content)
@@ -198,20 +198,20 @@ class AccessDB(object):
                 try:
                     request = requests.get(self.url+self.name_url+"/"+str(id_object)+"?page={}".format(page), headers=head, verify=False)
                 except:
-                    return "Error ao Fazer Requisição ao Servidor"                
+                    return "Error when making a request to the server"                
                     
             else:
                 if id_object == None:
                     try:
                         request = requests.get(self.url+self.name_url, headers=head, verify=False)
                     except:
-                        return "Error ao Fazer Requisição ao Servidor"
+                        return "Error when making a request to the server"
                 
                 else:
                     try:
                         request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)
                     except:
-                        return "Error ao Fazer Requisição ao Servidor"
+                        return "Error when making a request to the server"
 
 
 
@@ -219,10 +219,10 @@ class AccessDB(object):
             if request.status_code == 200:
                 return request.json()
             elif request.status_code == 401:
-                return "Sem Autorização"
+                return "Without authorization"
             else:
-                return "Erro Inesperado"
+                return "Unexpected error"
         elif self.resposta == False:
-            return "Credencias Inválidas"
+            return "Invalid Credentials"
         else:
-            return "Problemas em contatar o servidor!"
+            return "Problems contacting the server!"
