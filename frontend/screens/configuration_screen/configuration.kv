@@ -77,17 +77,56 @@
         on_release: root.screen.steps_to_change()
 
 
+# <ContentPickerColor>:
+#     size_hint_y: None
+#     height: "72dp"
+
+#     OneLineIconListItem:
+#         text: "Change Main Color"
+#         on_release: root.screen.open_color_picker()
+
+
+#         IconLeftWidget:
+#             icon: "palette"
+
+
+    
 <ContentPickerColor>:
+    id: boxcolor
     size_hint_y: None
-    height: "72dp"
+    height: "360dp"
+    
+    canvas:
+        Color: 
+            rgba: 0, 0, 0, 1
 
-    OneLineIconListItem:
-        text: "Change Main Color"
-        on_release: root.screen.open_color_picker()
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
 
+    Popup: 
+        id: popupcolor
+        title: 'Pick a Color'
+        background_color: 0, 0, 0, 1
+        separator_color: 1, 1, 1, 1
+    
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: "25dp"
 
-        IconLeftWidget:
-            icon: "palette"
+            ColorPicker:
+                id: picker
+                size_hint: 1.0, 1.0
+
+            MDFlatButton:
+                text: 'CHOICE COLOR'
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                md_bg_color: 0, 0.26, 0.27, 1
+                size_hint: 1.0, 0.2
+                on_press: root.on_press_dismiss()
+
 
 
 <ContentLogout>:

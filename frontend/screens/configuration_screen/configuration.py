@@ -4,13 +4,18 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, NumericProperty, ListProperty, ObjectProperty
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.popup import Popup
+from kivy.metrics import dp
 
 from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine, MDExpansionPanelThreeLine
 # from kivymd import images_path
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.snackbar.snackbar import MDSnackbarActionButton
+from kivymd.uix.label import MDLabel
 from kivymd.uix.pickers.colorpicker.colorpicker import MDColorPicker
+from kivymd.uix.boxlayout import MDBoxLayout
+
 
 from typing import Union
 from kaki.app import App
@@ -65,7 +70,16 @@ class Configuration(MDScreen):
         # )
 
         self.ids.content.add_widget(
-            ContentPickerColor(screen=self)
+            MDExpansionPanel(
+                # icon=os.path.join(images_path, "logo", "kivymd-icon-128.png"),
+                icon="format-color-fill",
+                content=ContentPickerColor(screen=self),
+                panel_cls=MDExpansionPanelOneLine(
+                    text="Change Main Color",
+
+                ),
+
+            )
         )
 
         self.ids.content.add_widget(
@@ -76,19 +90,23 @@ class Configuration(MDScreen):
 
 
     def alert_error_connection(self, *args):
-        snackbar = Snackbar(
+        Snackbar(
+            MDLabel(
                 text=self.texto_alert,
-                snackbar_x="10dp",
-                snackbar_y="10dp",
-                buttons=[
-                    MDFlatButton(text="Fechar", text_color=(1, 1, 1, 1),
-                                theme_text_color='Custom')
-                ]
-            )
-        snackbar.size_hint_x = (
-            Window.width - (snackbar.snackbar_x * 2)
-        ) / Window.width
-        snackbar.open()
+                theme_text_color="Custom",
+                text_color="#393231",
+            ),
+            MDSnackbarActionButton(
+                text="close",
+                theme_text_color="Custom",
+                text_color="#8E353C",
+            ),
+            y=dp(24),
+            pos_hint={"center_x": 0.5},
+            size_hint_x=0.5,
+            md_bg_color="#E8D8D7",
+        ).open()
+
 
 
 
@@ -157,36 +175,6 @@ class Configuration(MDScreen):
 
 
 
-    def open_color_picker(self):
-        self.color_picker = MDColorPicker(size_hint=(0.45, 0.85))
-        self.color_picker.open()
-        self.color_picker.bind(
-            on_select_color=self.on_select_color,
-            on_release=self.get_selected_color
-        )
-
-    def update_color(self, color: list) -> None:
-        store = JsonStore(self.path+'data.json')
-        store.put('colors', color_main=color)
-
-        self.manager.color_main = color
-        
-
-    def get_selected_color(
-        self,
-        instance_color_picker: MDColorPicker,
-        type_color: str,
-        selected_color: Union[list, str],
-    ):
-        '''Return selected color.'''
-
-        self.update_color(selected_color[:-1] + [1])
-
-        # Popup.dismiss(self.color_picker)
-
-
-    def on_select_color(self, instance_gradient_tab, color: list) -> None:
-        '''Called when a gradient image is clicked.'''
 
 
     def do_logout(self):
@@ -242,12 +230,42 @@ class ContentGeneral(BoxLayout):
         self.secondary_text = secondary_text
         self.icon = icon
 
+
+
+
 class ContentPickerColor(BoxLayout):
     screen = ObjectProperty()
+    color = ListProperty()
 
-    def __init__(self, screen, **kwargs):
+    def __init__(self, screen, color=[1, 1, 1, 1], **kwargs):
         super(ContentPickerColor, self).__init__(**kwargs)
         self.screen = screen
+        self.color = color
+
+
+    def on_pre_enter(self):
+        self.ids.picker.bind(color=self.on_color)
+        
+
+    def on_press_dismiss(self, *args):
+        self.ids.popupcolor.dismiss()
+        self.color = self.ids.picker.color
+
+
+        self.path = App.get_running_app().user_data_dir+"/"
+        store = JsonStore(self.path+'data.json')
+        store.put('colors', color_main=self.color)
+
+        self.screen.manager.color_main = self.color
+
+
+    def on_color(self, instance, value):
+        # colocar na base que background_color necessita
+        # background_color não usa o padrão 1, 1, 1, 1 do md_bg_color
+        base = 6
+        for_background = list(map(lambda x: x * base, value))
+        self.ids.popupcolor.background_color =  for_background
+        
 
 
 class ContentLogout(BoxLayout):

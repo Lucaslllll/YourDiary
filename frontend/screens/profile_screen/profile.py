@@ -2,11 +2,14 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.properties import ListProperty, NumericProperty, StringProperty
 from kivy.storage.jsonstore import JsonStore
+from kivy.metrics import dp
 
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.snackbar.snackbar import MDSnackbarActionButton
+from kivymd.uix.label import MDLabel
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.chip import MDChip
 from kivymd.uix.filemanager import MDFileManager
@@ -167,19 +170,22 @@ class Profile(MDScreen):
 
 
     def alert_error_connection(self, *args):
-        snackbar = Snackbar(
+        Snackbar(
+            MDLabel(
                 text=self.texto_alert,
-                snackbar_x="10dp",
-                snackbar_y="10dp",
-                buttons=[
-                    MDFlatButton(text="Fechar", text_color=(1, 1, 1, 1),
-                                theme_text_color='Custom')
-                ]
-            )
-        snackbar.size_hint_x = (
-            Window.width - (snackbar.snackbar_x * 2)
-        ) / Window.width
-        snackbar.open()
+                theme_text_color="Custom",
+                text_color="#393231",
+            ),
+            MDSnackbarActionButton(
+                text="close",
+                theme_text_color="Custom",
+                text_color="#8E353C",
+            ),
+            y=dp(24),
+            pos_hint={"center_x": 0.5},
+            size_hint_x=0.5,
+            md_bg_color="#E8D8D7",
+        ).open()
 
     def timeout_spinner(self, *args):
         self.ids.load_spinner_note.active = False

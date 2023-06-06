@@ -83,6 +83,7 @@
                         root.ids.manager_hero.current = "screen C"
 
         MDScreen:
+            id: idScreen3
             name: "screen C"
             md_bg_color: 0.5, 0.5, 0.7, 1
 
@@ -90,7 +91,8 @@
                 orientation: "vertical"
                 
                 BoxLayout:
-                    size_hint_y: 1
+                    id: idChangeColor
+                    size_hint_y: 4
                     spacing: "50dp"
                     padding: "20dp"
                     orientation: "vertical"
@@ -101,16 +103,13 @@
                         pos_hint: {"center_y": .5}
                         height: self.texture_size[1]
                         text_size: self.width, None
+                        color: 0, 0, 0, 1
                         text: 
                             "Hope this app is useful in some way "\
                             "And I hope you guys make proper use of the app. "
 
-                    MDRaisedButton:
-                        text: "Select Main Color"
-                        pos_hint: {"center_x": .5, "center_y": .5}
-                        theme_text_color: "Custom"
-                        md_bg_color: 1.0, 0.30196078431372547, 0.13725490196078433, 1
-                        on_release: root.open_color_picker()
+
+
 
                 BoxLayout:
                     size_hint_y: 1
@@ -134,3 +133,34 @@
                         y: "8dp"
                         on_release:
                             root.go_splash()
+
+
+
+
+
+
+
+
+
+<PopupColor>:
+    title: 'Pick a Color'
+    size_hint: 1.0, 0.6
+    id: popupcolor
+    background_color: 20, 20, 20, 20
+    separator_color: 1, 1, 1, 1
+    
+
+    BoxLayout:
+        orientation: 'vertical'
+
+
+        ColorPicker:
+            id: picker
+            size_hint: 1.0, 1.0
+
+        Button:
+            text: 'CHOICE COLOR'
+            color: 0.435, 0.725, 0.56, 1
+            background_color: 0, 0.26, 0.27, 1
+            size_hint: 1.0, 0.2
+            on_press: popupcolor.on_press_dismiss()

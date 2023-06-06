@@ -7,6 +7,9 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.snackbar.snackbar import MDSnackbarActionButton
+from kivymd.uix.label import MDLabel
+from kivy.metrics import dp
 
 from kaki.app import App
 
@@ -16,15 +19,23 @@ from components.connection import AccessDB
 class Register(MDScreen):
 
     def alert_error_connection(self, text, *args):
-        snackbar = Snackbar(
+        Snackbar(
+            MDLabel(
                 text=text,
-                snackbar_x="10dp",
-                snackbar_y="10dp",
-            )
-        snackbar.size_hint_x = (
-            Window.width - (snackbar.snackbar_x * 2)
-        ) / Window.width
-        snackbar.open()
+                theme_text_color="Custom",
+                text_color="#393231",
+            ),
+            MDSnackbarActionButton(
+                text="close",
+                theme_text_color="Custom",
+                text_color="#8E353C",
+            ),
+            y=dp(24),
+            pos_hint={"center_x": 0.5},
+            size_hint_x=0.5,
+            md_bg_color="#E8D8D7",
+        ).open()
+        
 
     def do_register(self, *args):
         data = {
