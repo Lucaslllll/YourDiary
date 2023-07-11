@@ -13,11 +13,11 @@ class Splash(MDScreen):
         self.path = App.get_running_app().user_data_dir+"/"
         self.store = JsonStore(self.path+'data.json')
         self.current_atual = "login_name"
-        
-    
+
+
     def on_pre_enter(self):
         Clock.schedule_once(self.on_start, 1)
-        Clock.schedule_once(self.change_screen, 3)
+        Clock.schedule_once(self.change_screen, 28)
 
     def on_start(self, *args):
 
@@ -36,7 +36,7 @@ class Splash(MDScreen):
 
         if self.store.exists('colors'):
             self.manager.color_main = self.store.get('colors')['color_main']
-            
+
 
     def change_screen(self, *args):
         self.manager.current = self.current_atual

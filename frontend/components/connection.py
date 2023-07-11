@@ -15,9 +15,9 @@ class AccessDB(object):
         self.name_url = name_url
         self.url = url
         self.path = App.get_running_app().user_data_dir+"/"
-        
+
         store = JsonStore(self.path+"data.json")
-        if store.exists('authentication'):    
+        if store.exists('authentication'):
             self.resposta = store.get("authentication")["resposta"]
             self.token_access = store.get("authentication")["token_access"]
             self.token_refresh = store.get("authentication")["token_refresh"]
@@ -31,20 +31,20 @@ class AccessDB(object):
         if self.resposta == True:
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
-            
+
             if page != None:
                 try:
                     request = requests.get(self.url+self.name_url+"?page={}".format(page), headers=head, verify=False)
                 except:
-                    return "Error when making a request to the server"                
-            
+                    return "Error when making a request to the server"
+
             else:
                 if id_object == None:
                     try:
                         request = requests.get(self.url+self.name_url, headers=head, verify=False)
                     except:
                         return "Error when making a request to the server"
-                
+
                 else:
                     try:
                         request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)
@@ -66,7 +66,7 @@ class AccessDB(object):
 
 
     def delete(self, id_object=None):
-        
+
         if self.resposta == True:
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
@@ -84,7 +84,7 @@ class AccessDB(object):
             else:
                 return "Unexpected error"
 
-        
+
         elif self.resposta == False:
             return "Invalid Credentials"
 
@@ -95,7 +95,7 @@ class AccessDB(object):
     def post(self, data, files=None, *args, **kwargs):
         head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
-        
+
         if files != None:
             try:
                 requisicao = requests.post(self.url+self.name_url, data=data, files=files,
@@ -187,26 +187,26 @@ class AccessDB(object):
         # print(requisicao.content)
         return False
 
-    
+
     # annotations/by/author/<int:pk> or annotations/by/author/<int:pk>?page=nº => nesse formato para usar os filtros
     def filter_by_id(self, id_object=None, page=None):
         if self.resposta == True:
             head = {'Authorization': 'Bearer {}'.format(self.token_access)}
 
-            
+
             if page != None:
                 try:
                     request = requests.get(self.url+self.name_url+"/"+str(id_object)+"?page={}".format(page), headers=head, verify=False)
                 except:
-                    return "Error when making a request to the server"                
-                    
+                    return "Error when making a request to the server"
+
             else:
                 if id_object == None:
                     try:
                         request = requests.get(self.url+self.name_url, headers=head, verify=False)
                     except:
                         return "Error when making a request to the server"
-                
+
                 else:
                     try:
                         request = requests.get(self.url+self.name_url+"/{}".format(id_object), headers=head, verify=False)

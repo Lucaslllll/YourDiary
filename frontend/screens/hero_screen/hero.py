@@ -23,7 +23,7 @@ class Hero(MDScreen):
     def on_pre_enter(self):
         self.path = App.get_running_app().user_data_dir+"/"
         store = JsonStore(self.path+'data.json')
-        store.put('colors', color_main="#a64dff")
+        store.put('colors', color_main=[.648, .331, 1, 1])
 
         Clock.schedule_once(self.on_start, 1)
         

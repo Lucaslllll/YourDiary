@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Category, Annotation, Comment, Report, Favorite, Like
 from .models import AnnotationImage
-from crypt.encrypt import encrypt_text
+
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class AnnotationSerializer(serializers.ModelSerializer):
         model = Annotation
         fields = '__all__'
 
-    
+
 
 
 class AnnotationCryptSerializer(serializers.ModelSerializer):
@@ -45,6 +45,10 @@ class AnnotationImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnnotationImage
         fields = '__all__'
+
+
+class SearchSerializer(serializers.Serializer):
+    text = serializers.CharField()
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -99,4 +103,3 @@ class LikeCheckSerializer(serializers.Serializer):
 
         data['id'] = likeOb.id
         return data
-        

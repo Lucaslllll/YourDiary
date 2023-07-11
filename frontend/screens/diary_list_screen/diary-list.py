@@ -26,7 +26,6 @@ class DiaryList(MDScreen):
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
         Clock.schedule_once(self.on_start, 1)
         self.var_previous_page = 0
         self.var_atual_page = 1
@@ -34,7 +33,6 @@ class DiaryList(MDScreen):
 
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.voltar)
-        Window.unbind(on_request_close=self.voltar_android)
         self.ids.idlist.clear_widgets()
 
     def on_start(self, *args):
@@ -136,15 +134,9 @@ class DiaryList(MDScreen):
 
     # fim choices
 
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "diary_name"
-        return True
-
     def voltar(self, window, key, *args):
-        # esc tem o codigo 27
-        if key == 27:
+        if key == 27 or key == 41:
             self.manager.current = "diary_name"
-            # print(self.manager.current)
             return True
 
         return False

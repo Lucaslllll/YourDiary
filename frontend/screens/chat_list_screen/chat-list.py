@@ -15,13 +15,11 @@ from components.connection import AccessDB
 class ChatList(MDScreen):
     
     def on_pre_enter(self):
-        Window.bind(on_request_close=self.voltar_android)
         Window.bind(on_keyboard=self.voltar)
         Clock.schedule_once(self.run_list, 1)
 
 
     def on_pre_leave(self):
-        Window.unbind(on_request_close=self.voltar_android)
         Window.unbind(on_keyboard=self.voltar)
         self.ids.idlist.clear_widgets()
 
@@ -57,28 +55,26 @@ class ChatList(MDScreen):
                     )
 
 
-    def run_list_fake(self, *args):
-        for i in range(0, 10):
-            self.fake_list_msgs()
+    # old test
+    # def run_list_fake(self, *args):
+    #     for i in range(0, 10):
+    #         self.fake_list_msgs()
 
-    def fake_list_msgs(self):
-        self.ids.idlist.add_widget(
+    # def fake_list_msgs(self):
+    #     self.ids.idlist.add_widget(
 
-            OneLineAvatarListItem(
-                ImageLeftWidget(
-                    source="assets/imagens/yourdiary-logo.png"
-                ),
-                text="Single-line item with avatar",
-            )
-        )
+    #         OneLineAvatarListItem(
+    #             ImageLeftWidget(
+    #                 source="assets/imagens/yourdiary-logo.png"
+    #             ),
+    #             text="Single-line item with avatar",
+    #         )
+    #     )
 
 
-    def back_to_diary(self, *args):
-        self.manager.current = "diary_name"
+    # def back_to_diary(self, *args):
+    #     self.manager.current = "diary_name"
 
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "diary_name"
-        return True
 
     def voltar(self, window, key, *args):
         # esc tem o codigo 27

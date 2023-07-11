@@ -65,6 +65,7 @@
         BoxLayout:
             orientation: "vertical"
             spacing: "10dp"
+            pos_hint: {"center_y": .7}
             
             MDIconButton:
                 icon: "plus"
@@ -94,7 +95,7 @@
 
         OneLineListItem:
             id: content
-            height: "200dp"
+            height: "250dp"
             _no_ripple_effect: True
             text: root.text
             bold: True
@@ -108,9 +109,9 @@
                     
                 FitImage:
                     size_hint_y: None
-                    height: root.height-50
+                    height: root.height-dp(40)
                     source: root.url_image
-                    pos_hint: {"center_y": 0.6}
+                    pos_hint: {"center_y": 0.555}
 
                              
 

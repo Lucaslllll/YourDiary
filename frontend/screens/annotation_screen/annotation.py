@@ -47,7 +47,6 @@ class Annotation(MDScreen):
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
         
         # set color toolbar 
         self.ids.toolbarNoticia.md_bg_color = self.manager.color_main
@@ -119,7 +118,6 @@ class Annotation(MDScreen):
             self.ids.image_annotation.remove_widget(i)
         
         Window.unbind(on_keyboard=self.voltar)
-        Window.unbind(on_request_close=self.voltar_android)
 
 
     def DropApp(self, instance_action_top_appbar_button):
@@ -207,10 +205,6 @@ class Annotation(MDScreen):
 
 
     # fim ações
-
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "diary_name"
-        return True
 
     def voltar(self, window, key, *args):
         # esc tem o codigo 27

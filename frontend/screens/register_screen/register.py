@@ -66,16 +66,10 @@ class Register(MDScreen):
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
 
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.voltar)
-        Window.unbind(on_request_close=self.voltar_android)
 
-
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "login_name"
-        return True
 
     def voltar(self, window, key, *args):
         if key == 27:

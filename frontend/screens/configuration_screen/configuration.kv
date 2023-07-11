@@ -3,6 +3,7 @@
         # theme_icon_color: "Custom"
         # background_color: "#2d4a50"
         max_height: "200dp"
+        radius: 7
 
         MDSliverAppbarHeader:
 
@@ -37,8 +38,8 @@
             adaptive_height: True
 
 
-            
-                              
+
+
 
 
 <Content>:
@@ -65,7 +66,7 @@
         id: idCodeEmail
         padding: "20dp"
         hint_text: "code received in the email"
-        disabled: True        
+        disabled: True
 
     MDFlatButton:
         id: idButtonSteps
@@ -90,14 +91,14 @@
 #             icon: "palette"
 
 
-    
+
 <ContentPickerColor>:
     id: boxcolor
     size_hint_y: None
     height: "360dp"
-    
+
     canvas:
-        Color: 
+        Color:
             rgba: 0, 0, 0, 1
 
         RoundedRectangle:
@@ -105,12 +106,13 @@
             pos: self.pos
             radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
 
-    Popup: 
+    Popup:
         id: popupcolor
         title: 'Pick a Color'
         background_color: 0, 0, 0, 1
         separator_color: 1, 1, 1, 1
-    
+        auto_dismiss: False
+
         BoxLayout:
             orientation: 'vertical'
             spacing: "25dp"
@@ -126,6 +128,7 @@
                 md_bg_color: 0, 0.26, 0.27, 1
                 size_hint: 1.0, 0.2
                 on_press: root.on_press_dismiss()
+                on_release: popupcolor.dismiss()
 
 
 

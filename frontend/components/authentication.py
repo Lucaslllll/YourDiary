@@ -10,14 +10,14 @@ class Authenticat(object):
         self.token_refresh = None
         self.url_token = url_token
         self.resposta = None
-        
+
 
     def do_auth(self):
         valores = {
             "username":USERNAME,
             "password":PASSWORD
         }
-        
+
 
 
         try:
@@ -25,7 +25,7 @@ class Authenticat(object):
         except:
             return None
 
-        
+
         if requisicao.status_code == 200:
             dic_content = requisicao.json()
             self.token_access = dic_content["access"]
@@ -42,7 +42,7 @@ class Authenticat(object):
         valores = {
             "refresh":self.token_refresh,
         }
-        
+
 
         try:
             requisicao = requests.post(url_refresh, data=valores)

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import status, viewsets, generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -8,7 +9,7 @@ from .models import AnnotationImage
 from .serializers import CategorySerializer, AnnotationSerializer, CommentSerializer
 from .serializers import FavoriteSerializer, FavoriteCheckSerializer, ReportSerializer
 from .serializers import LikeSerializer, LikeCheckSerializer, AnnotationImageSerializer
-from .serializers import AnnotationCryptSerializer
+from .serializers import AnnotationCryptSerializer, SearchSerializer
 
 from .utils import LargeResultsSetPagination, StandardResultsSetPagination
 
@@ -63,6 +64,21 @@ class ImageByAnnotation(generics.ListAPIView):
     def get_queryset(self):
         annotation = self.kwargs['pk']
         return AnnotationImage.objects.filter(annotation=annotation)
+
+
+class SearchAPI(generics.GenericAPIView):
+    # permission_classes = (IsAuthenticated, )
+    serializer_class = SearchSerializer
+    queryset = Annotation.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        text = serializer.data['text']
+        data = Annotation.objects.filter(Q(name__icontains=text) | Q(text__icontains=text) | Q(preview__icontains=text)).values()
+
+        return Response( data)
 
 
 
@@ -127,4 +143,3 @@ class LikeCheckAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         return Response({"results": serializer.data })
-

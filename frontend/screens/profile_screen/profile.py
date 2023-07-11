@@ -20,15 +20,12 @@ import os
 from kivy.utils import platform
 from kivymd.toast import toast
 import re
+from plyer import filechooser
 
 
 class Profile(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.manager_open = False
-        self.file_manager = MDFileManager(
-            exit_manager=self.exit_manager, select_path=self.select_path
-        )
         self.user_db = AccessDB(name_url="accounts/users", tag="USERS")
         self.profile_followers = ""
         self.profile_following = ""
@@ -36,7 +33,6 @@ class Profile(MDScreen):
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
         self.files = {}
         self.texto_alert = ""
         Clock.schedule_once(self.on_start, 0.8)
@@ -113,7 +109,6 @@ class Profile(MDScreen):
 
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.voltar)
-        Window.unbind(on_request_close=self.voltar_android)
         self.ids.idButtonProfile.opacity = 0
         self.ids.idButtonProfile.disabled = True
 
@@ -131,41 +126,16 @@ class Profile(MDScreen):
 
     # part of form annotation
     def file_manager_open(self):
-        if platform != 'android' :
-            self.file_manager.show(os.path.expanduser("~"))
-            self.manager_open = True
+        path = filechooser.open_file(
+            title="Carica il file tempi in formato .png .jpg .jpeg",
+            filters=[("Comma-separated Values", "*.png", "*.jpg", "*.jpeg")]
+        )
+        if path != None:            
+            self.files = {'image': open(path[0], 'rb')}
+            toast(path[0], background=[0, 0, 0, 1])
+            self.ids.idButtonProfile.opacity = 50
+            self.ids.idButtonProfile.disabled = False
 
-        else:
-            import android
-            from android.storage import primary_external_storage_path
-            from android.permissions import request_permissions, Permission
-
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
-            ext_path = primary_external_storage_path()
-
-            self.file_manager.show(ext_path)
-            self.manager_open = True
-
-    def select_path(self, path: str):
-        self.exit_manager()
-        self.files = {'image': open(path, 'rb')}
-        toast(path)
-
-
-    def exit_manager(self, *args):
-        self.manager_open = False
-        self.file_manager.close()
-        self.ids.idButtonProfile.opacity = 50
-        self.ids.idButtonProfile.disabled = False
-
-
-
-    def events(self, instance, keyboard, keycode, text, modifiers):
-        if keyboard in (1001, 27):
-            if self.manager_open:
-                self.file_manager.back()
-
-        return True
 
 
 
@@ -342,15 +312,10 @@ class Profile(MDScreen):
                 Clock.schedule_once(self.alert_error_connection, 2)
 
 
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "diary_name"
-        return True
 
     def voltar(self, window, key, *args):
-        # esc tem o codigo 27
         if key == 27:
             self.manager.current = "diary_name"
-            # print(self.manager.current)
             return True
 
         return False

@@ -6,7 +6,7 @@ from kivy.storage.jsonstore import JsonStore
 from kivy.uix.popup import Popup
 from kivy.metrics import dp
 
-from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine, MDExpansionPanelThreeLine
+from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine, MDExpansionPanelTwoLine
 # from kivymd import images_path
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDFlatButton
@@ -28,7 +28,6 @@ class Configuration(MDScreen):
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
         self.path = App.get_running_app().user_data_dir+"/"
         self.texto_alert = ""
         self.step_change_pwrd = 1
@@ -37,8 +36,7 @@ class Configuration(MDScreen):
 
         
     def on_pre_leave(self):
-        Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
+        Window.unbind(on_keyboard=self.voltar)
         self.ids.content.clear_widgets()
 
 
@@ -191,15 +189,10 @@ class Configuration(MDScreen):
         self.manager.current = "login_name"
 
 
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "diary_name"
-        return True
 
     def voltar(self, window, key, *args):
-        # esc tem o codigo 27
         if key == 27:
             self.manager.current = "diary_name"
-            # print(self.manager.current)
             return True
 
         return False
@@ -241,11 +234,14 @@ class ContentPickerColor(BoxLayout):
         super(ContentPickerColor, self).__init__(**kwargs)
         self.screen = screen
         self.color = color
+        base = 6
+        for_background = list(map(lambda x: x * base, self.screen.manager.color_main))
+        self.ids.popupcolor.background_color = for_background
 
 
     def on_pre_enter(self):
         self.ids.picker.bind(color=self.on_color)
-        
+
 
     def on_press_dismiss(self, *args):
         self.ids.popupcolor.dismiss()

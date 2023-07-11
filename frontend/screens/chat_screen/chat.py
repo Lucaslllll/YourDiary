@@ -65,7 +65,6 @@ class Chat(MDScreen):
         
 
         Window.bind(on_keyboard=self.voltar)
-        Window.bind(on_request_close=self.voltar_android)
         
 
     def on_pre_leave(self):
@@ -73,7 +72,6 @@ class Chat(MDScreen):
         self.update_do_auth.cancel()
         self.update_msg_event.cancel()
         Window.unbind(on_keyboard=self.voltar)
-        Window.unbind(on_request_close=self.voltar_android)
         # zerar as variáveis que checka as ultimas msgs do chat
         self.count_msg = 0 
         self.last_msg = ""
@@ -208,10 +206,6 @@ class Chat(MDScreen):
         self.menu.dismiss()
         self.manager.current = text_item
 
-
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "chat_list_name"
-        return True
 
     def voltar(self, window, key, *args):
         # esc tem o codigo 27

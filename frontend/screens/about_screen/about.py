@@ -9,7 +9,8 @@ from kivymd.uix.screen import MDScreen
 
 from kaki.app import App
 from components.connection import AccessDB
-
+# from kivy.base import EventLoop
+from kivy.core.window import Window
 
 
 
@@ -32,11 +33,9 @@ class About(MDScreen):
 
 
     def on_pre_enter(self):
-        Window.bind(on_request_close=self.voltar_android)
         Window.bind(on_keyboard=self.voltar)
 
     def on_pre_leave(self):
-        Window.unbind(on_request_close=self.voltar_android)
         Window.unbind(on_keyboard=self.voltar)
 
 
@@ -83,15 +82,10 @@ class About(MDScreen):
 
 
 
-    def voltar_android(self, *args, **kwargs):
-        self.manager.current = "diary_name"
-        return True
-
-    def voltar(self, window, key, *args):
+    def voltar(self, window, key, keycode, *args):
         # esc tem o codigo 27
-        if key == 27:
+        if key == 27 or key == 41:
             self.manager.current = "diary_name"
             # print(self.manager.current)
             return True
-
         return False

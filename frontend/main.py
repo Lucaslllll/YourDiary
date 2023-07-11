@@ -12,6 +12,7 @@ from kivy.core.window import Window
 from kivy.config import Config
 Window.softinput_mode = 'below_target'
 Config.set('kivy', 'keyboard_mode', 'systemandmulti')
+Config.set('kivy', 'exit_on_escape', 'False')
 
 # para imagens https funcionarem
 import os
@@ -37,7 +38,7 @@ class YourDiaryApp(App, MDApp):
 
         if self.resposta == True:
             store = JsonStore(self.path+'data.json')
-            store.put('authentication', 
+            store.put('authentication',
                     resposta=self.resposta,
                     token_access=self.token_access,
                     token_refresh=self.token_refresh
@@ -64,8 +65,9 @@ class YourDiaryApp(App, MDApp):
         os.path.join(os.getcwd(), "screens/hero_screen/hero.kv"),
         os.path.join(os.getcwd(), "screens/configuration_screen/configuration.kv"),
         os.path.join(os.getcwd(), "screens/image_add_screen/image-add.kv"),
+        os.path.join(os.getcwd(), "screens/search_screen/search.kv"),
 
-    
+
     }
 
 
@@ -76,7 +78,7 @@ class YourDiaryApp(App, MDApp):
         "Diary": "screens.diary_screen.diary",
         "DiaryEdit": "screens.diary_edit_screen.diary-edit",
         "DiaryList": "screens.diary_list_screen.diary-list",
-        "Annotation": "screens.annotation_screen.annotation",     
+        "Annotation": "screens.annotation_screen.annotation",
         "Chat": "screens.chat_screen.chat",
         "ChatList": "screens.chat_list_screen.chat-list",
         "Profile": "screens.profile_screen.profile",
@@ -85,6 +87,7 @@ class YourDiaryApp(App, MDApp):
         "Hero": "screens.hero_screen.hero",
         "Configuration": "screens.configuration_screen.configuration",
         "ImageAdd": "screens.image_add_screen.image-add",
+        "Search": "screens.search_screen.search",
 
     }
 
@@ -98,7 +101,7 @@ class YourDiaryApp(App, MDApp):
         self.token_access = self.auth.get_token()
         self.token_refresh = self.auth.get_token_refresh()
         store = JsonStore(self.path+'data.json')
-        store.put('authentication', 
+        store.put('authentication',
                     resposta=self.resposta,
                     token_access=self.token_access,
                     token_refresh=self.token_refresh
