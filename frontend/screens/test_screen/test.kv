@@ -1,0 +1,27 @@
+<Test>
+    BoxLayout:
+        id: idTest
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "MDFileManager"
+            left_action_items: [["menu", lambda x: None]]
+            elevation: 3
+
+        MDFloatLayout:
+
+            MDRoundFlatIconButton:
+                text: "Open manager"
+                icon: "folder"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release: root.file_manager_open()
+
+        MDFlatButton:
+            pos_hint: {"center_x": .5}
+            md_bg_color: .5, .7, .9, 1
+            text: "Checar"
+            on_release: root.do_check()
+
+        MDLabel:
+            id: idLabel
+            text: ""

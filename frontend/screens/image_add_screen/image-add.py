@@ -57,8 +57,7 @@ class ImageAdd(MDScreen):
         self.method = "POST"
 
         Window.bind(on_keyboard=self.voltar)
-        self._show_validation_dialog()
-
+        # self._show_validation_dialog()
 
         Clock.schedule_once(self.verify_images, 1)
 
@@ -218,8 +217,10 @@ class ImageAdd(MDScreen):
 
 
 
-    def voltar(self, window, key, *args):
-        if key == 27:
+    def voltar(self, key, keyboard, window, scancode=None, codepoint=None, modifier=None, *args):
+        print("key: "+str(key))
+        print("keyboard: "+str(keyboard))
+        if key in (1001, 27):
             self.manager.current = "diary_name"
             return True
 

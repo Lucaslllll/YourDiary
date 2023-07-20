@@ -35,6 +35,7 @@ class YourDiaryApp(App, MDApp):
         self.resposta = self.auth.do_auth()
         self.token_access = self.auth.get_token()
         self.token_refresh = self.auth.get_token_refresh()
+        
 
         if self.resposta == True:
             store = JsonStore(self.path+'data.json')
@@ -66,6 +67,7 @@ class YourDiaryApp(App, MDApp):
         os.path.join(os.getcwd(), "screens/configuration_screen/configuration.kv"),
         os.path.join(os.getcwd(), "screens/image_add_screen/image-add.kv"),
         os.path.join(os.getcwd(), "screens/search_screen/search.kv"),
+        os.path.join(os.getcwd(), "screens/test_screen/test.kv"),
 
 
     }
@@ -88,6 +90,7 @@ class YourDiaryApp(App, MDApp):
         "Configuration": "screens.configuration_screen.configuration",
         "ImageAdd": "screens.image_add_screen.image-add",
         "Search": "screens.search_screen.search",
+        "Test": "screens.test_screen.test",
 
     }
 

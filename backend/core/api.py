@@ -70,15 +70,16 @@ class SearchAPI(generics.GenericAPIView):
     # permission_classes = (IsAuthenticated, )
     serializer_class = SearchSerializer
     queryset = Annotation.objects.all()
+    pagination_class = StandardResultsSetPagination
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         text = serializer.data['text']
-        data = Annotation.objects.filter(Q(name__icontains=text) | Q(text__icontains=text) | Q(preview__icontains=text)).values()
+        data = Annotation.objects.filter(Q(name__icontains=text) | Q(text__icontains=text) | Q(preview__icontains=text), public=False).values()
 
-        return Response( data)
+        return Response({"results":data})
 
 
 

@@ -37,6 +37,7 @@
                 height: self.minimum_height
                 spacing: "7dp"
 
+
                 ChipFilter:
 
                 ChipFilter:
@@ -62,13 +63,21 @@
 
 
 <MDCardDiarySearch>:
-    text: "Two-line item"
-    secondary_text: "Secondary text here"
+    size_hint_y: None
+    height: "100dp"
+
+    TwoLineAvatarIconListItem:
+        size_hint: None, None
+        width: root.width
+        height: root.height
+        text: root.text
+        secondary_text: root.date_annotation
 
 
-    IconRightWidget:
-        icon: "forward"
-        on_release: root.read_more()
+        IconRightWidget:
+            icon: "forward"
+            pos_hint: {"center_y": 0.2}
+            on_release: root.read_more()
 
 
 

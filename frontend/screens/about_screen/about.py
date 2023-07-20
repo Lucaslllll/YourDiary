@@ -28,15 +28,15 @@ class About(MDScreen):
                        "The app is still in beta and I intend to improve with the suggestions, that you users, "\
                        "Send me. The app will try to focus on the anonymity of the user, but in case I have problems regarding "\
                        "To that, I'm going to rethink, I hope someone can make good use of this idea. \n\n remember: What is personal only you can read, "\
-                       "But what is public other people will also be able to read ;)"                      
+                       "But what is public other people will also be able to read ;)"
 
 
 
     def on_pre_enter(self):
-        Window.bind(on_keyboard=self.voltar)
+        Window.bind(on_keyboard=self.on_key)
 
     def on_pre_leave(self):
-        Window.unbind(on_keyboard=self.voltar)
+        Window.unbind(on_keyboard=self.on_key)
 
 
     def send_report(self):
@@ -82,7 +82,7 @@ class About(MDScreen):
 
 
 
-    def voltar(self, window, key, keycode, *args):
+    def on_key(self, window, key, keycode, *args):
         # esc tem o codigo 27
         if key == 27 or key == 41:
             self.manager.current = "diary_name"

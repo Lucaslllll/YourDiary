@@ -34,11 +34,12 @@ class Search(MDScreen):
         annotations = annotations.post(data=data)
 
 
-        if type(annotations) is list:
+        if type(annotations) is dict:
             self.ids.annotations.clear_widgets()
             self.ids.spinner.active = True
             Clock.schedule_once(self.timeout_spinner, 4)
-            for i_annotations in annotations:
+
+            for i_annotations in annotations['results']:
                 self.ids.annotations.add_widget(
                     MDCardDiarySearch(diary_screen=self, id_annotation=i_annotations['id'], text=i_annotations['name'], date_annotation=i_annotations['date'])
                 )
@@ -62,17 +63,18 @@ class Search(MDScreen):
 
 
 
-class MDCardDiarySearch(TwoLineAvatarIconListItem):
+class MDCardDiarySearch(BoxLayout):
     id_annotation = NumericProperty()
     text = StringProperty()
     date_annotation = StringProperty()
     diary_screen = ObjectProperty()
 
-    def __init__(self, diary_screen, date_annotation, id_annotation=-1, text="none", **kwargs):
-        super(MDCardDiarySearch, self).__init__(**kwargs)
+    def __init__(self, diary_screen, date_annotation, id_annotation=-1, text="none", *args, **kwargs):
+        super().__init__(**kwargs)
         self.text = text
         self.id_annotation = id_annotation
         self.diary_screen = diary_screen
+
         if date_annotation != None:
             self.date_annotation = date_annotation.split("T")[0].replace("-", "/")
 
