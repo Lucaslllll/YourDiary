@@ -1,27 +1,100 @@
+#: import audio_player plyer.audio
+
 <Test>
+    AudioInterface:
+    # text_input: text_input
+
+    # BoxLayout:
+    #     orientation: 'vertical'
+    #     BoxLayout:
+    #         size_hint_y: None
+    #         height: 30
+    #         Button:
+    #             text: 'Load'
+    #             on_release: root.open_file_chooser()
+    #         Button:
+    #             text: 'Save'
+    #             on_release: root.show_save()
+
+    #     BoxLayout:
+    #         TextInput:
+    #             id: text_input
+    #             text: ''
+
+    #         RstDocument:
+    #             text: text_input.text
+    #             show_errors: True
+
+
+
+<AudioInterface>:
+    audio: audio_player
+    orientation: "vertical"
+
+    MDLabel:
+        id: state
+        text: "Audio is:"+str(root.audio.state)
+
+    MDLabel:
+        id: audio_location
+        text: "Audio is saved at - "+str(root.audio.file_path)
+
+    MDRectangleFlatButton:
+        id: record_button
+        text: "RECORD"
+        on_release: root.start_recording()
+
+
+    MDRectangleFlatButton:
+        id: play_button
+        text: "PLAY"
+        on_release: root.start_playing()
+
+
+<LoadDialog>:
     BoxLayout:
-        id: idTest
+        size: root.size
+        pos: root.pos
         orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            path: "."
 
-        MDTopAppBar:
-            title: "MDFileManager"
-            left_action_items: [["menu", lambda x: None]]
-            elevation: 3
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: test
+                text: "Cancel"
+                on_release: root.cancel()
 
-        MDFloatLayout:
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
 
-            MDRoundFlatIconButton:
-                text: "Open manager"
-                icon: "folder"
-                pos_hint: {"center_x": .5, "center_y": .5}
-                on_release: root.file_manager_open()
+<SaveDialog>:
+    text_input: text_input
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
 
-        MDFlatButton:
-            pos_hint: {"center_x": .5}
-            md_bg_color: .5, .7, .9, 1
-            text: "Checar"
-            on_release: root.do_check()
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
 
-        MDLabel:
-            id: idLabel
-            text: ""
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.save(filechooser.path, text_input.text)

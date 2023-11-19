@@ -2,6 +2,7 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.properties import ListProperty, NumericProperty, StringProperty, ObjectProperty
 from kivy.metrics import dp
+from kivy.uix.boxlayout import BoxLayout
 
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.snackbar.snackbar import MDSnackbarActionButton
@@ -55,11 +56,17 @@ class ImageAdd(MDScreen):
         self.paths = [None]*3
         self.texto_alert = ""
         self.method = "POST"
+        self.selection = ListProperty([])
+        self.button = 0
 
         Window.bind(on_keyboard=self.voltar)
         # self._show_validation_dialog()
 
         Clock.schedule_once(self.verify_images, 1)
+
+
+
+
 
 
     def on_pre_leave(self):
@@ -92,86 +99,40 @@ class ImageAdd(MDScreen):
             from android.permissions import request_permissions, Permission
 
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
+            request_permissions([Permission.MANAGE_DOCUMENTS])
 
-        #try to do this, it will allow you to have access to all directories and files in the storage.
-        # if platform == "android":
-        #     PythonActivity = autoclass("org.kivy.android.PythonActivity")
-        #     Environment = autoclass("android.os.Environment")
-        #     Intent = autoclass("android.content.Intent")
-        #     Settings = autoclass("android.provider.Settings")
-        #     Uri = autoclass("android.net.Uri")
-        #     if api_version > 29:
-        #         # If you have access to the external storage, do whatever you need
-        #         if Environment.isExternalStorageManager():
-        #             # If you don't have access, launch a new activity to show the user the system's dialog
-        #             # to allow access to the external storage
-        #             pass
-        #         else:
-        #             try:
-        #                 activity = mActivity.getApplicationContext()
-        #                 uri = Uri.parse("package:" + activity.getPackageName())
-        #                 intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
-        #                 currentActivity = cast(
-        #                 "android.app.Activity", PythonActivity.mActivity
-        #                 )
-        #                 currentActivity.startActivityForResult(intent, 101)
-        #             except:
-        #                 intent = Intent()
-        #                 intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
-        #                 currentActivity = cast(
-        #                 "android.app.Activity", PythonActivity.mActivity
-        #                 )
-        #                 currentActivity.startActivityForResult(intent, 101)
+        self.button = button
 
-        path = filechooser.open_file(
+        filechooser.open_file(
             title="Carica il file tempi in formato .png .jpg .jpeg",
-            filters=[("Comma-separated Values", "*.png", "*.jpg", "*.jpeg")]
+            filters=[("Comma-separated Values", "*.png", "*.jpg", "*.jpeg")],
+            on_selection=self.handle_selection
         )
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("VAR PATH: "+str(path))
-        if path != None:
-            self.paths[button] = path[0]
+
+
+
+
+
+
+    def handle_selection(self, selection):
+        '''
+        Callback function for handling the selection response from Activity.
+        '''
+        self.selection = selection
+        toast(selection[0], background=[0, 0, 0, 1])
+
+        if selection != None:
+            self.paths[self.button] = selection[0]
             print("VAR PATHS: "+str(self.paths))
-            toast(path[0], background=[0, 0, 0, 1])
-
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
-        print("AAAAAAAA")
+            toast(selection[0], background=[0, 0, 0, 1])
 
 
-    def _show_validation_dialog(self):
-        if platform == "android":
-            Environment = autoclass("android.os.Environment")
-            if not Environment.isExternalStorageManager():
-                self.show_permission_popup = MDDialog(
-                    title="Alert",
-                    text="Permission to access your device's internal storage and files..",
-                    size_hint=(0.6, 0.5),
-                    buttons=[
-                        MDFlatButton(
-                            text="Allow", on_press=self.permissions_external_storage
-                        ),
-                        MDFlatButton(
-                            text="Decline",
-                            on_release=self._close_validation_dialog,
-                        ),
-                    ],
-                )
-                self.show_permission_popup.open()
-
-    def _close_validation_dialog(self, widget):
-        """Close input fields validation dialog"""
-        self.show_permission_popup.dismiss()
-
-
+    def on_selection(self, *a, **k):
+        '''
+        Update TextInput.text after FileChoose.selection is changed
+        via FileChoose.handle_selection.
+        '''
+        App.get_running_app().root.ids.result.text = str(self.selection)
 
 
     def send_files(self):
@@ -220,7 +181,7 @@ class ImageAdd(MDScreen):
     def voltar(self, key, keyboard, window, scancode=None, codepoint=None, modifier=None, *args):
         print("key: "+str(key))
         print("keyboard: "+str(keyboard))
-        if key in (1001, 27):
+        if keyboard in (1001, 27):
             self.manager.current = "diary_name"
             return True
 

@@ -13,7 +13,3 @@ class MainScreenManager(ScreenManager):
     background_annotation = "None"
     color_main = [.648, .331, 1, 1]
     
-
-        
-
-

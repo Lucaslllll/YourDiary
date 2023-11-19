@@ -5,8 +5,8 @@
         spacing: "30dp"
 
         # FitImage:
-            
-            
+
+
 
         ScrollView:
 
@@ -17,11 +17,11 @@
                 size_hint_y: None
                 height: self.minimum_height+100
 
-                
+
 
 				Label:
 					text: "Image 1: "
-					color: 0, 0, 0, 1                
+					color: 0, 0, 0, 1
                 Label:
                     id: image1Id
                     color: 0, 0, 0, 1
@@ -35,7 +35,7 @@
 
                 Label:
 					text: "Image 2: "
-					color: 0, 0, 0, 1                
+					color: 0, 0, 0, 1
                 Label:
                     id: image2Id
                     color: 0, 0, 0, 1
@@ -49,7 +49,7 @@
 
                 Label:
 					text: "Image 3: "
-					color: 0, 0, 0, 1                
+					color: 0, 0, 0, 1
                 Label:
                     id: image3Id
                     color: 0, 0, 0, 1
@@ -65,7 +65,6 @@
                 #     icon: "help"
                 #     tooltip_text: "imagens abaixo de 8mb"
                 #     color: 0, 0, 0, 1
-                        
 
 
                 MDFlatButton:
@@ -76,4 +75,3 @@
                     text_color: 1, 1, 1, 1
                     pos_hint: {'center_x': .5, 'center_y': .5}
                     on_release: root.send_files()
-                    

@@ -36,8 +36,8 @@
 
                     MDNavigationRail:
                         id: id_nav_rail
-                        md_bg_color: "#fed8b1"
-                        badge_bg_color: "#ffb11b"
+                        # md_bg_color: "#fed8b1"
+                        # badge_bg_color: "#ffb11b"
                         text_color_item_active: "white"
                         icon_color_item_active: "white"
 
@@ -249,8 +249,7 @@
 
                 MDNavigationDrawerHeader:
                     title: "Menu"
-                    title_color: "#4a4939"
-                    # text: "Header text"
+                    # title_color: "#4a4939"
                     spacing: "4dp"
                     padding: "12dp", 0, 0, "56dp"
 
@@ -258,23 +257,27 @@
                 MDNavigationDrawerItem:
                     text: "Yours Chats"
                     icon: "chat"
+                    text_color: "#4a4939"
                     on_release: root.manager.current = "chat_list_name"
 
 
                 MDNavigationDrawerItem:
                     text: "Edit Notes"
                     icon: "playlist-edit"
+                    text_color: "#4a4939"
                     on_release: root.manager.current = "diary_list_name"
 
 
                 MDNavigationDrawerItem:
                     text: "Settings"
                     icon: "cog-outline"
+                    text_color: "#4a4939"
                     on_release: root.manager.current = "configuration_name"
 
                 MDNavigationDrawerItem:
                     text: "Profile"
                     icon: "account"
+                    text_color: "#4a4939"
                     on_release: root.go_profile()
 
 

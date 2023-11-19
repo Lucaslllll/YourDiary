@@ -26,6 +26,30 @@ os.environ['SSL_CERT_FILE'] = "/etc/letsencrypt/live/yourdiary.top/fullchain.pem
 from kivymd import hooks_path as kivymd_hooks_path
 
 
+
+
+colors = {
+    "Teal": {
+        "200": "#212121",
+        "500": "#212121",
+        "700": "#212121",
+    },
+    "Red": {
+        "200": "#C25554",
+        "500": "#C25554",
+        "700": "#C25554",
+    },
+    "Light": {
+        "StatusBar": "E0E0E0",
+        "AppBar": "#202020",
+        "Background": "#2E3032",
+        "CardsDialogs": "#FFFFFF",
+        "FlatButtonDown": "#CCCCCC",
+    },
+}
+
+
+
 class YourDiaryApp(App, MDApp):
     def __init__(self, **kwargs):
         # herdará de buttonbehavior e label
@@ -35,7 +59,7 @@ class YourDiaryApp(App, MDApp):
         self.resposta = self.auth.do_auth()
         self.token_access = self.auth.get_token()
         self.token_refresh = self.auth.get_token_refresh()
-        
+
 
         if self.resposta == True:
             store = JsonStore(self.path+'data.json')
@@ -49,6 +73,8 @@ class YourDiaryApp(App, MDApp):
 
     # apenas na produção, lembrar de tira quando for compilar
     DEBUG = 1
+
+
 
     KV_FILES = {
         os.path.join(os.getcwd(), "screens/screenmanager.kv"),
@@ -111,6 +137,9 @@ class YourDiaryApp(App, MDApp):
                 )
 
     def build_app(self):
+        self.theme_cls.theme_style = "Dark"
+        # self.theme_cls.primary_palette = "Red"
+
         return Factory.MainScreenManager()
 
 YourDiaryApp().run()
